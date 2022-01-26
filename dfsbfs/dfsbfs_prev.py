@@ -1,230 +1,382 @@
-# 특정 거리의 도시 찾기
-from collections import deque
+# # 특정 거리의 도시 찾기
+# from collections import deque
 
-INF = int(1e9)
-n,m,k,x = map(int,input().split())
-graph = [[] for _ in range(n+1)]
-for i in range(m):
-  a,b = map(int,input().split())
-  graph[a].append(b)
+# INF = int(1e9)
+# n,m,k,x = map(int,input().split())
+# graph = [[] for _ in range(n+1)]
+# for i in range(m):
+#   a,b = map(int,input().split())
+#   graph[a].append(b)
 
-visited = [INF] * (n+1)
+# visited = [INF] * (n+1)
 
-def bfs(graph,v,visited):
-  q = deque([v])
-  count = 0
-  visited[v] = count
-  while q:
-    now = q.popleft()
-    count += 1
-    for i in graph[now]:
-      if visited[i] == INF:
-        visited[i] = count
-        q.append(i)
+# def bfs(graph,v,visited):
+#   q = deque([v])
+#   count = 0
+#   visited[v] = count
+#   while q:
+#     now = q.popleft()
+#     count += 1
+#     for i in graph[now]:
+#       if visited[i] == INF:
+#         visited[i] = count
+#         q.append(i)
 
-bfs(graph,x,visited)
+# bfs(graph,x,visited)
 
-for i in range(1,n+1):
-  if visited[i] == k:
-    print(i)
-if k not in visited:
-  print(-1)
+# for i in range(1,n+1):
+#   if visited[i] == k:
+#     print(i)
+# if k not in visited:
+#   print(-1)
 
-# 연구소
-n,m = map(int,input().split())
-graph = []
-for i in range(n):
-  graph.append(list(map(int,input().split())))
-after = [[0] * m for _ in range(n)]
+# # 연구소
+# n,m = map(int,input().split())
+# graph = []
+# for i in range(n):
+#   graph.append(list(map(int,input().split())))
+# after = [[0] * m for _ in range(n)]
 
-dx = [-1,0,1,0]
-dy = [0,1,0,-1]
+# dx = [-1,0,1,0]
+# dy = [0,1,0,-1]
 
-def spread_dfs(x,y):
-  for i in range(4):
-    nx = x + dx[i]
-    ny = y + dy[i]
-    if 0 <= nx <n and 0 <= ny < m:
-      if after[nx][ny] == 0:
-        after[nx][ny] = 2
-        spread_dfs(nx,ny)
-
-
-def count_safe():
-  count = 0
-  for i in range(n):
-    for j in range(m):
-      if after[i][j] == 0:
-        count += 1
-  return count
+# def spread_dfs(x,y):
+#   for i in range(4):
+#     nx = x + dx[i]
+#     ny = y + dy[i]
+#     if 0 <= nx <n and 0 <= ny < m:
+#       if after[nx][ny] == 0:
+#         after[nx][ny] = 2
+#         spread_dfs(nx,ny)
 
 
-result = 0
-def dfs(count):
-  global result
-  if count == 3:
-    for i in range(n):
-      for j in range(m):
-        after[i][j] = graph[i][j]
-    for i in range(n):
-      for j in range(m):
-        if after[i][j] == 2:
-          spread_dfs(i,j)
-    result = max(result, count_safe())
-    return
-  for i in range(n):
-    for j in range(m):
-      if graph[i][j] == 0:
-        graph[i][j] = 1
-        count += 1
-        dfs(count)
-        graph[i][j] = 0
-        count -= 1
-
-dfs(0)
-print(result)
-
-# 경쟁적 전염
-INF = int(1e9)
-n,k = map(int,input().split())
-graph = []
-for i in range(n):
-  graph.append(list(map(int,input().split())))
-s,qx,qy = map(int,input().split())
-
-visited = [[INF] * n for _ in range(n)]
-for i in range(n):
-  for j in range(n):
-    if graph[i][j] != 0:
-      visited[i][j] = 0
+# def count_safe():
+#   count = 0
+#   for i in range(n):
+#     for j in range(m):
+#       if after[i][j] == 0:
+#         count += 1
+#   return count
 
 
-dx = [-1,0,1,0]
-dy = [0,1,0,-1]
+# result = 0
+# def dfs(count):
+#   global result
+#   if count == 3:
+#     for i in range(n):
+#       for j in range(m):
+#         after[i][j] = graph[i][j]
+#     for i in range(n):
+#       for j in range(m):
+#         if after[i][j] == 2:
+#           spread_dfs(i,j)
+#     result = max(result, count_safe())
+#     return
+#   for i in range(n):
+#     for j in range(m):
+#       if graph[i][j] == 0:
+#         graph[i][j] = 1
+#         count += 1
+#         dfs(count)
+#         graph[i][j] = 0
+#         count -= 1
 
-def spread(x,y,num,sec):
-  for i in range(4):
-    nx = x + dx[i]
-    ny = y + dy[i]
-    if 0 <= nx < n and 0 <= ny < n:
-      if graph[nx][ny] == 0:
-        graph[nx][ny] = num
-        visited[nx][ny] = sec
+# dfs(0)
+# print(result)
 
-for sec in range(1,s+1):
+# # 경쟁적 전염
+# INF = int(1e9)
+# n,k = map(int,input().split())
+# graph = []
+# for i in range(n):
+#   graph.append(list(map(int,input().split())))
+# s,qx,qy = map(int,input().split())
 
-  for num in range(1,k+1):  
-    for i in range(n):
-      for j in range(n):
-        if graph[i][j] == num and visited[i][j] == (sec-1):
-          spread(i,j,num,sec)
+# visited = [[INF] * n for _ in range(n)]
+# for i in range(n):
+#   for j in range(n):
+#     if graph[i][j] != 0:
+#       visited[i][j] = 0
 
 
-if graph[qx-1][qy-1] == 0:
-  print(0)
-else:
-  print(graph[qx-1][qy-1])
+# dx = [-1,0,1,0]
+# dy = [0,1,0,-1]
 
-# 괄호변환
-data = str(input())
+# def spread(x,y,num,sec):
+#   for i in range(4):
+#     nx = x + dx[i]
+#     ny = y + dy[i]
+#     if 0 <= nx < n and 0 <= ny < n:
+#       if graph[nx][ny] == 0:
+#         graph[nx][ny] = num
+#         visited[nx][ny] = sec
 
-def balanced_index(data):
-  count = 0
-  for i in range (len(data)):
-    if data[i] == '(':
-      count += 1
-    else:
-      count -= 1
-    if count == 0:
-      return i
+# for sec in range(1,s+1):
 
-def is_right(data):
-  count = 0
-  for i in data:
-    if i == '(':
-      count += 1
-    else:
-      if count == 0:
-        return False
-      count -= 1
-  return True
+#   for num in range(1,k+1):  
+#     for i in range(n):
+#       for j in range(n):
+#         if graph[i][j] == num and visited[i][j] == (sec-1):
+#           spread(i,j,num,sec)
 
-def routin(data):
-  answer = ''
-  if data == '':
-    return answer
-  index = balanced_index(data)
-  u = data[0:index+1]
-  v = data[index+1:]
 
-  if is_right(u) == True:
-    answer = u + routin(v)
-  else:
-    answer = '('
-    answer += routin(v)
-    answer += ')'
-    u = list(u[1:-1])
-    for i in range(len(u)):
-      if u[i] == '(':
-        u[i] = ')'
-      else:
-        u[i] = '('
-    answer += ''.join(u)
-  return answer
+# if graph[qx-1][qy-1] == 0:
+#   print(0)
+# else:
+#   print(graph[qx-1][qy-1])
 
-print(routin(data))
+# # 괄호변환
+# data = str(input())
 
-# 연산자 끼워넣기
-from itertools import permutations
+# def balanced_index(data):
+#   count = 0
+#   for i in range (len(data)):
+#     if data[i] == '(':
+#       count += 1
+#     else:
+#       count -= 1
+#     if count == 0:
+#       return i
 
-INF = int(1e9)
-n = int(input())
-array = list(map(int,input().split()))
-oper = list(map(int,input().split()))
+# def is_right(data):
+#   count = 0
+#   for i in data:
+#     if i == '(':
+#       count += 1
+#     else:
+#       if count == 0:
+#         return False
+#       count -= 1
+#   return True
 
-after_oper = []
+# def routin(data):
+#   answer = ''
+#   if data == '':
+#     return answer
+#   index = balanced_index(data)
+#   u = data[0:index+1]
+#   v = data[index+1:]
 
-for i in range(4):
-  if i == 0:
-    for _ in range(oper[i]):
-      after_oper.append('+')
-  if i == 1:
-    for _ in range(oper[i]):
-      after_oper.append('-')
-  if i == 2:
-    for _ in range(oper[i]):
-      after_oper.append('*')
-  if i == 3:
-    for _ in range(oper[i]):
-      after_oper.append('%')
+#   if is_right(u) == True:
+#     answer = u + routin(v)
+#   else:
+#     answer = '('
+#     answer += routin(v)
+#     answer += ')'
+#     u = list(u[1:-1])
+#     for i in range(len(u)):
+#       if u[i] == '(':
+#         u[i] = ')'
+#       else:
+#         u[i] = '('
+#     answer += ''.join(u)
+#   return answer
+
+# print(routin(data))
+
+# # 연산자 끼워넣기
+# INF = int(1e9)
+# n = int(input())
+# array = list(map(int,input().split()))
+# add,sub,mul,div = map(int,input().split())
+
+# min_value = INF
+# max_value = -INF
+
+# def dfs(i, now):
+#   global add,sub,mul,div,min_value,max_value
+
+#   if i == n:
+#     min_value = min(min_value, now)
+#     max_value = max(max_value, now)
+#   else:
+#     if add > 0:
+#       add -= 1
+#       dfs(i+1,now + array[i])
+#       add += 1
+#     if sub > 0:
+#       sub -= 1
+#       dfs(i+1, now - array[i])
+#       sub += 1
+#     if mul > 0:
+#       mul -= 1
+#       dfs(i+1, now * array[i])
+#       mul += 1
+#     if div > 0:
+#       div -= 1
+#       dfs(i+1, int(now / array[i]))
+#       div += 1
+
+# dfs(1,array[0])
+
+# print(max_value)
+# print(min_value)
+
+# ----220126
+# 감시 피하기
+# n = int(input())
+# graph = []
+# for i in range(n):
+#   graph.append(list(input().split()))
+
+# dx = [-1,0,1,0]
+# dy = [0,1,0,-1]
+
+# def check(x,y):
+#   for i in range(4):
+#     nx = x + dx[i]
+#     ny = y + dy[i]
+#     if 0 <= nx < n and 0<= ny < n and graph[nx][ny] != 'o':
+#       if graph[nx][ny] == 's':
+#         return True
+#       if graph[nx][ny] == 'x':
+#         while 1 <= nx < n-1 and 1<= ny < n-1 and graph[nx][ny] != 'o':
+#           nx += dx[i]
+#           ny += dy[i]
+#           if graph[nx][ny] == 's':
+#             return True
+#   return False
+
+# result = False
+
+# def dfs(count):
+#   global result
+#   if count == 3:
+#     for i in range(n):
+#       for j in range(n):
+#         if graph[i][j] == 't':
+#           if check(i,j):
+#             return
+#     result = True
+#     return
+            
+#   for i in range(n):
+#     for j in range(n):
+#       if graph[i][j] == 'x':
+#         graph[i][j] = 'o'
+#         count += 1
+#         dfs(count)
+#         graph[i][j] = 'x'
+#         count -= 1
+
+# dfs(0)
+# print(result)
+
+# 인구이동
+# dfs 느낌
+# n,l,r = map(int,input().split())
+# graph = []
+# for i in range(n):
+#   graph.append(list(map(int,input().split())))
+
+# visited = [[False] * n for _ in range(n)]
+
+# dx = [-1,0,1,0]
+# dy = [0,1,0,-1]
+
+
+# def find_unite(x,y):
+#   if (x,y) in united:
+#     return
+#   united.append((x,y))
+#   visited[x][y] = True
+#   for i in range(4):
+#     nx = x + dx[i]
+#     ny = y + dy[i]
+#     if 0 <= nx < n and 0<= ny < n:
+#       diff = abs(graph[x][y] - graph[nx][ny])
+#       if l <= diff <= r:
+#         find_unite(nx,ny)
+#   return
+
+# def allocate(united):
+#   sum = 0
+#   for i in united:
+#     x,y = i
+#     sum += graph[x][y]
+#   for i in united:
+#     x,y = i
+#     if int(sum/len(united)) != graph[x][y]:
+#       graph[x][y] = int(sum/len(united))
+#     else:
+#       return True
   
-candidates = list(permutations(after_oper,n-1))
-  
-max_value = 0
-min_value = INF
 
-for candidate in candidates:
-  result = array[0]
-  index = 1
-  for operator in candidate:
-    if operator == '+':
-      result += array[index]
-      index +=1
-    elif operator == '-':
-      result -= array[index]
-      index +=1
-    elif operator == '*':
-      result *= array[index]
-      index +=1
-    elif operator == '%':
-      if result < 0:
-        result_convert = abs(result) // array[index]
-        result = -result_convert
-        index +=1
-      else:
-        result //= array[index]
-        index +=1
-  max_value = max(max_value,result)
-  min_value = min(min_value,result)
-print(max_value)
-print(min_value)
+# result = 0
+
+# while True:
+#   count = 0
+#   for i in range(n):
+#     for j in range(n):
+#       if visited[i][j] == False:
+#         united = []
+#         find_unite(i,j)
+#         if united != [(i,j)]:
+#           count += 1
+#           allocate(united)
+#         else:
+#           count +=1
+#   if count == n*n:
+#     break
+#   else:
+#     result += 1
+    
+#   for i in range(n):
+#     for j in range(n):
+#       visited[i][j] = False
+      
+
+# print(result)
+
+# --나동빈 버젼
+# from collections import deque
+
+# n,l,r = map(int,input().split())
+# graph = []
+# for i in range(n):
+#   graph.append(list(map(int,input().split())))
+
+# dx = [-1,0,1,0]
+# dy = [0,1,0,-1]
+
+
+# def find_unite(x,y, index):
+#   united = []
+#   united.append((x,y))
+#   q = deque()
+#   q.append((x,y))
+#   union[x][y] = index
+#   summ = graph[x][y]
+#   while q:
+#     x,y = q.popleft()
+#     for i in range(4):
+#       nx = x + dx[i]
+#       ny = y + dy[i]
+#       if 0 <= nx < n and 0<= ny < n and union[nx][ny] == -1:
+#         diff = abs(graph[x][y] - graph[nx][ny])
+#         if l <= diff <= r:
+#           q.append((nx,ny))
+#           union[nx][ny] = index
+#           summ += graph[nx][ny]
+#           united.append((nx,ny))
+#   for i, j in united:
+#     graph[i][j] = summ//len(united)
+#   print(united)
+#   return 
+
+# result = 0
+
+# while True:
+#   union = [[-1] * n for _ in range(n)]
+#   index = 0
+#   for i in range(n):
+#     for j in range(n):
+#       if union[i][j] == -1:
+#         find_unite(i,j,index)
+#         index += 1
+#   if index == n*n:
+#     break
+#   result += 1
+
+# print(result)
+
