@@ -380,3 +380,62 @@
 
 # print(result)
 
+# 블록 이동하기
+from collections import deque
+
+n = int(input())
+graph = []
+for i in range(n):
+  graph.append(list(map(int,input().split())))
+
+new_graph = [[1] * (n+2) for _ in range(n+2)]
+for i in range(n):
+  for j in range(n):
+    new_graph[i+1][j+1] = graph[i][j]
+
+visited = []
+
+dx = [-1,0,1,0]
+dy = [0,1,0,-1]
+
+def move(now, graph):
+  can_go = []
+  (x1,y1),(x2,y2) = now
+  for i in range(4):
+    nx1 = x1 + dx[i]
+    ny1 = y1 + dy[i]
+    nx2 = x2 + dx[i]
+    ny2 = y2 + dy[i]
+    if graph[nx1][ny1] == 0 and graph[nx2][ny2] == 0:
+      new_now = {(nx1,ny1),(nx2,ny2)}
+      can_go.append(new_now)
+  if x1 == x2:
+    for i in [-1,1]:
+      if graph[x1 + i][y1] == 0 and graph[x2 + i][y2] == 0:
+        can_go.append({(x1,y1),(x1 + i, y1)})
+        can_go.append({(x2,y2),(x2 + i, y2)})
+  elif y1 == y2:
+    for i in [-1,1]:
+      if graph[x1][y1 + i] == 0 and graph[x2][y2 + i] == 0:
+        can_go.append({(x1,y1),(x1,y1 + i)})
+        can_go.append({(x2,y2),(x2,y2 + i)})
+  return can_go
+
+
+def bfs():
+  noww = {(1,1),(1,2)}
+  q = deque()
+  q.append((noww,0))
+  visited.append(noww)
+  while q:
+    noww,cost = q.popleft()
+    if (n,n) in noww:
+      return cost
+    for new_noww in move(noww, new_graph):
+      if new_noww not in visited:
+        q.append((new_noww, cost + 1))
+        visited.append(new_noww)
+  return 0
+
+
+print(bfs())
