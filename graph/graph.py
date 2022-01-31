@@ -31,46 +31,43 @@
 
 # print(cycle)
 
-# 크루스칼 알고리즘
+# # 크루스칼 알고리즘
 # n,m = map(int,input().split())
 # parent = [0] * (n+1)
 
-# for i in range(1, n+1):
+# for i in range(1,n+1):
 #   parent[i] = i
 
 # edges = []
 # for _ in range(m):
-#   a,b,cost = map(int,input().split())
-#   edges.append((cost,a,b))
+#   x,y,cost = map(int,input().split())
+#   edges.append((cost,x,y))
 # edges.sort()
 
 # def find_root(parent,x):
 #   if parent[x] != x:
-#     parent[x] = find_root(parent,parent[x])
+#     parent[x] = find_root(parent, parent[x])
 #   return parent[x]
 
-# def union(parent, x, y):
-#   a = find_root(parent,x)
-#   b = find_root(parent,y)
-#   if a < b:
-#     parent[y] = a
+# def union(parent,x,y):
+#   x = find_root(parent,x)
+#   y = find_root(parent,y)
+#   if x< y:
+#     parent[y] = x
 #   else:
-#     parent[x] = b
-  
+#     parent[x] = y
+
 # result = 0
 # for edge in edges:
-#   cost,a,b = edge
-#   if find_root(parent,a) != find_root(parent,b):
-#     union(a,b)
+#   cost, x,y = edge
+#   if find_root(parent,x) != find_root(parent,y):
+#     union(parent,x,y)
 #     result += cost
-
-# print(result)
-
-
 
 
 # # 위상 정렬
 # from collections import deque
+
 
 # n,m = map(int,input().split())
 # graph = [[] for _ in range(n+1)]
