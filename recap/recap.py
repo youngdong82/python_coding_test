@@ -18,6 +18,44 @@
 # a[2000][2000]: 16MB
 # a[100000000]: 400MB
 
+
+
+# -------------------------------------------------------------------------- 3가지 자료구조
+#--------------------------------------- 스택 (기본 리스트)
+# 삽입  O(1)
+# 삭제  O(N)
+# First In Last Out -선입후출
+
+# array = [1,2,3,4,5]
+# array.append(2)
+# array.pop()
+
+# print(array)
+# print(array[::-1]) //최상단 원소부터 출력
+
+
+#--------------------------------------- 큐 (deque)
+# First In First Out -선입선출
+
+# from collections import deque
+# q = deque()
+# q.append(1)
+# q.popleft()
+
+
+#--------------------------------------- 우선순위 큐(최소 힙)
+# 삽입,삭제 전부 O(logN)
+# 첫번째 원소를 기준으로 우선순위를 설정한다.
+# (가치, 물건번호)로 설정하면 가치 순서대로 정렬 됨
+# 기본이 최소 힙
+# 최대 힙으로 사용하려면
+# 힙에 넣기 전에 음수로 바꾼 후 넣고
+# 뺀 다음에 다시 정수로 바꾼다.
+
+# import heapq
+# heapq.heappush(q,(0,start))
+# heapq.heappop(q)
+
 # -------------------------------------------------------------------------- 그리디
 # 현재 가장 좋은 것만을 선택했을 때,
 # 정확한 답을 찾을 수 있다는 보장이 있을 때 사용.
@@ -46,7 +84,8 @@
 # 아무것도 안 쓰면 아무것도 생각 안남.
 
 #--------------------------------------- DFS
-# 인접 리스트
+# 인접 리스트: 공간복잡도 O(E) E는 간선의 갯수
+# 간선의 비용을 O(V)시간만에 알 수 있다.
 # 스택 자료구조 이용
 # 재귀함수
 # O(N)
@@ -58,8 +97,9 @@
 #     if visited[start] == False:
 #       dfs(graph,i,visited)
 
-#---------------------------------------BFS
-# 인접 리스트
+#--------------------------------------- BFS
+# 인접 리스트 : 공간복잡도 O(E) E는 간선의 갯수
+# 간선의 비용을 O(V)시간만에 알 수 있다.
 # 큐 자료구조 이용 deque
 # 일반적으로 dfs보다 살짝 더 빠르다.
 # O(N)
@@ -104,6 +144,7 @@
 
 #--------------------------------------- 삽입정렬
 # O(N2) - 이중 반복문 
+# 데이터가 거의 정렬되어 있을 때는 가장 빠르다!!
 # 최선의 경우 O(N)
 # for i in range(1,n):
 #   for j in range(i,0,-1):
@@ -186,6 +227,19 @@
 #       end = mid-1
 #   return None
 
+# --------------------------------------- bisect 라이브러리
+# 이진탐색 시간복잡도: O(logN)
+# 각각 리스트 a에 데이터 x를 삽입할 가장 왼쪽 인덱스, 오른쪽 인덱스를 찾는다.
+# 특정 범위에 속하는 원소의 개수를 구하고자 할 때 효과적
+# from bisect import bisect_left, bisect_right
+# a = [1,2,3,3,3,3,4,4,8,9]
+
+# def count_by_range(a,left_value, right_value):
+#   left_index = bisect_left(a,left_value)
+#   right_index = bisect_right(a,right_value)
+
+#   return right_index - left_index
+
 
 # 트리 자료구조
 # 부모와 자식 관계
@@ -193,8 +247,6 @@
 # 최하단 노드를 단말노드
 # 일부를 떼어내도 트리구조 유지
 # 파일 시스템처럼 계층적이고 정렬된 데이터를 다루기에 적합
-
-# 특징
 # 왼쪽 자식 < 부모 < 오른쪽 자식
 
 
@@ -209,7 +261,7 @@
 # 작은 문제에서 구한 정답은 그것을 포함하는 큰 문제에서도 동일하다.
 # 완전탐색이 너무 오래 걸리면 다이나믹을 의심해보자!
 # 비효율적으로 구현한 후 메모이제이션으로 코드 개선하는 것도 좋은 방법!!
-# O(N)
+# 시간복잡도: O(N)
 # ---------------------------------------재귀함수 버전
 # 탑다운 방식: 오버헤드가 발생할 수 있다.
 # 오천번째 이상 recursive 되면 recursive depth 관련 오류가 발생할 수 있다.
@@ -237,7 +289,158 @@
 
 
 #-------------------------------------------------------------------------- 최단 경로
-#-------------------------------------------------------------------------- 그래프 이론
+# 간선의 갯수가 많으면 다익스트라,
+# 적으면 플로이드 워셜 😂
+# --------------------------------------- 다익스트라
+# 그리디 알고리즘
+# 다이나믹 프로그래밍이기도 함! - 메모이제이션 비스무리
+# 인접 리스트: 공간복잡도 O(E) E는 간선의 갯수
+# 간선의 비용을 O(V)시간만에 알 수 있다.
+# 시간복잡도: O(ElogV)
+# 여기서 E는 최대 간선 갯수
+# E는 항상 V제곱보다 작다. 모든 노드끼리 연결되어있을 경우 V제곱이기 때문.
+# 작은 값이 항상 가장 먼저 나오는 우선순위 큐(heapq) 자료구조 사용
+# 힙을 사용하는 최소 신장트리 알고리즘과도 비슷한 느낌
+# import heapq
+
+# INF = int(1e9)
+# n,m = map(int,input().split())
+# graph = [[] for _ in range(n+1)]
+# distance = [INF]*(n+1)
+
+# for _ in range(m):
+#   a,b,c = map(int,input().split())
+#   graph[a].append((b,c))
+
+# def dijkstra(start):
+#   q = []
+#   heapq.heappush(q,(0,start))
+#   distance[start] = 0
+#   while q:
+#     dist,now = heapq.heappop(q)
+#     if distance[now] < dist:
+#       continue
+#     for i in graph[now]:
+#       cost = dist + i[1]
+#       if cost < distance[i[0]]:
+#         distance[i[0]] = cost
+#         heapq.heappush(q,(cost,i[0]))
+
+
+# --------------------------------------- 플로이드 워셜
+# 인접 행렬 그래프: 공간복잡도 O(V2)
+# 간선의 비용을 O(1)시간만에 알 수 있다.
+# 모든 지점에서 다른 모든 지점까지의 최단 경로
+# 다이나믹 프로그래밍 - 점화식 사용
+# 시간복잡도: O(N3)
+# INF = int(1e9)
+# n,m = map(int,input().split())
+# graph = [[INF] * (n+1) for _ in range(n+1)]
+
+# for i in range(1,n+1):
+#   for j in range(1,n+1):
+#     if i == j:
+#       graph[i][j] = 0
+
+# for _ in range(m):
+#   a,b,c = map(int,input().split())
+#   graph[a][b] = c
+
+# for k in range(1,n+1):
+#   for i in range(1,n+1):
+#     for j in range(1,n+1):
+#       graph[i][j] = min(graph[i][j], graph[i][k] + graph[k][j])
+
+# for i in range(1,n+1):
+#   for j in range(1,n+1):
+#     if graph[i][j] == INF:
+#       print('INF', end=' ')
+#     else:
+#       print(graph[i][j], end=' ')
+#   print()
+
+
+#-------------------------------------------------------------------------- 그래프 알고리즘
+# 신장 트리란(Spanning Tree)
+# 모든 노드가 연결되어 있으면서 사이클이 존재하지 않는 무방향 그래프
+# --------------------------------------- 크루스칼 알고리즘 (최소 신장 트리 알고리즘)
+# 최소한의 비용으로 신장 트리를 찾을 때
+# 그리디 알고리즘
+# 정렬이 필요함
+# 시간 복잡도: O(ElogE)
+# n,m = map(int,input().split())
+# parent = [0] * (n+1)
+
+# for i in range(1,n+1):
+#   parent[i] = i
+
+# def find_root(parent, x):
+#   if parent[x] != x:
+#     parent[x] = find_root(parent,parent[x])
+#   return parent[x]
+
+# def union(parent, x,y):
+#   x = find_root(parent,x)
+#   y = find_root(parent,y)
+#   if x < y:
+#     parent[y] = x
+#   else:
+#     parent[x] = y
+
+# edges = []
+# for _ in range(m):
+#   a,b,c = map(int,input().split())
+#   edges.append((c,a,b))
+# edges.sort()
+
+# result = 0
+# for edge in edges:
+#   cost,a,b = edge
+#   if find_root(parent,a) != find_root(parent,b):
+#     union(parent,a,b)
+#     result += cost
+
+# print(result)
+  
+
+# --------------------------------------- 위상정렬 알고리즘 topology sort
+# 방향 그래프의 모든 노드들을 방향성에 거스르지 않도록 순서대로 정렬
+# 진입차수 개념: 선수과목
+# 큐 자료구조 or 스택 자료구조
+# 일반적으로 사이클이 발생하지 않는 instance가 주어진다.
+# 시간 복잡도: O(V+E)
+
+# from collections import deque
+
+# n,m = map(int,input().split())
+# graph = [[] for _ in range(n+1)]
+# indegree = [0] * (n+1)
+
+# for _ in range(m):
+#   a,b = map(int,input().split())
+#   graph[a].append(b)
+#   indegree[b] += 1
+
+# def topology():
+#   result = []
+#   q = deque()
+#   for i in range(1,n+1):
+#     if indegree[i] == 0:
+#       q.append(i)
+#   while q:
+#     now = q.popleft()
+#     result.append(now)
+#     for i in graph[now]:
+#       indegree[i] -= 1
+#       if indegree[i] == 0:
+#         q.append(i)
+#   for i in result:
+#     print(i, end=' ')
+
+# topology()
+
+
+
 #-------------------------------------------------------------------------- 소수 판별, 에라토스테네스의 체
 # --------------------------------------- 소수 판별
 # 그냥 구현한다면 O(X)이지만
@@ -286,7 +489,6 @@
 #     count += 1
 #   inter_sum -= array[start]
   
-
 #--------------------------------------- 합집합
 # a = [1,4,5,8]
 # b = [2,3,6,7,9]
@@ -322,13 +524,55 @@
 # print(prefix_sum[right] - prefix_sum[left-1])
 
 
+
 #-------------------------------------------------------------------------- 순열과 조합
+# 전부 클래스 개체임으로 리스트 자료형으로 변환해야 한다.
+# a = [1,2,3,4,5,6,7]
+
+#-------------------------------------------- permutations
+# # 요소 간 순서가 다르면 다르다고 인식하는가? o
+# # 인스턴스 내에서 반복을 허용하는 가? x
+# # len(a) * (len(a)-1) *  (len(a)-2)
+
+# from itertools import permutations
+# candi_permu = list(permutations(a,3))
+# print(len(candi_permu))
+# print(candi_permu)
 
 
+#-------------------------------------------- combinations
+# # 요소 간 순서가 다르면 다르다고 인식하는가? x
+# # 인스턴스 내에서 반복을 허용하는 가? x
+# 인수가 3개 라면 1
+# 인수가 4개 라면 +3 (1+2)
+# 인수가 5개 라면 +6 (1+2+3)
+# 인수가 6개 라면 +10 (1+2+3+4)
+# 인수가 7개 라면 +15 (1+2+3+4+5)
+
+# from itertools import combinations
+# candi_combi = list(combinations(a,3))
+# print(len(candi_combi))
+# print(candi_combi)
 
 
+#-------------------------------------------- combinations_with_replacement
+# # 요소 간 순서가 다르면 다르다고 인식하는가? x
+# # 인스턴스 내에서 반복을 허용하는 가? o
+
+# from itertools import combinations_with_replacement
+# candi_combi_repl = list(combinations_with_replacement(a,3))
+# print(len(candi_combi_repl))
+# print(candi_combi_repl)
 
 
+#-------------------------------------------- product
+# # 요소 간 순서가 다르면 다르다고 인식하는가? o
+# # 인스턴스 내에서 반복을 허용하는 가? o
+
+# from itertools import product
+# candi_product = list(product(a,repeat=3))
+# print(len(candi_product))
+# # len(a) ** 3
 
 
 
@@ -354,5 +598,3 @@
 #     for j in range(column):
 #       res[column-1-j][i] = a[i][j]
 #   return res
-
-
