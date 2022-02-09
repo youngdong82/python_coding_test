@@ -45,10 +45,32 @@
 #     num = fibonacci[i-1] + fibonacci[i-2]
 #     fibonacci.append(num)
 # print(fibonacci[n])
-# --------------------------------------------------- 별찍기
+# --------------------------------------------------- 별찍기 전혀 모르겠다.ㅠㅠㅠ - 복습
+# def paint_star(n):
+#   a = n//3
+#   if n == 3:
+#     g[1] = ['*', ' ', '*']
+#     g[0][:3] = g[2][:3] = ['*']*3
+#     return
+#   paint_star(a)
+  
+#   for i in range(0,n,a):
+#     for j in range(0,n,a):
+#       if i != a or j != a:
+#         for k in range(a):
+#           g[i + k][j:j+a] = g[k][:a]
 
 
+# n = int(input())
+# g = [[' '] * n for _ in range(n)]
 
+
+# paint_star(n)
+
+# for i in range(n):
+#   for j in range(n):
+#     print(g[i][j], end='')
+#   print()
 
 # --------------------------------------------------- 하노이 탑 실패! -복습 - 암기
 # n = int(input())
