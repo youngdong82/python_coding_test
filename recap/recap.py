@@ -132,6 +132,29 @@
 # array.sort(key = lambda x: (-float(x[0]), int(x[1])))
 # array.sort(key = lambda x: (-x[1], x[2], -x[3], x[0]))
 
+#--------------------------------------- 버블정렬
+# 시간 복잡도: O(N^2)
+# 최선의 경우: O(N)
+# 최적화
+# 이전의 사이클에서 swap이 한번도 일어나지 않았다면,
+# 더이상 정렬할 것이 없다는 뜻이므로 종료
+
+# a = [4,3,2,5,1,8,7]
+# n = len(a)
+
+# def bubble_sort(a):
+#   end = len(a) - 1
+#   while end > 0:
+#     last_swap = 0
+#     for i in range(end):
+#       if a[i] > a[i+1]:
+#         a[i],a[i+1] = a[i+1],a[i]
+#         last_swap = i
+#     end = last_swap
+
+# print(a)
+
+
 #--------------------------------------- 선택정렬
 # O(N2) - 이중 반복문
 # for i in range(n):
@@ -154,8 +177,9 @@
 #       break
 
 
-#--------------------------------------- 퀵정렬
+#--------------------------------------- 퀵 정렬
 # 평균 O(NlogN) 연산마다 반퉁나는 것이 2개씩
+# 최악의 경우 O(n^2)이다 머릿 속에 새기자
 # def quick_sort(array):
 #   if len(array) <= 1:
 #     return array
@@ -167,6 +191,67 @@
 
 #   return quick_sort(left_side) + [pivot] + quick_sort(right_side)
 
+#--------------------------------------- 힙 정렬
+# 시간 복잡도: O(NlogN)
+# https://ratsgo.github.io/data%20structure&algorithm/2017/09/27/heapsort/ 꼭 읽자!!
+def heapify(unsorted, index, heap_size):
+  largest = index
+  left_index = 2 * index + 1
+  right_index = 2 * index + 2
+  if left_index < heap_size and unsorted[left_index] > unsorted[largest]:
+    largest = left_index
+  if right_index < heap_size and unsorted[right_index] > unsorted[largest]:
+    largest = right_index
+  if largest != index:
+    unsorted[largest], unsorted[index] = unsorted[index], unsorted[largest]
+    heapify(unsorted, largest, heap_size)
+
+def heap_sort(unsorted):
+  n = len(unsorted)
+  for i in range(n//2-1, -1, -1):
+    heapify(unsorted, i, n)
+  for i in range(n-1, 0, -1):
+    unsorted[0],unsorted[i] = unsorted[i],unsorted[0]
+    heapify(unsorted, 0, i)
+  return unsorted
+
+
+#--------------------------------------- 합병 정렬
+# 시간 복잡도: O(NlogN)
+# 공간 복잡도 : O(N)
+# 재귀함수를 통해 병합정렬 구현
+# 이 URL 아주 설명 잘 되어있다.
+# https://bblackscene21.tistory.com/8 
+
+def mergeSort(list,p,q):
+	if p>= q: return
+	mid = (p + q) // 2
+	mergeSort(list, p, mid)
+	mergeSort(list, mid+ 1, q)
+	merge(list, p, mid + 1, q)
+
+
+def merge(list, left, right, end):
+	merged = []
+	l, r = left, right
+	while l < right and r <= end:
+		if list[l] <= list[r]:
+			merged.append(list[l])
+			l +=1
+		else:
+			merged.append(list[r])
+			r +=1
+	while l < right:
+		merged.append(list[l])
+		l +=1
+	while r <= end:
+		merged.append(list[r])
+		r+=1
+
+	l = left
+	for n in merged:
+		list[l] = n	
+		l +=1
 
 #--------------------------------------- 계수정렬
 # O(N+K)
@@ -180,7 +265,7 @@
 # for i in range(n):
 #   dp[array[i]] += 1
 
-# for i in range(n):
+# for i in range(len(dp)):
 #   for _ in range(dp[i]):
 #     print(i, end=' ')
 
