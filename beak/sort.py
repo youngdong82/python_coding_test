@@ -56,3 +56,31 @@
 
 # --------------------------------------------------- 수 정렬하기 3
 # 얕보고 있다가... 어렵다...
+
+# --------------------------------------------------- 통계학 34분 시작
+# n = int(input())
+# data = [1,3,8,-2,2]
+# for i in range(n):
+#   data.append(int(input()))
+
+# data.sort()
+
+# aver = int(round(sum(data)/n, 0))
+# mid = data[n//2]
+# print(aver)
+# print(mid)
+
+
+
+
+# rrange = data[-1] - data[0]
+# print(rrange)
+
+from collections import Counter
+
+data = [1,3,8,-2,2]
+
+
+hell = Counter(data).most_common(2)
+
+print(hell)

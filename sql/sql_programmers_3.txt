@@ -1,0 +1,59 @@
+
+
+Group By
+문제 1. 고양이와 개는 몇 마리 있을까
+SELECT ANIMAL_TYPE, COUNT(ANIMAL_TYPE) ANIMAL_TYPE과 각 ANIMAL_TYPE의 수를 조회
+FROM ANIMAL_INS ANIMAL_INS에서
+GROUP BY ANIMAL_TYPE ANIMAL_TYPE 별로
+ORDER BY ANIMAL_TYPE ANIMAL_TYPE 순서대로(문자열이라면 단연 알파벳 순서)
+
+
+문제 2. 동명 동물의 수 찾기
+SELECT NAME, COUNT(NAME) AS COUNT NAME과 각 NAME의 수를 조회 결과 테이블에 COUNT라고 써!
+FROM ANIMAL_INS ANIMAL_INS에서
+GROUP BY NAME NAME 별로
+HAVING COUNT(NAME) > 1 갯수가 1 초과인 것만
+ORDER BY NAME NAME 순서대로
+
+문제 3. 입양 시각 구하기(1)
+SELECT HOUR(DATETIME) AS HOUR, COUNT(DATETIME) AS COUNT 
+HOUR이름으로 DATETIME에서 HOUR을 추출, COUNT이름으로 DATETIME갯수 세기
+FROM ANIMAL_INS ANIMAL_INS에서
+GROUP BY HOUR  DATETIME에서 HOUR을 추출한 것 별로
+HAVING HOUR >=9 and HOUR <=19 HOUR이 9이상 19이하만
+ORDER BY HOUR  HOUR 순서대로
+
+시간을 추출할 땐 HOUR()을 사용한다.
+As로 선언?한 이름은 변수처럼 사용 가능하다.
+HAVING HOUR >=9~~
+GOURP BY HOUR
+전부 AS HOUR이 없었다면 에러
+
+HAVING 말고 WHERE도 가능하다.
+WHERE에선 as로 선언한 것 이용 못한다. Colum_name을 직접 조회하기 때문?
+HAVING에선 오히려 as로 선언했다면 선언한 것만 사용해야 한다.
+
+순서도 매우 중요하다.
+SELECT
+FROM
+WHERE
+GROUP BY
+HAVING
+ORDER BY
+LIMIT
+
+문제 4. 입양 시각 구하기(2)
+SET @hour := -1;
+
+SELECT (@hour := @hour +1) as HOUR,
+(SELECT COUNT(*) FROM ANIMAL_OUTS WHERE HOUR(DATETIME) = @hour) as COUNT
+FROM ANIMAL_OUTS
+WHERE @hour < 23
+
+표에 없는 0시부터 23시 전부 조회해야 한다.
+SET으로 변수 선언
+@변수명과 := 초기값
+변수는 절차가 끝나도 유지된다.
+(@hour := @hour +1)는 변수에 1씩 증가시킨다.
+처음 변수 초기값이 0이었다면 테이블에 1부터 출력된다.
+

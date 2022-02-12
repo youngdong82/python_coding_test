@@ -1,0 +1,28 @@
+SUM,MAX,MIN
+문제 1. 최댓값 구하기
+SELECT MAX(DATETIME) DATETIME이 가장 큰 것을 조회
+FROM ANIMAL_INS ANIMAL_INS에서
+
+최근에 들어온 동물이란 DATETIME이 가장 큰 동물
+MAX()값을 사용한다.
+
+문제 2. 최솟값 구하기
+SELECT MIN(DATETIME) DATETIME이 가장 작은 것을 조회
+FROM ANIMAL_INS ANIMAL_INS에서
+
+가장 먼저 들어온 동물이란 DATETIME이 가장 작은 동물
+MIN()값을 사용한다.
+
+문제 3. 동물의 수 구하기
+SELECT COUNT(*) 전부 몇개인지 세기
+FROM ANIMAL_INS ANIMAL_INS에서
+
+갯수 조회를 위해선 COUNT()를 사용한다.
+
+문제 4. 중복 제거하기
+SELECT COUNT(DISTINCT NAME) 중복 없는 이름 세기
+FROM ANIMAL_INS ANIMAL_INS에서
+WHERE NAME IS NOT NULL NAME이 NULL이 아닌 것을
+
+중복 없는 객수를 세기 위해선 COUNT(DISTINCT )를 사용한다.
+NULL이 아닌 값을 찾기 위해선 IS NOT NULL을 사용한다.

@@ -194,6 +194,9 @@
 #--------------------------------------- 힙 정렬
 # 시간 복잡도: O(NlogN)
 # https://ratsgo.github.io/data%20structure&algorithm/2017/09/27/heapsort/ 꼭 읽자!!
+from typing import Counter
+
+
 def heapify(unsorted, index, heap_size):
   largest = index
   left_index = 2 * index + 1
@@ -701,3 +704,16 @@ def merge(list, left, right, end):
 # 남아있는 만큼의 가용 메모리를 모두 수 표현에 끌어다 쓸 수 있는 형태
 
 # 기본 28바이트를 사용하다 이를 넘어가면 4바이트씩 증가하면서 수 표현에 사용하는 바이트 수가 탄력적으로 늘어난다.
+
+#-------------------------------------------------------------------------- Counter
+from collections import Counter
+array = [1,2,4,4,4,6,7,8,8,8,8,8,9,10]
+k = 3
+# 각 문자열에 대한 갯수를 사전 집합자료가 담긴 클래스 형태로 출력
+count1 = Counter(array)
+# 각 문자열에 대한 갯수를 많은 순서대로 k개만큼 출력
+# tuple 형태로 담긴 list (a, b) = a가 b개 있다.
+count2 = Counter(array).most_common(k)
+
+print(count1)
+print(count2)
