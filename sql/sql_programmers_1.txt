@@ -1,53 +1,38 @@
-SQL
+-------------------------------------------------- SELECT
+-------------------- 문제 1. 모든 레코드 조회하기
+SELECT *
+FROM ANIMAL_INS
+ORDER BY ANIMAL_ID
 
-SELECT – 조회
-FROM – ~에서, 테이블 이름
+-------------------- 문제 2. 역순 정렬하기
+SELECT NAME, DATETIME
+FROM ANIMAL_INS
+ORDER BY ANIMAL_ID DESC
 
-문제 1. 모든 레코드 조회하기
-SELECT *  모든 것을 조회
-FROM ANIMAL_INS  ANIMAL_INS에서
-ORDER BY ANIMAL_ID  ANIMAL_ID 순서대로
+-------------------- 문제 3. 아픈 동물 찾기
+SELECT ANIMAL_ID, NAME
+FROM ANIMAL_INS
+WHERE INTAKE_CONDITION = 'Sick'
+ORDER BY ANIMAL_ID
 
-문제 2. 역순 정렬하기
-SELECT NAME, DATETIME  NAME과 DATETIME을 조회
-FROM ANIMAL_INS  ANIMAL_INS에서
-ORDER BY ANIMAL_ID DESC   ANIMAL_ID 역순으로
+-------------------- 문제 4. 어린 동물 찾기
+SELECT ANIMAL_ID, NAME
+FROM ANIMAL_INS
+WHERE INTAKE_CONDITION <> 'Aged'
+ORDER BY ANIMAL_ID
 
-순서대로는 ASC, 역순은 DESC
+-------------------- 문제 5. 동물의 아이디와 이름
+SELECT ANIMAL_ID, NAME
+FROM ANIMAL_INS
+ORDER BY ANIMAL_ID ASC
 
-문제 3. 아픈 동물 찾기
-SELECT ANIMAL_ID, NAME  ANIMAL_ID와 NAME을 조회
-FROM ANIMAL_INS  ANIMAL_INS에서
-WHERE INTAKE_CONDITION = 'Sick'  INTAKE_CONDITION이 ‘Sick’인 것을
-ORDER BY ANIMAL_ID  ANIMAL_ID 순서대로
+-------------------- 문제 6. 여러기준으로 정렬하기
+SELECT ANIMAL_ID, NAME, DATETIME
+FROM ANIMAL_INS
+ORDER BY NAME ASC, DATETIME DESC
 
-문제 4. 어린 동물 찾기
-SELECT ANIMAL_ID, NAME  ANIMAL_ID와 NAME을 조회
-FROM ANIMAL_INS  ANIMAL_INS에서
-WHERE INTAKE_CONDITION <> 'Aged' INTAKE_CONDITION이 ‘Aged’가 아닌 것을
-ORDER BY ANIMAL_ID  ANIMAL_ID 순서대로
-
-아닌 것을 나타낼 때 <>나 != 중 하나를 쓰면 된다.
-퍼포먼스를 위해선 <>를 쓰자.
-
-문제 5. 동물의 아이디와 이름
-SELECT ANIMAL_ID, NAME ANIMAL_ID와 NAME을 조회
-FROM ANIMAL_INS ANIMAL_INS에서
-ORDER BY ANIMAL_ID ASC ANIMAL_ID 순서대로
-
-문제 6. 여러기준으로 정렬하기
-SELECT ANIMAL_ID, NAME, DATETIME ANIMAL_ID와 NAME, DATETIME을 조회
-FROM ANIMAL_INS ANIMAL_INS에서
-ORDER BY NAME ASC, DATETIME DESC 이름 순서대로, 순서가 같다면 DATETIME의 역순으로
-
-,를 꼭 붙이자
-
-문제 7. 상위 n개 레코드
-SELECT NAME NAME을 조회
-FROM ANIMAL_INS ANIMAL_INS에서
-ORDER BY DATETIME DATETIME 순서대로
-LIMIT 1 1개만
-
-LIMIT 1 : 맨 위에서부터 1개까지의 정보 조회
-LIMIT 3 : 맨 위에서부터 3개까지의 정보 조회
-LIMIT 2, 6 : 위에서 2번째부터 6번째까지의 정보 조회
+-------------------- 문제 7. 상위 n개 레코드
+SELECT NAME
+FROM ANIMAL_INS
+ORDER BY DATETIME
+LIMIT 1

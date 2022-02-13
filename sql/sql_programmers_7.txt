@@ -1,0 +1,84 @@
+-------------------------------------------------- 고득점을 향해!!
+-------------------- 문제 1 헤비유저가 소유한 장소
+버전 1 – GROUP BY + IN
+SELECT *
+FROM places
+WHERE host_id in(
+    SELECT HOST_ID FROM PLACES
+    GROUP BY HOST_ID
+    HAVING COUNT(ID) >= 2
+)
+ORDER BY id
+메인쿼리는 인덱스 스캔 , filesort가 발생하지 않음.
+서브 쿼리는 풀 스캔, filesort가 발생한다.
+성능 중간
+
+버전 2 – COUNT + PARTITION BY
+SELECT PL.ID, PL.NAME, PL.HOST_ID
+FROM 
+    (
+        SELECT * , COUNT(*) OVER (PARTITION BY HOST_ID) AS HOST_COUNT
+        FROM PLACES
+    ) PL
+WHERE PL.HOST_COUNT > 1
+ORDER BY PL.ID;
+메인쿼리, 서브 쿼리 둘 다 인덱스를 타지 않고 풀스캔.
+둘 다 filesort가 발생한다.
+성능 최저
+
+버전 3 – GROUP BY + EXIST
+SELECT *
+FROM PLACES PL1 
+WHERE EXISTS (
+                SELECT 1
+                FROM PLACES PL2
+                WHERE PL1.HOST_ID = PL2.HOST_ID            
+                GROUP BY HOST_ID
+                HAVING COUNT(*) > 1
+             )
+ORDER BY ID;
+
+EXIST(서브쿼리)는 
+서브쿼리 결과가 한 건이라도 존재하면 TRUE, 없으면 FALSE를 리턴
+EXIST(서브쿼리)는 존재여부만 체크하므로 성능 최상
+SELECT 1은 해당 절에서 컬럼이 불필요하기 때문에 의미없는 1 추가
+
+IN 절의 괄호() 사이에는 특정 값이나, 서브쿼리가 올 수 있지만,
+EXISTS의 괄호() 사이에는 서브쿼리만 올 수 있다.
+
+IN 절에서는 괄호 안에 있는 특정 값이나 서브쿼리의 결과 값이 있는 지 체크하지만,
+결국 서브 쿼리 결과를 모두 수행,
+실제 존재하는 데이터들의 모든 값까지 확인.
+
+EXIST는 괄호 안의 서브쿼리로부터 해당 값의 존재 유무만 체크합니다.
+한 건이라도 일치하는 결과가 있으면 더 이상 수행하지 않는다.
+해당 ROW가 존재하는지 확인, 더 이상 수행되지 않는다
+
+
+-------------------- 문제 2 우유와 요거트가 담긴 장바구니
+버전 1 – 서브쿼리 
+SELECT cart_id
+FROM cart_products
+WHERE name = 'Milk' and cart_id IN (
+    SELECT cart_id
+    FROM cart_products
+    WHERE name = 'Yogurt'
+)
+ORDER BY cart_id
+
+버전2 - JOIN
+SELECT A.CART_ID
+FROM 
+ (SELECT CART_ID FROM CART_PRODUCTS WHERE NAME = 'Yogurt') as A, 
+ (SELECT CART_ID FROM CART_PRODUCTS WHERE NAME = 'Milk') as B
+WHERE A.CART_ID = B.CART_ID
+ORDER BY CART_ID
+
+버전3 – INNER JOIN
+SELECT DISTINCT A.CART_ID
+FROM 
+ (SELECT CART_ID FROM CART_PRODUCTS WHERE NAME = 'Yogurt') as A
+INNER JOIN
+ (SELECT CART_ID FROM CART_PRODUCTS WHERE NAME = 'Milk') as B
+ON A.CART_ID = B.CART_ID
+ORDER BY CART_ID
