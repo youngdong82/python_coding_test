@@ -65,6 +65,8 @@ EXISTS의 괄호() 사이에는 서브쿼리만 올 수 있다.
 
 
 * HAVING
+GROUP BY 
+HAVING 조건
 C_N을 as로 C로 선언했다면 선언한 것만 사용해야 한다.
 HAVING COUNT(C_N) > 1  //C_N 갯수가 1 초과인 것만 
 HAVING HOUR >=9 and HOUR <=19  //HOUR이 9이상 19이하만

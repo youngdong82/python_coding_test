@@ -1,0 +1,95 @@
+-------------------------------------------------- MYSQL
+관계형 데이터 베이스
+파일은 편리하지만 한계를 지닌다.
+이를 보안하기위한 전문화된 소프트웨어인 데이터 베이스
+안전, 편리, 빠르게 사용 가능, 데이터 타입 관리 가능
+
+-------------------- DB의 핵심적인 4가지 작업
+Create
+Read
+Update
+Delete
+
+-------------------- 어떻게 파일이 DB화 되는지 보자
+파일 – 수많은 파일이 있다고 가정했을 때, 특정 값 조회 및 파일 내용 속 여러 부분을 통제할 수 없다.
+스프레드 시트 – 파일의 한계를 대부분 해결.
+DB - 보완, 차등적 권한 부여 기능 추가
+DB는 컴퓨터 언어를 통해 정보 제어 가능
+
+-------------------- SQL이란?
+Structured
+Query
+Language
+
+-------------------- MYSQL의 구조
+Table
+연관된 여러 Table을 그룹화 할 때 사용하는 폴더를 스키마 또는 Database라고 한다.
+여러 스키마가 저장되어 있는 곳이 Database Server
+
+-------------------- Quick Start
+서버 접속
+cd /usr/local/mysql/bin
+./mysql -uroot -p
+패스워드 입력
+
+-------------------------------------------------- 스키마(데이터 베이스 )생성과 삭제, 조회, 접속
+생성
+CREATE database 원하는 이름;
+// Query OK, 1 row affected (0.01 sec)
+
+삭제
+DROP database 원하는 이름;
+// Query OK, 0 rows affected (0.02 sec)
+
+조회
+SHOW databases;
+	// 표 나온 이후
+// 6 rows in set (0.01 sec)
+
+사용
+USE database이름
+	// Database changed
+
+-------------------------------------------------- 테이블 생성, 조회, 구조, 이름변경, 삭제
+생성
+CREATE TABLE topic(
+    ->     -> id INT(11) NOT NULL AUTO_INCREMENT,
+    ->     -> title VARCHAR(100) NOT NULL,
+    ->     -> description TEXT NULL,
+    ->     -> created DATETIME NOT NULL,
+    ->     -> author VARCHAR(30) NULL,
+    ->     -> profile VARCAHR(100) NULL,
+    ->     -> PRIMARY KEY(id));
+	
+주의: 엔터는 띄어쓰기가 아니다. 엔터 후에 꼭 띄어쓰기를 하자!
+
+조회
+SHOW tables;
+	// 표 나온 이후
+// 1 rows in set (0.00 sec)
+
+구조 조회
+DESC 테이블 이름;
+	// 테이블 구조가 나옴
+// 1 rows in set (0.00 sec)
+
+테이블 이름 변경
+RENAME TABLE 테이블 이름 TO 바꾸고자 하는 테이블 이름;
+
+테이블 삭제
+DROP TABLE 테이블 이름;
+
+-------------------------------------------------- 데이터 생성, 조회, 업데이트, 삭제
+생성
+INSERT INTO topic (title,description,created,author,profile)
+VALUES('MYSQL','MYSQL is ...',NOW(),'youngdong','developer');
+	// Query OK, 1 row affected (0.00 sec)
+
+조회
+코테에 개 많다.
+
+업데이트
+UPDATE topic SET description='Oracle is', title='Oracle' WHERE id=2;
+
+삭제
+DELETE FROM topic WHERE id = 5;
