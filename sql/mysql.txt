@@ -93,3 +93,67 @@ UPDATE topic SET description='Oracle is', title='Oracle' WHERE id=2;
 
 삭제
 DELETE FROM topic WHERE id = 5;
+
+column 생성
+ALTER TABLE 테이블 이름 ADD COLUMN 행 이름 INT NULL AFTER 행 위치
+
+새롭게 생성된 column에 업데이트
+UPDATE 테이블 이름 SET 행 이름='값' WHERE ('PK' = '1')
+
+-------------------------------------------------- SQL JOIN
+모든 표는 하나의 주제만 가져야 한다.
+
+표를 나누면 유지 관리하기 편하지만 읽기 불편하다.
+표를 나누지 않으면 읽기 편하지만 유지 관리하기 불편하다.
+이를 위한 JOIN
+
+직관적인 JOIN 이해를 위한 사이트
+https://sql-joins.leopard.in.ua/
+
+-------------------- LEFT JOIN
+=LEFT OUTER JOIN
+
+FROM 기존의 테이블
+LEFT JOIN 붙이고자하는 테이블
+ON 연결키
+
+왼쪽의 표를 기준으로 계속 표를 붙일 수 있다.
+기준 테이블엔 값이 있지만, 대상 테이블에 연결되는 값이 없다면 전부 NULL로 표시된다.
+대상 테이블엔 값이 있지만, 기준 테이블에 연결되는 값이 없다면 무시된다.
+
+이와 반대로 RIGHT JOIN이 있다.
+거의 안씀.
+
+-------------------- INNER JOIN
+FROM 기존의 테이블
+INNER JOIN 붙이고자하는 테이블
+ON 연결키
+
+기준 테이블엔 값이 있지만, 대상 테이블에 모두 값이 있어야 표시된다.
+둘 중 하나라도 연결되는 값이 없다면 무시된다.
+
+같은 결과를 만들지 않지만 LEFT JOIN보다 성능이 좋다.
+
+-------------------- FULL OUTER JOIN
+FROM 기존의 테이블
+FULL OUTER JOIN 붙이고자하는 테이블
+ON 연결키
+기존의 명령어로도 구현 가능
+
+이론적으로는
+LEFT JOIN + RIGHT JOIN - INNER JOIN
+(LEFT JOIN) UNION (RIGHT JOIN)  //UNION 에는 DISTINCT가 생략되어 있다. 자동으로 중복 제거
+
+--------------------  ESCLUSIVE JOIN
+딱히 명령어가 존재하지 않고 기존의 명령어로 구현 가능
+FROM 기존의 테이블
+LEFT JOIN 붙이고자하는 테이블
+ON 연결키
+WHERE 기존테이블의 컬럼 값이 NULL일 때.
+
+거의 안씀.
+
+-------------------------------------------------- 에러
+Ignoring query to other database
+
+./mysql -uroot -p 를 정확하게 기입하지 않아서 생기는 에러

@@ -1,12 +1,5 @@
 -------------------------------------------------- String, Date
 -------------------- 문제 1. 루시와 엘라 찾기
-버전1
-SELECT ANIMAL_ID, NAME, SEX_UPON_INTAKE
-FROM ANIMAL_INS
-WHERE NAME = 'Lucy' or NAME='Ella' or NAME='Pickle' or NAME='Rogan' or NAME='Sabrina' or NAME='Mitty'
-ORDER BY ANIMAL_ID
-
-버전2
 SELECT ANIMAL_ID, NAME, SEX_UPON_INTAKE
 FROM ANIMAL_INS
 WHERE NAME in ('Lucy', 'Ella', 'Pickle', 'Rogan', 'Sabrina', 'Mitty')
@@ -18,17 +11,17 @@ FROM animal_ins
 WHERE animal_type = 'Dog' and name LIKE '%EL%'
 ORDER BY name
 
--------------------- 문제 3. 중성화 여부 파악하기
+-------------------- 문제 3. 중성화 여부 파악하기 **
 버전 1
 SELECT animal_id, name, 
-IF(sex_upon_intake LIKE '%neutered%' or sex_upon_intake LIKE '%spayed%', 'O', 'X') as '중성화'
+CASE WHEN(sex_upon_intake LIKE '%neutered%' or sex_upon_intake LIKE '%spayed%') 
+THEN 'O' ELSE 'X' END as '중성화'
 FROM animal_ins
 ORDER BY animal_id
 
 버전 2
 SELECT animal_id, name, 
-CASE WHEN(sex_upon_intake LIKE '%neutered%' or sex_upon_intake LIKE '%spayed%') 
-THEN 'O' ELSE 'X' END as '중성화'
+IF(sex_upon_intake LIKE '%neutered%' or sex_upon_intake LIKE '%spayed%', 'O', 'X') as '중성화'
 FROM animal_ins
 ORDER BY animal_id
 
@@ -48,7 +41,7 @@ WHERE O.animal_id = I.animal_id
 ORDER BY O.DATETIME - I.DATETIME DESC
 LIMIT 2
 
--------------------- 문제 5. DATETIME에서 DATE로 변환
+-------------------- 문제 5. DATETIME에서 DATE로 변환 **
 SELECT animal_id, name, DATE_FORMAT(datetime, '%Y-%m-%d') as '날짜'
 FROM animal_ins
 ORDER BY animal_id ASC

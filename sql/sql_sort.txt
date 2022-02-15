@@ -2,18 +2,12 @@
 SET 변수 선언
 
 SELECT – 조회
-FROM – ~에서, 기존 테이블 LEFT JOIN 대상 테이블 ON 연결 키
-FROM – ~에서, 기존 테이블 LEFT OUTER JOIN 대상 테이블 ON 연결 키
-FROM – ~에서, 기존 테이블 INNER JOIN 대상 테이블 ON 연결 키
-FROM – ~에서, 기존 테이블 JOIN 대상 테이블 WHERE 연결 키
 FROM 기존 테이블, 대상 테이블
 WHERE 조건
 GROUP BY 
 HAVING 조건
 ORDER BY ~순서대로
 LIMIT ~개
-
-
 
 column_name = C_N
 
@@ -25,7 +19,6 @@ SET으로 변수 선언
 처음 변수 초기값이 0이었다면 테이블에 1부터 출력된다.
 
 
-
 * SELECT
 C_N as C  //C_N을 조회 결과에서 C로 기입
 MAX(C_N)  //C_N이 가장 큰 것을 조회
@@ -34,17 +27,23 @@ COUNT(C_N)  //C_N의 갯수 조회
 COUNT(DISTINCT C_N)  //중복 없는 C_N 갯수 조회
 HOUR(C_N)  //시간 추출
 IFNULL(A, B)  //A가 NULL이라면 B를, 그렇지 않다면 A를 반환
-LEFT OUTER JOIN
-왼쪽의 테이블을 기준으로 오른쪽 테이블과 비교하여
-조건이 맞는 값이 있다면 JOIN해서 가져오고
-없다면 NULL을 표시한다.
 IF ( A or B, A’, B’)
 CASE WHEN ( A or B ) THEN A’ ELSE B’ END
 결과 테이블에 A라면 A'로, B라면 B'로 표기.
 COUNT(*) OVER (PARTITION BY HOST_ID)___________________ ???
 
 
-* WHERE
+*FROM
+FROM – ~에서, 기존 테이블 LEFT JOIN 대상 테이블 ON 연결 키
+FROM – ~에서, 기존 테이블 LEFT OUTER JOIN 대상 테이블 ON 연결 키
+FROM – ~에서, 기존 테이블 INNER JOIN 대상 테이블 ON 연결 키
+FROM – ~에서, 기존 테이블 JOIN 대상 테이블 WHERE 연결 키
+LEFT OUTER JOIN
+왼쪽의 테이블을 기준으로 오른쪽 테이블과 비교하여
+조건이 맞는 값이 있다면 JOIN해서 가져오고
+없다면 NULL을 표시한다.
+
+* WHERE 그냥 조건
 WHERE에선 as로 선언한 것 이용 못한다. Colum_name을 직접 조회하기 때문?
 WHERE C_N = "특정 값"
 WHERE C_N <> "특정 값" - 이게 빠르다
@@ -52,7 +51,6 @@ WHERE C_N != "특정 값"
 WHERE C_N is NULL  //C_N이 NULL 인 것
 WHERE C_N is not NULL  //C_N이 NULL이 아닌 것
 WHERE T.C_N LIKE 'INTACT%' AND (TT.C_N LIKE 'SPAYED%' OR TT.C_N LIKE 'NEUTERED%')
-AND, OR, LIKE '%찾고자하는 문자열%'
 연결키 부분이 JOIN ~ WHERE 연결키 AND로 묶여도 가능 (LEFT JOIN은 안됨)
 WHERE C_N IN ('여러', '문자', '값들') - 하나하나 전부 확인하기 때문에 성능이 좋지 않다.
 EXIST( 서브 쿼리 )
@@ -63,10 +61,14 @@ SELECT 1은 해당 절에서 컬럼이 불필요하기 때문에 의미없는 1 
 IN 절의 괄호() 사이에는 특정 값이나, 서브쿼리가 올 수 있지만,
 EXISTS의 괄호() 사이에는 서브쿼리만 올 수 있다.
 
+AND, OR
+LIKE '%찾고자하는 문자열%'
+갯수 상관없음.
+LIKE '_찾고자하는 문자열_'
+_의 갯수만큼 문자가 들어가 있다.
 
 * HAVING
-GROUP BY 
-HAVING 조건
+GROUP BY 와 함께하는 조건
 C_N을 as로 C로 선언했다면 선언한 것만 사용해야 한다.
 HAVING COUNT(C_N) > 1  //C_N 갯수가 1 초과인 것만 
 HAVING HOUR >=9 and HOUR <=19  //HOUR이 9이상 19이하만
@@ -119,8 +121,6 @@ OUTER JOIN은 합집합
 FULL OUTER JOIN, LEFT JOIN, LEFT OUTER JOIN, RIGHT OUTER JOIN
 기존 테이블의 모든 행을 조회,
 기존 테이블 값이 NULL이라면 합쳐진 모든 값은 NULL
-
-
 
 INNER JOIN은 교집합
 그냥 콤마','로 묶는 것도 교집합이다.
