@@ -94,10 +94,50 @@
 # ** 0.5는 루트 씌우는 것과 같다.
 # ------------------------------------------ 재귀 다시 한번 보자!!
 # https://www.youtube.com/watch?v=m3kCKV8oc1g
-def solution(numbers):
+
   # 모든 조합을 만드는 recursive를 수행한다.
   # prime_set의 length를 반환한다.
 
 
 # print(solution("17"))
 # print(solution("011"))
+
+# -------------------------------------------------------------------------------- 카펫 25분 컷!
+# 가로가 세로보다 길다
+    # 1, 8
+    # 1*1, 3*3 -1
+    # 2, 10
+    # 2*1, 4*3 -2
+    # 3, 12
+    # 3*1, 5*3 -3
+    # 4, 14
+    # 4*1, 6*3-4
+    # 4, 12
+    # 2*2, 4*4-4
+    # 24, 24
+    # 6*4, 8*6-24
+    # 8*3, 10*5-24
+
+    
+# import math
+
+
+# def solution(brown, yellow):
+#   # 1. 1부터 옐로 squrt()까지 확인하기
+#   candidates = []
+#   for i in range(1,int(math.sqrt(yellow))+1):
+#     if yellow%i == 0:
+#       candidates.append((i, yellow//i))
+
+#   # 2. 각 케이스마다 나오는 몇 *몇 - 몇이 brown과 맞는 지 확인하기
+#   for candidate in candidates:
+#     a,b = candidate
+#     if (a+2) * (b+2) - yellow == brown:
+#       answer = [b+2, a+2]
+#       print(answer)
+
+# solution(10, 2)
+# solution(8, 1)
+# solution(24, 24)
+
+

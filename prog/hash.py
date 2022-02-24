@@ -122,7 +122,7 @@
 # print(solution(["123","456","789"]))
 # print(solution(["12","123","1235","567","88"]))
 
-# # ---------------------------------------------------  위장 실패! 사전자료형 잘 모르겠어.
+# ---------------------------------------------------  위장 실패! 사전자료형 잘 모르겠어.
 # # -------------------------- hash 활용
 # def solution(clothes):
 #   hash_map = {}
@@ -153,5 +153,46 @@
 #   print(answer-1)
 
 
-print(solution([["yellowhat", "headgear"], ["bluesunglasses", "eyewear"], ["green_turban", "headgear"]]));
-print(solution([["crowmask", "face"], ["bluesunglasses", "face"], ["smoky_makeup", "face"]]));
+# print(solution([["yellowhat", "headgear"], ["bluesunglasses", "eyewear"], ["green_turban", "headgear"]]));
+# print(solution([["crowmask", "face"], ["bluesunglasses", "face"], ["smoky_makeup", "face"]]));
+
+
+# ---------------------------------------------------  베스트 앨범
+def solution(genres, plays):
+  index = 0
+  dic = {} 
+  genres_dic = {}
+  for g, p in zip(genres, plays):
+    if g in dic.keys():
+      genres_dic[g] += p
+      dic[g].append((p,index))
+    else:
+      genres_dic[g] = p
+      dic[g] = [(p,index)]
+    index += 1
+
+
+  # 정렬하기
+  sorted_genres_list = sorted(genres_dic.items(), key=lambda x: -x[1])
+
+  for genre in dic.keys():
+    dic[genre].sort(key = lambda x : (-x[0], x[1]))
+  
+  # answer에 차례로 값 넣기
+  answer = []
+  for genres in sorted_genres_list:
+    # 2개씩만
+    count = 0
+    for values in dic[genres[0]]:
+      if count < 2:
+        answer.append(values[1])
+      count += 1
+
+  return answer
+
+
+
+
+genres = ["classic", "pop", "classic", "classic", "pop"]
+plays = [500, 600, 150, 800, 2500]
+print(solution(genres,plays))
