@@ -1,18 +1,20 @@
-# ------------------------------------------------------- k번째 수 11분 컷!
-array = [1,5,2,6,3,7,4]
-commands = [[2,5,3],[4,4,1],[1,7,3]]
+# # --------------------------------------------------------------------------------- join()
 
-#-------------------------- 내꺼
-def solution(array, commands):
-    answer = []
-    for command in commands:
-        split_list = array[command[0]-1: (command[1])]
-        split_list.sort()
-        answer.append(split_list[command[2]-1])
-        print(answer)
-    return answer
+# # ------------------------------------------------------- k번째 수 11분 컷!
+# array = [1,5,2,6,3,7,4]
+# commands = [[2,5,3],[4,4,1],[1,7,3]]
 
-print(solution(array, commands))
+# #-------------------------- 내꺼
+# def solution(array, commands):
+#     answer = []
+#     for command in commands:
+#         split_list = array[command[0]-1: (command[1])]
+#         split_list.sort()
+#         answer.append(split_list[command[2]-1])
+#         print(answer)
+#     return answer
+
+# print(solution(array, commands))
 
 # #-------------------------- 커뮤니티 좋은거
 # def solution(array, commands):
@@ -24,16 +26,15 @@ print(solution(array, commands))
 
 
 # ------------------------------------------------------- 가장 큰 수 실패!
-
 # #-------------------------- 커뮤니티 좋은거 람다 공부 하자.
-# numbers = [3,300,34,5,9]
-
 # def solution(numbers):
-#     numbers = list(map(str, numbers))
+#     numbers = list(map(str,numbers))
 #     numbers.sort(key=lambda x: x*3, reverse=True)
 #     return str(int(''.join(numbers)))
-
-# print(solution(numbers))
+    
+# print(solution([3,9,30,50,34]))
+# print(solution([6, 10, 2]))
+# print(solution([0,0,0,0,0]))
 
 # ------------------------------------------------------- H-index 12분 컷!
 # #-------------------------- 내꺼
@@ -48,8 +49,6 @@ print(solution(array, commands))
 #         if count >= i and i > max_c:
 #             max_c = i
 #     return max_c
-
-
 
 # #-------------------------- 커뮤니티 좋은거
 # def solution(citations):
