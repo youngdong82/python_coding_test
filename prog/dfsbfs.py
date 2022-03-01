@@ -1,6 +1,3 @@
-# --------------------------------------------------------------------------------  defaultdict
-# https://www.daleseo.com/python-collections-defaultdict/
-
 # -------------------------------------------------------------------------------- 타겟 넘버
 # 더하기 빼기로 타깃 넘버를 만드는 경우의 수 출력
 # def solution(numbers, target):
@@ -63,65 +60,141 @@
 # print(solution(3, [[1, 1, 0], [1, 1, 1], [0, 1, 1]]))
 
 # -------------------------------------------- 다 풀고 사이클 판별로 한번 해보자
+
+# -------------------------------------------------------------------------------- 단어 변환
+# 모든 단어의 길이는 같습니다.
+# 변환할 수 없는 경우에는 0을 리턴
+# -------------------------------------------- 내꺼 반만 맞음. 잘못된 길로 들어섰을 때 불가능
+# 뭔가 dfs느낌
+# def dfs(words, start, target, visited, answer):
+#     if visited[target] == True:
+#         return
+#     visited[start] = True
+#     answer.append(start)
+#     new_words = []
+#     for word in words:
+#         count = 0
+#         for a,b in zip(word, start):
+#             if a == b:
+#                 count += 1
+#         if count == 2 and visited[word] == False:
+#             new_words.append(word)
+
+#     if target in new_words:
+#         visited[target] = True
+#         answer.append(word)
+#         return
+#     else:
+#         for word in new_words:
+#             dfs(words, word, target, visited, answer)
+
+
+
+# def solution(begin, target, words):
+#     if target not in words:
+#         return 0
+#     visited = {}
+#     for i in words:
+#         if i not in visited.keys():
+#             visited[i] = False
+#     answer = []
+#     dfs(words, begin, target, visited, answer)
+#     return len(answer)-1
+
+# -------------------------------------------- 커뮤니티 
+# visited를 하나하나 확인하지 않고 그냥 깊이로 처리하는게 굳이다...
+# 여전히 다른 길로 빠진다면 불가능하지 않나??
+# def bfs(begin, target, words, visited):
+#     q = [(begin, 0)]
+#     while q:
+#         now, depth = q.pop()
+#         if now == target:
+#             return depth
+        
+#         for i in range(len(words)):
+#             if visited[i] == True:
+#                 continue
+#             count = 0
+#             for a,b in zip(now, words[i]):
+#                 if a!=b:
+#                     count += 1
+#             if count == 1:
+#                 visited[i] = True
+#                 print(visited)
+#                 q.append((words[i], depth+1))
+                
+            
+
+# def solution(begin, target, words):
+#     answer = 0
+#     if target not in words:
+#         return 0
+#     visited = [False]*(len(words))
+#     answer = bfs(begin, target, words, visited)
+#     return answer
+
+# print(solution("hit","cog",["hot", "dot", "dog", "lot", "log", "cog"]))
+# print(solution("hit","cog",["hot", "dot", "dog", "lot", "log"]))
+
+
 # -------------------------------------------------------------------------------- 여행경로
-# -------------------------------------------- 내꺼 반만 맞음 경로가 틀려서 
-from collections import deque
+# -------------------------------------------- 내꺼 반만 맞음 경로가 틀려서  + 커뮤니티 = 완성
+# 재귀로 안돌리는 dfs도 있을 수 있구나...
+
+# def dfs(graph, start):
+#     stack = [start]
+#     path = []
+#     while stack:
+#         top = stack[-1]
+#         if top not in graph or len(graph[top]) == 0:
+#             path.append(stack.pop())
+#         else:
+#             stack.append(graph[top].pop(0))
+#     return path[::-1]
+
+# def solution(tickets):
+#     graph = {}
+#     for i in range(len(tickets)):
+#         if tickets[i][0] in graph.keys():
+#             graph[tickets[i][0]].append(tickets[i][1])
+#         else:
+#             graph[tickets[i][0]] = [tickets[i][1]]
+
+#     for i in graph.keys():
+#         graph[i].sort()
+
+#     answer = dfs(graph, 'ICN')    
+
+#     return answer
 
 
-def bfs(graph, start):
-    answer = []
-    q = deque([start])
-    while q:
-        now = q.popleft()
-        answer.append(now)
-        if now not in graph.keys():
-            break
-        for i in graph[now]:
-            q.append(i)
-            graph[now].remove(i)
-    return answer
+# # -------------------------------------------- 커뮤니티
+# from collections import defaultdict
 
 
-def solution(tickets):
-    graph = {}
-    for i in range(len(tickets)):
-        if tickets[i][0] in graph.keys():
-            graph[tickets[i][0]].append(tickets[i][1])
-        else:
-            graph[tickets[i][0]] = [tickets[i][1]]
-    
-    for i in graph.keys():
-        graph[i].sort()
-    
-    answer = bfs(graph, 'ICN')    
+# def solution(tickets):
+#     answer = []
+#     adj = defaultdict(list)
+#     print(adj)
+#     for ticket in tickets:
+#         adj[ticket[0]].append(ticket[1])
+#     print(adj)
 
-    return answer
+#     for key in adj.keys():
+#         adj[key].sort(reverse=True)
+
+#     q = ['ICN']
+#     while q:
+#         tmp = q[-1]
+
+#         if not adj[tmp]:
+#             answer.append(q.pop())
+#         else:
+#             q.append(adj[tmp].pop())
+#     answer.reverse()
+#     return answer
 
 
-print(solution([["ICN", "JFK"], ["HND", "IAD"], ["JFK", "HND"]]))
-print(solution([["ICN", "SFO"], ["ICN", "ATL"], ["SFO", "ATL"], ["ATL", "ICN"], ["ATL","SFO"]]))
-
-# -------------------------------------------- 커뮤니티 이거 보고 공부하자.
-from collections import defaultdict
-
-
-def solution(tickets):
-    answer = []
-    adj = defaultdict(list)
-
-    for ticket in tickets:
-        adj[ticket[0]].append(ticket[1])
-
-    for key in adj.keys():
-        adj[key].sort(reverse=True)
-
-    q = ['ICN']
-    while q:
-        tmp = q[-1]
-
-        if not adj[tmp]:
-            answer.append(q.pop())
-        else:
-            q.append(adj[tmp].pop())
-    answer.reverse()
-    return answer
+# print(solution([["ICN", "AAA"], ["ICN", "BBB"], ["BBB", "ICN"]]))
+# print(solution([["ICN", "JFK"], ["HND", "IAD"], ["JFK", "HND"]]))
+# print(solution([["ICN", "SFO"], ["ICN", "ATL"], ["SFO", "ATL"], ["ATL", "ICN"], ["ATL","SFO"]]))
