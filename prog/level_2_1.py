@@ -207,23 +207,23 @@
 
 # -------------------------------------------------------------------------------- 7. 숫자의 표현
 # ------------------------------------------- 내꺼 20분 컷!
-def solution(n):
-  summ = 0
-  count = 0
-  index1 = 1
-  index2 = 1
-  while index1 <= n//2 + 1 or index2 <= n//2 + 1:
-    if summ < n:
-      summ += index2
-      index2 += 1
-    elif summ > n:
-      summ -= index1
-      index1 += 1
-    else:
-      count += 1
-      summ += index2
-      index2 += 1
-  return count + 1
+# def solution(n):
+#   summ = 0
+#   count = 0
+#   index1 = 1
+#   index2 = 1
+#   while index1 <= n//2 + 1 or index2 <= n//2 + 1:
+#     if summ < n:
+#       summ += index2
+#       index2 += 1
+#     elif summ > n:
+#       summ -= index1
+#       index1 += 1
+#     else:
+#       count += 1
+#       summ += index2
+#       index2 += 1
+#   return count + 1
 
 
-print(solution(15))
+# print(solution(15))
