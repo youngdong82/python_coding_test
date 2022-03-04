@@ -1,8 +1,3 @@
-# -------------------------------------------------------------------------------- 진법 변환
-# https://velog.io/@code_angler/%ED%8C%8C%EC%9D%B4%EC%8D%AC-%EC%A7%84%EC%88%98%EB%B3%80%ED%99%982%EC%A7%84%EB%B2%95-3%EC%A7%84%EB%B2%95-5%EC%A7%84%EB%B2%95-10%EC%A7%84%EB%B2%95n%EC%A7%84%EB%B2%95
-# -------------------------------------------------------------------------------- array.index()
-# a = [1,2,3,'kim', 63]
-# print(a.index('kim'))
 # -------------------------------------------------------------------------------- 1.서울에서 김서방 찾기 
 # ------------------------------------------- 내꺼 3분 컷!
 # "김서방은 1에 있다"
@@ -104,3 +99,87 @@
 # print(solution(12))
 # print(solution(5))
 
+# -------------------------------------------------------------------------------- 6. 이상한 문자 만들기 - 시간초과!
+# 어렵진 않았는데...테스트케이스 좀 제대로 된 거 좀 주지...
+# ------------------------------------------- 내꺼 30분 컷
+# def solution(s):
+#   split_s = s.split(' ')
+#   for i in range(len(split_s)):
+#     split_s[i] = list(split_s[i])
+#     for j in range(1,len(split_s[i])+1):
+#       if j % 2 != 0:
+#         split_s[i][j-1] = split_s[i][j-1].upper()
+#       elif j % 2 == 0:
+#         split_s[i][j-1] = split_s[i][j-1].lower()
+#     split_s[i] = ''.join(split_s[i])
+
+#   answer = ' '.join(split_s)
+#   return answer
+
+# print(solution("try hello world"))
+
+# -------------------------------------------------------------------------------- 7. 문자열 내 p와 y의 개수
+# ------------------------------------------- 내꺼 5분 컷!
+# def solution(s):
+#   s = s.lower()
+#   count = 0
+#   for i in s:
+#     if i == 'p':
+#       count += 1
+#     elif i == 'y':
+#       count -= 1
+#   return True if count == 0 else False 
+
+# ------------------------------------------- 커뮤니티 count 내장함수
+# def solution(s):
+#   s = s.lower()
+#   return s.count('p') == s.count('y')
+
+# print(solution("pPoooyY"))
+# print(solution("Pyy"))
+
+# -------------------------------------------------------------------------------- 8. 소수 찾기
+# ------------------------------------------- 내꺼 5분 컷!
+# from math import sqrt
+
+# def prime(n):
+#   for i in range(2,int(sqrt(n))+1):
+#     if n%i == 0:
+#       return False
+#   return True
+
+
+# def solution(n):
+#   count = 0
+#   for i in range(2,n+1):
+#     if prime(i):
+#       count += 1
+#   return count
+
+# print(solution(10))
+# print(solution(5))
+
+# -------------------------------------------------------------------------------- 9. 최소직사각형
+# ------------------------------------------- 내꺼 7분 컷!
+# def solution(sizes):
+#   max_list = []
+#   min_list = []
+#   for size in sizes:
+#     size[0],size[1] = max(size[0],size[1]), min(size[0],size[1])
+#     max_list.append(size[0])
+#     min_list.append(size[1])
+#   return max(max_list) * max(min_list)
+
+# print(solution([[60, 50], [30, 70], [60, 30], [80, 40]]))
+# print(solution([[10, 7], [12, 3], [8, 15], [14, 7], [5, 15]]))
+# print(solution([[14, 4], [19, 6], [6, 16], [18, 7], [7, 11]]))
+# -------------------------------------------------------------------------------- 10. 내적
+# ------------------------------------------- 내꺼 3분 컷!
+# def solution(a, b):
+#   summ = 0
+#   for i ,j in zip(a,b):
+#     summ += (i*j)
+#   return summ
+
+# print(solution([1,2,3,4], [-3,-1,0,2]))
+# print(solution([-1,0,1], 	[1,0,-1]))
