@@ -1,3 +1,12 @@
+# -------------------------------------------------------------------------------- is_integer()
+# -------------------------------------------------------------------------------- dic 초기화
+  # reports = {x : 0 for x in id_list}
+
+# -------------------------------------------------------------------------------- 중복제거
+# arr = [6, 5, 6, 4, 4, 1, 1, 2, 3, 9, 8, 7, 9, 8, 7]
+# result1 = dict.fromkeys(arr) # 리스트 값들을 key 로 변경 print(result1) 
+# result2 = list(result1) # list(dict.fromkeys(arr)) print(result2)
+
 # -------------------------------------------------------------------------------- 1. 문자열 내림차순으로 배치하기
 # ------------------------------------------- 내꺼 6분 컷;; 문제 잘못읽음
 # def solution(s):
@@ -189,3 +198,107 @@
 # print(solution(6))
 # print(solution(16))
 # print(solution(626331))
+
+# -------------------------------------------------------------------------------- 9. 정수 제곱근 판별
+# ------------------------------------------- 내꺼 3분 컷!
+# from math import sqrt
+
+# def solution(n):
+#   answer = 0
+#   if int(sqrt(n)) == sqrt(n):
+#     answer = (int(sqrt(n))+1)**2
+#   else:
+#     answer = -1
+#   return answer
+
+# ------------------------------------------- 커뮤니티
+# from math import sqrt
+
+# def solution(n):
+#   answer = 0
+#   if sqrt(n).is_integer():
+#     answer = (int(sqrt(n))+1)**2
+#   else:
+#     answer = -1
+#   return answer
+
+# print(solution(121))
+# print(solution(3))
+# -------------------------------------------------------------------------------- 10. 폰켓몬
+# 최대한 다양한 종류의 폰켓몬을 가지길 원하
+# 가장 많은 종류의 폰켓몬을 선택하는 방법을 찾아, 
+# 그때의 폰켓몬 종류 번호의 개수를 return 
+# ------------------------------------------- 내꺼 12분 컷! 오바코딩....
+# from collections import defaultdict
+
+# def solution(nums):
+#   take_num = len(nums)//2
+#   dic = defaultdict(int)
+#   for i in nums:
+#     dic[i] += 1
+#   if len(dic) < take_num:
+#     return len(dic) 
+#   else:
+#     return take_num
+
+# ------------------------------------------- 커뮤니티 깔끔~
+# def solution(nums):
+#   type_list = set(nums)
+#   if type_list < len(nums)//2:
+#     return type_list
+#   else:
+#     return len(nums)//2
+
+
+# print(solution([3,1,2,3]))
+# print(solution([3,3,3,2,2,4]))
+# print(solution([3,3,3,2,2,2]))
+
+# -------------------------------------------------------------------------------- 11. 신고 결과 받기
+# 한 유저를 여러 번 신고할 수도 있지만, 동일한 유저에 대한 신고 횟수는 1회로 처리
+# k번 이상 신고된 유저는 게시판 이용이 정지
+# 해당 유저를 신고한 모든 유저에게 정지 사실을 메일로 발송
+# 모아오다가 마지막에 한꺼번에 게시판 이용 정지를 시키면서 정지 메일을 발송
+
+# ------------------------------------------- 내꺼 + 커뮤니티
+from collections import defaultdict
+
+
+def solution(id_list, report, k):
+  # dic, answer 초기화
+  dic = defaultdict(list)
+  answer = defaultdict(int)
+  for i in id_list:
+    dic[i] = []
+    answer[i] = 0
+  # 신고 결과 입력
+  report = set(report)
+  for i in report:
+    from_id, to_id = i.split(' ')
+    dic[to_id].append(from_id)
+
+  # # 정지되는 사람 출력
+  for i in dic.items():
+    if len(i[1]) >= k:
+      for j in i[1]:
+        answer[j] += 1
+
+  return list(answer.values())
+
+# # ------------------------------------------- 커뮤니티 1
+def solution(id_list, report, k):
+  answer = [0] * len(id_list)    
+  report = set(report)
+  dic = {x : 0 for x in id_list}
+  for r in report:
+      dic[r.split()[1]] += 1
+  for r in report:
+      if dic[r.split()[1]] >= k:
+          answer[id_list.index(r.split()[0])] += 1
+  return answer
+
+
+
+
+print(solution(["muzi", "frodo", "apeach", "neo"], ["muzi frodo","apeach frodo","frodo neo","muzi neo","apeach muzi"], 2))
+print(solution(["con", "ryan"], ["ryan con", "ryan con", "ryan con", "ryan con"], 3))

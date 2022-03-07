@@ -1,3 +1,21 @@
+# -------------------------------------------------------------------------------- dic.items():
+
+# -------------------------------------------------------------------------------- list.replace(key, value)
+# -------------------------------------------------------------------------------- lower, upper
+# upper, lower등은 type만 string이면 굳이 알파벳에 안걸어줘도 에러가 나지 않는다
+# -------------------------------------------------------------------------------- str 관련 에러
+# 'str' object does not support item assignment
+# 특수문자는 리스트에서 not in 작동 안하는듯?? 확인해보자!
+# 안되는 것 없음 전부 다 됨
+
+# 문자열 변환은 문자열 변환으로 끝내자. 리스트로 바꿔서 해결하지 말고!!
+# 문자열 슬라이싱이랑 replace 등으로 충분히 할 수 있다!!
+# replace에 대해서 좀 더 알아보자
+# index도 가능한가?? 그럼 인덱스 함수도?? 응 전부 가능
+# 안되는 건 지금까지 단 하나 item assignment
+# ex) a[3] = 'd'
+
+
 # -------------------------------------------------------------------------------- 1. 예산
 # ------------------------------------------- 내꺼 13분 컷!
 # def solution(d, budget):
@@ -15,7 +33,7 @@
 
 # # 전부 가능, 전부 불가
 # print(solution([1,1,1,1],9))
-# print(solution([10,11,12,13,],9))
+# print(solution([10,11,12,13], 9))
 # print(solution([1,3,2,5,4], 9))
 # print(solution([2,2,3,3], 10))
 
@@ -50,6 +68,7 @@
 # print(solution([5, 9, 7, 10], 5))
 # print(solution([2, 36, 1, 3], 1))
 # print(solution([3,2,6], 10))
+
 # -------------------------------------------------------------------------------- 4. 음양 더하기
 # ------------------------------------------- 내꺼 2분 컷!
 # def solution(absolutes, signs):
@@ -101,7 +120,7 @@
 #     '8':[2,1],
 #     '9':[2,2],
 #     '*':[3,0],
-#     '0':[3,1] ,
+#     '0':[3,1],
 #     '#':[3,2],
 #     }
 
@@ -128,3 +147,112 @@
 # print(solution([1, 3, 4, 5, 8, 2, 1, 4, 5, 9, 5], "right"))
 # print(solution([7, 0, 8, 2, 8, 3, 1, 5, 7, 6, 2], "left"))
 # print(solution([1, 2, 3, 4, 5, 6, 7, 8, 9, 0], "right"))
+
+# -------------------------------------------------------------------------------- 6. 나머지가 1이 되는 수 찾기
+# ------------------------------------------- 내꺼 5분 컷!
+# def solution(n):
+#   for i in range(1,n):
+#     if n%i == 1:
+#       return i
+
+# print(solution(10))
+# print(solution(12))
+
+# -------------------------------------------------------------------------------- 7. 자연수 뒤집어 배열로 만들기
+# ------------------------------------------- 내꺼 5분 컷!
+# def solution(n):
+#   a = list(map(int,str(n)))
+#   a.reverse()
+#   return a
+
+# print(solution(12345))
+
+# -------------------------------------------------------------------------------- 8. 정수 내림차순으로 배치하기
+# ------------------------------------------- 내꺼 3분 컷!
+# def solution(n):
+#   n = list(str(int(n)))
+#   n.sort(reverse=True)
+#   return int(''.join(n))
+
+# print(solution(10019))
+# print(solution(1))
+# print(solution(801030501))
+
+# -------------------------------------------------------------------------------- 9. 숫자 문자열과 영단어
+# ------------------------------------------- 내꺼
+# def solution(s):
+#   number = ['zero','one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine']
+
+#   answer = ''
+#   word = ''
+#   for i in s:
+#     if i.isdigit():
+#       answer += (word + i)
+#       word = ''
+#       continue
+#     word += i
+#     if word in number:
+#       num = number.index(word)
+#       answer += str(num)
+#       word = ''
+#   return int(answer)
+
+# ------------------------------------------- 커뮤니티 익숙한 리스트에만 의존하지 말고 dic이나 다른 자료형들을 시도해보자.
+# num_dic = {"zero":"0", "one":"1", "two":"2", "three":"3", "four":"4", "five":"5", "six":"6", "seven":"7", "eight":"8", "nine":"9"}
+
+# def solution(s):
+#     answer = s
+#     for key, value in num_dic.items():
+#         answer = answer.replace(key, value)
+#     return int(answer)
+
+
+# print(solution("one4seveneight"))
+# print(solution("23four5six7"))
+# print(solution("2three45sixseven"))
+# print(solution("123"))
+
+# -------------------------------------------------------------------------------- 10. 신규 아이디 추천
+# 카카오 아이디 규칙에 맞지 않는 아이디를 입력했을 때, 입력된 아이디와 유사하면서 규칙에 맞는 아이디를 추천해주는 프로그램을 개발
+# 3자 이상 15자 이하
+# 알파벳 소문자, 숫자, 빼기(-), 밑줄(_), 마침표(.) 문자만 사용
+# 마침표(.)는 처음과 끝에 사용할 수 없으며 또한 연속으로 사용할 수 없다.
+
+# ------------------------------------------- 내꺼 성능은 내꺼가 좀 더 좋긴한데 뭔가 너무 지저분해. 그리고 미친듯한 시간초과ㅋㅋ거의 1시간 반 동안 풀었음
+# ------------------------------------------- 커뮤니티
+# def solution(new_id):
+#     answer = ''
+#     # 1
+#     new_id = new_id.lower()
+#     # 2
+#     for c in new_id:
+#         if c.isalpha() or c.isdigit() or c in ['-', '_', '.']:
+#             answer += c
+#     # 3
+#     while '..' in answer:
+#         answer = answer.replace('..', '.')
+#     # 4
+#     if answer[0] == '.':
+#         answer = answer[1:] if len(answer) > 1 else '.'
+#     if answer[-1] == '.':
+#         answer = answer[:-1]
+#     # 5
+#     if answer == '':
+#         answer = 'a'
+#     # 6
+#     if len(answer) > 15:
+#         answer = answer[:15]
+#         if answer[-1] == '.':
+#             answer = answer[:-1]
+#     # 7
+#     while len(answer) < 3:
+#         answer += answer[-1]
+#     return answer
+
+# print(solution("...!@BaT#*..y.abcdefghijklm"))
+# print(solution(	"z-+.^."))
+# print(solution(	"=.="))
+# print(solution("123_.def"))
+# print(solution("abcdefghijklmn.p"))
+# print(solution("..."))
+# print(solution(".b."))
