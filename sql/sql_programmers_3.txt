@@ -1,7 +1,7 @@
 -------------------------------------------------- GROUP BY
--------------------- 문제 1. 고양이와 개는 몇 마리 있을까
+-------------------- 문제 1. 고양이와 개는 몇 마리 있을까 **
 SELECT ANIMAL_TYPE, COUNT(ANIMAL_TYPE)
-FROM ANIMAL_INS 
+FROM ANIMAL_INS a
 GROUP BY ANIMAL_TYPE
 ORDER BY ANIMAL_TYPE
 
@@ -9,17 +9,17 @@ ORDER BY ANIMAL_TYPE
 SELECT NAME, COUNT(NAME) AS COUNT
 FROM ANIMAL_INS
 GROUP BY NAME
-HAVING COUNT(NAME) > 1
+HAVING COUNT > 1
 ORDER BY NAME
 
--------------------- 문제 3. 입양 시각 구하기(1)
-SELECT HOUR(DATETIME) AS HOUR, COUNT(DATETIME) AS COUNT 
-FROM ANIMAL_INS
-GROUP BY HOUR
-HAVING HOUR >=9 and HOUR <=19
-ORDER BY HOUR
+-------------------- 문제 3. 입양 시각 구하기(1) **
+SELECT hour(datetime) as hour, count(datetime) as count
+FROM animal_outs
+GROUP BY hour
+HAVING hour >= 9 and hour <20
+ORDER BY hour
 
--------------------- 문제 4. 입양 시각 구하기(2) **
+-------------------- 문제 4. 입양 시각 구하기(2) ****
 SET @hour := -1;
 
 SELECT (@hour := @hour +1) as HOUR, ( 

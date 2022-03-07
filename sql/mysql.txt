@@ -83,19 +83,20 @@ DROP TABLE 테이블 이름;
 생성
 INSERT INTO topic (title,description,created,author,profile)
 VALUES('MYSQL','MYSQL is ...',NOW(),'youngdong','developer');
-	// Query OK, 1 row affected (0.00 sec)
 
 조회
 코테에 개 많다.
 
 업데이트
-UPDATE topic SET description='Oracle is', title='Oracle' WHERE id=2;
+UPDATE 테이블 이름 SET description='Oracle is', title='Oracle' WHERE id=2;
 
 삭제
 DELETE FROM topic WHERE id = 5;
 
-column 생성
+column 생성, 삭제
 ALTER TABLE 테이블 이름 ADD COLUMN 행 이름 INT NULL AFTER 행 위치
+ALTER TABLE 테이블 이름 DROP 행 이름
+
 
 새롭게 생성된 column에 업데이트
 UPDATE 테이블 이름 SET 행 이름='값' WHERE ('PK' = '1')

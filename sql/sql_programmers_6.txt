@@ -5,13 +5,13 @@ FROM ANIMAL_INS
 WHERE NAME in ('Lucy', 'Ella', 'Pickle', 'Rogan', 'Sabrina', 'Mitty')
 ORDER BY ANIMAL_ID
 
--------------------- 문제 2. 이름에 el이 들어가는 동물 찾기
+-------------------- 문제 2. 이름에 el이 들어가는 동물 찾기 **
 SELECT animal_id, name
 FROM animal_ins
 WHERE animal_type = 'Dog' and name LIKE '%EL%'
 ORDER BY name
 
--------------------- 문제 3. 중성화 여부 파악하기 **
+-------------------- 문제 3. 중성화 여부 파악하기 ****
 버전 1
 SELECT animal_id, name, 
 CASE WHEN(sex_upon_intake LIKE '%neutered%' or sex_upon_intake LIKE '%spayed%') 
@@ -32,6 +32,13 @@ LEFT JOIN ANIMAL_INS as I
 ON O.animal_id = I.animal_id
 WHERE O.DATETIME - I.DATETIME
 ORDER BY O.DATETIME - I.DATETIME DESC
+LIMIT 2
+
+SELECT i.animal_id, i.name
+FROM animal_ins as i
+LEFT JOIN animal_outs as o
+ON i.animal_id = o.animal_id
+ORDER BY o.datetime - i.datetime DESC
 LIMIT 2
 
 간단하게!!
