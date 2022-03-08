@@ -1,3 +1,6 @@
+# -------------------------------------------------------------------------------- 인덱스 슬라이싱 좀 더 적재적소에 사용하면 매우 유용하다.
+# 9번 문제에서 used를 없앨 수 있다.
+
 # -------------------------------------------------------------------------------- 1. 다음 큰 숫자 - 복습!
 # ------------------------------------------- 내꺼 35분 컷! 너무 수학적으로 풀려고 하지 말자!
 # def solution(n):
@@ -270,3 +273,40 @@
 
 # print(solution(3,0,0))
 # print(solution(4,7,14))
+
+# -------------------------------------------------------------------------------- 9. 영어 끝말잇기  - 22분 컷!
+# ------------------------------------------- 내꺼 
+# from collections import defaultdict
+
+
+# def solution(n, words):
+#   used = []
+#   player = defaultdict(int)
+#   for i in range(n):
+#     player[i] = 0
+
+#   for i in range(len(words)):
+#     if i>0 and words[i][0] != words[i-1][-1]:
+#       return [i%n + 1, player[i%n]+1]
+#     if words[i] in used:
+#       return [i%n + 1, player[i%n]+1]
+#     else:
+#       player[i%n] += 1
+#       used.append(words[i])
+#   return [0,0]
+
+# ------------------------------------------- 내꺼 + 커뮤니티
+# def solution(n, words):
+#   for i in range(1, len(words)):
+#     if words[i][0] != words[i-1][-1] or words[i] in words[:i]:
+#       return [i%n + 1, i//n + 1]
+#   else:
+#     return [0,0]
+
+
+# print(solution(3, ["tank", "kick", "know", "wheel", "land", "dream", "mother", "robot", "tank"]))
+# print(solution(5, ["hello", "observe", "effect", "take", "either", "recognize", "encourage", "ensure", "establish", "hang", "gather", "refer", "reference", "estimate", "executive"]))
+# print(solution(2, ["hello", "one", "even", "never", "now", "world", "draw"]))
+  
+# -------------------------------------------------------------------------------- 10.
+# ------------------------------------------- 내꺼

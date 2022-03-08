@@ -1,3 +1,7 @@
+# -------------------------------------------------------------------------------- for else
+# 10번 스킬트리 문제
+# -------------------------------------------------------------------------------- product, permutations, combinatioins
+# 복습하자 복습!!
 # -------------------------------------------------------------------------------- 1. 오픈채팅방
 # ------------------------------------------- 내꺼
 # dic쓸거 list 써서 개고생했네 진짜....
@@ -215,3 +219,95 @@
 
 
 # print(solution(15))
+
+# -------------------------------------------------------------------------------- 8. 모음 사전 - 실패! 복습!!
+# ------------------------------------------- 커뮤니티 완전탐색이래 + product
+# from itertools import product
+
+# def solution(word):
+#     list1 = ['A','E','I','O','U']
+#     list2 = list(product('AEIOU',repeat=2))
+#     list3 = list(product('AEIOU',repeat=3))
+#     list4 = list(product('AEIOU',repeat=4))
+#     list5 = list(product('AEIOU',repeat=5))
+#     data_list = list1 + list2 + list3 + list4 + list5
+
+#     for i in range(len(data_list)):
+#         data_list[i] = ''.join(data_list[i])
+#     data_list.sort()
+#     return data_list.index(word) + 1
+
+# print(solution("AAAAE"))
+# print(solution("AAAE"))
+# print(solution("I"))
+# print(solution("EIO"))
+
+# -------------------------------------------------------------------------------- 9. 구명보트 - 28분 컷 - 시간초과
+# 다음엔 deque로 풀어보자
+# ------------------------------------------- 내꺼 - 시간초과
+# def solution(people, limit):
+#   people.sort()
+#   count = 0
+#   while people:
+#     if len(people) >= 2 and people[0] + people[-1] <= limit:
+#       people.pop()
+#       people.pop(0)
+#       count += 1
+#     else:
+#       people.pop()
+#       count += 1
+
+#   return count
+
+# # ------------------------------------------- 내꺼 성공~
+# def solution(people, limit):
+#   people.sort()
+#   small_i = 0
+#   big_i = len(people)-1
+#   count = 0
+#   while small_i <= big_i:
+#     if people[small_i] + people[big_i] <= limit:
+#       small_i += 1
+#     big_i -= 1
+#     count += 1
+
+#   return count
+
+# print(solution([70, 50, 80, 50], 100))
+# print(solution([70, 80, 50], 100))
+
+# -------------------------------------------------------------------------------- 10. 스킬트리 21분 컷!
+# ------------------------------------------- 내꺼 + for else
+# def solution(skill, skill_trees):
+#   count = 0
+#   for tree in skill_trees:
+#     skill_index = 0
+#     for i in tree:
+#       if i in skill:
+#         if i == skill[skill_index]:
+#           skill_index += 1
+#           if skill_index == len(skill):
+#             count += 1
+#             break
+#         else:
+#           break
+#     else:
+#       count += 1
+
+#   return count
+
+# # ------------------------------------------- 커뮤니티 훨씬 깔끔하다.
+# def solution(skill, skill_trees):
+#   count = 0
+#   for skills in skill_trees:
+#       skill_list = list(skill)
+#       for s in skills:
+#           if s in skill:
+#               if s != skill_list.pop(0):
+#                   break
+#       else:
+#           count += 1
+#   return count
+
+
+# print(solution("CBD", ["BACDE", "CBADF", "AECB", "BDA"]))
