@@ -261,44 +261,43 @@
 # 모아오다가 마지막에 한꺼번에 게시판 이용 정지를 시키면서 정지 메일을 발송
 
 # ------------------------------------------- 내꺼 + 커뮤니티
-from collections import defaultdict
+# from collections import defaultdict
 
 
-def solution(id_list, report, k):
-  # dic, answer 초기화
-  dic = defaultdict(list)
-  answer = defaultdict(int)
-  for i in id_list:
-    dic[i] = []
-    answer[i] = 0
-  # 신고 결과 입력
-  report = set(report)
-  for i in report:
-    from_id, to_id = i.split(' ')
-    dic[to_id].append(from_id)
+# def solution(id_list, report, k):
+#   # dic, answer 초기화
+#   dic = defaultdict(list)
+#   answer = defaultdict(int)
+#   for i in id_list:
+#     dic[i] = []
+#     answer[i] = 0
+#   # 신고 결과 입력
+#   report = set(report)
+#   for i in report:
+#     from_id, to_id = i.split(' ')
+#     dic[to_id].append(from_id)
 
-  # # 정지되는 사람 출력
-  for i in dic.items():
-    if len(i[1]) >= k:
-      for j in i[1]:
-        answer[j] += 1
+#   # # 정지되는 사람 출력
+#   for i in dic.items():
+#     if len(i[1]) >= k:
+#       for j in i[1]:
+#         answer[j] += 1
 
-  return list(answer.values())
+#   return list(answer.values())
 
 # # ------------------------------------------- 커뮤니티 1
-def solution(id_list, report, k):
-  answer = [0] * len(id_list)    
-  report = set(report)
-  dic = {x : 0 for x in id_list}
-  for r in report:
-      dic[r.split()[1]] += 1
-  for r in report:
-      if dic[r.split()[1]] >= k:
-          answer[id_list.index(r.split()[0])] += 1
-  return answer
+# def solution(id_list, report, k):
+#   answer = [0] * len(id_list)    
+#   report = set(report)
+#   dic = {x : 0 for x in id_list}
+#   for r in report:
+#       dic[r.split()[1]] += 1
+#   print(dic)
+#   for r in report:
+#       if dic[r.split()[1]] >= k:
+#           answer[id_list.index(r.split()[0])] += 1
+#   return answer
 
 
-
-
-print(solution(["muzi", "frodo", "apeach", "neo"], ["muzi frodo","apeach frodo","frodo neo","muzi neo","apeach muzi"], 2))
-print(solution(["con", "ryan"], ["ryan con", "ryan con", "ryan con", "ryan con"], 3))
+# print(solution(["muzi", "frodo", "apeach", "neo"], ["muzi frodo","apeach frodo","frodo neo","muzi neo","apeach muzi"], 2))
+# print(solution(["con", "ryan"], ["ryan con", "ryan con", "ryan con", "ryan con"], 3))

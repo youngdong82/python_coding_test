@@ -706,14 +706,29 @@ def merge(list, left, right, end):
 # 기본 28바이트를 사용하다 이를 넘어가면 4바이트씩 증가하면서 수 표현에 사용하는 바이트 수가 탄력적으로 늘어난다.
 
 #-------------------------------------------------------------------------- Counter
-from collections import Counter
-array = [1,2,4,4,4,6,7,8,8,8,8,8,9,10]
-k = 3
-# 각 문자열에 대한 갯수를 사전 집합자료가 담긴 클래스 형태로 출력
-count1 = Counter(array)
-# 각 문자열에 대한 갯수를 많은 순서대로 k개만큼 출력
-# tuple 형태로 담긴 list (a, b) = a가 b개 있다.
-count2 = Counter(array).most_common(k)
+# from collections import Counter
+# array = [1,2,4,4,4,6,7,8,8,8,8,8,9,10]
+# k = 3
+# # 각 문자열에 대한 갯수를 사전 집합자료가 담긴 클래스 형태로 출력
+# count1 = Counter(array)
+# # 각 문자열에 대한 갯수를 많은 순서대로 k개만큼 출력
+# # tuple 형태로 담긴 list (a, b) = a가 b개 있다.
+# count2 = Counter(array).most_common(k)
 
-print(count1)
-print(count2)
+# print(count1)
+# print(count2)
+
+# -------------------------------------------------------------------------------- list.replace(key, value)
+# -------------------------------------------------------------------------------- lower, upper
+# upper, lower등은 type만 string이면 굳이 알파벳에 안걸어줘도 에러가 나지 않는다
+# -------------------------------------------------------------------------------- str 관련 에러
+# 'str' object does not support item assignment
+# 특수문자는 리스트에서 not in 작동 안하는듯?? 확인해보자!
+# 안되는 것 없음 전부 다 됨
+
+# 문자열 변환은 문자열 변환으로 끝내자. 리스트로 바꿔서 해결하지 말고!!
+# 문자열 슬라이싱이랑 replace 등으로 충분히 할 수 있다!!
+# replace에 대해서 좀 더 알아보자
+# index도 가능한가?? 그럼 인덱스 함수도?? 응 전부 가능
+# 안되는 건 지금까지 단 하나 item assignment
+# ex) a[3] = 'd'
