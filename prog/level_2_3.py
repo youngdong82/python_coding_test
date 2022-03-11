@@ -206,14 +206,168 @@
 # print(solution(16))
 # print(solution(5000))
 
-# -------------------------------------------------------------------------------- 6.
-# ------------------------------------------- 내꺼
+# -------------------------------------------------------------------------------- 6. 전력망을 둘로 나누기 30분 컷!
+# 송전탑 개수가 가능한 비슷하도록 두 전력망으로 나누었을 때,
+# 두 전력망이 가지고 있는 송전탑 개수의 차이(절대값)를 return
 
-# -------------------------------------------------------------------------------- 7.
-# ------------------------------------------- 내꺼
+# 완전탐색으로 차례대로 하나씩 끊었을 때 갯수 차이가 가장 작은 값 리턴
+# ------------------------------------------- 내꺼 그래도 기쁘다!!!
+# 어거지로 bfs 쓰긴 했지만 find, union 함수로 다시한번 풀어보자
+# 연결된 노드가 몇개인지 확인하기
+# from collections import deque
+# from copy import deepcopy
 
-# -------------------------------------------------------------------------------- 8.
+
+# def bfs(graph, start, visited):
+#   count = 0
+#   q = deque([start])
+#   visited[start] = True
+#   while q:
+#     now = q.popleft()
+#     count += 1
+#     for i in graph[now]:
+#       if visited[i] == False:
+#         visited[i] = True
+#         q.append(i)
+#   return count
+
+# def solution(n, wires):
+#   graph = [[] for _ in range(n+1)]
+#   for i in wires:
+#     graph[i[0]].append(i[1])
+#     graph[i[1]].append(i[0])
+
+#   answer = 100
+#   # 하나씩 빼보기
+#   for i in wires:
+#     each = deepcopy(graph)
+#     visited = [False] * (n+1)
+#     each[i[0]].remove(i[1])
+#     each[i[1]].remove(i[0])
+
+#     count1 = bfs(each, i[0], visited)
+#     count2 = bfs(each, i[1], visited)
+
+#     answer = min(answer, abs(count1-count2))
+
+#   return answer
+
 # ------------------------------------------- 내꺼
+from copy import deepcopy
+
+
+def find_root(parent, x):
+  if parent[x] != x:
+    parent[x] = find_root(parent,parent[x])
+  return parent[x]
+
+def union(parent, x,y):
+  x = find_root(parent,x)
+  y = find_root(parent,y)
+  if x < y:
+    parent[y] = x
+  else:
+    parent[x] = y
+
+
+def solution(n, wires):
+  # parent list가 필요해
+  parent = [0] * (n+1)
+
+  for i in range(1,n+1):
+    parent[i] = i
+
+  ignore_index = 0
+  for i in range(len(wires)):
+    each_parent = deepcopy(parent)
+    print(each_parent)
+    if i == ignore_index:
+      continue
+    union(each_parent, wires[i][0], wires[i][1])
+
+    print(each_parent)
+
+다시 해봐
+    
+
+
+
+
+
+
+print(solution(9, [[1,3],[2,3],[3,4],[4,5],[4,6],[4,7],[7,8],[7,9]]))
+# print(solution(4, [[1,2],[2,3],[3,4]]))
+# print(solution(7, [[1,2],[2,7],[3,7],[3,4],[4,5],[6,7]]))
+
+# -------------------------------------------------------------------------------- 7. 삼각 달팽이
+# ------------------------------------------- 내꺼 무의미
+# ------------------------------------------- 커뮤니티 훌륭하다! 그래프 있는 것은 왠만하면 dx,dy 적용해보자
+# def solution(n):
+#     dx = [0,1,-1]
+#     dy = [1,0,-1]
+
+#     graph = [[0]*i for i in range(1,n+1)]
+#     x,y = 0,0
+#     num = 1
+#     direc = 0
+
+#     while num<=(n+1)*n//2:
+#         graph[y][x] = num
+#         for i in graph:
+#           print(i)
+#         ny = y + dy[direc]
+#         nx = x + dx[direc]
+#         num += 1
+#         if 0<=ny<n and 0<=nx<=ny and graph[ny][nx]==0:
+#           y,x = ny,nx
+#         else:
+#           direc = (direc+1)%3
+#           y += dy[direc]
+#           x += dx[direc]
+#     return sum(graph,[])
+
+
+# print(solution(4))
+# print(solution(6))
+# print(solution(6))
+
+# -------------------------------------------------------------------------------- 8. n진수 게임 거의 40분...? 시간초과!
+# 여러 사람이 둥글게 앉아서 숫자를 하나씩 차례대로 말하는 게임
+# ------------------------------------------- 내꺼 뭔가 나쁘진 않다. 진수변환 정도는 아예 외우자!!!
+# def make(num, n):
+#   total_string = '0123456789ABCDEF'
+#   string = total_string[:n]
+#   answer = ''
+#   while num > 0:
+#       num, mod = divmod(num, n)
+#       answer += str(string[mod])
+#   return answer[::-1]
+
+
+# def solution(n, t, m, p):
+#   merged = ''
+#   answer = []
+
+#   for i in range(m*t):
+#     each_value = make(i,n)
+#     if each_value == '':
+#       merged += '0'
+#     else:
+#       merged += each_value
+
+#   for i in range(len(merged)):
+#     if len(answer) == t:
+#       break
+#     if i%m == p-1:
+#       answer.append(merged[i])
+
+#   return ''.join(answer)
+      
+
+# print(solution(2,4,2,1))
+# print(solution(16,16,2,1))
+# print(solution(16,16,2,2))
+
 
 # -------------------------------------------------------------------------------- 9.
 # ------------------------------------------- 내꺼
