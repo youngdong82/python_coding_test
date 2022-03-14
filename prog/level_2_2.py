@@ -248,6 +248,7 @@
 # print(solution("3people unFollowed me"))
 # print(solution("for the last week"))
 # -------------------------------------------------------------------------------- 8. n^2 배열 자르기 - 실패! 그래도 복습 할 가치가 있다!
+# 시키는 대로 따라하는 것이 아니라 규칙을 알아내야해!
 # ------------------------------------------- 내꺼 시간초과
 # def solution(n, left, right):
 #   empty = [[1] * n for _ in range(n)]
@@ -262,16 +263,6 @@
 #     for j in i:
 #       answer.append(j)
 
-#   return answer[left:right+1]
-# ------------------------------------------- 내꺼 + 커뮤 시간초과
-# def solution(n, left, right):
-#   answer = []
-#   for i in range(n*n):
-#       a = i//n
-#       b = i%n
-#       if a<b: a,b =b,a
-#       answer.append(a+1)
-#   print(answer)
 #   return answer[left:right+1]
 
 # ------------------------------------------- 커뮤 와 미쳤다리부리...

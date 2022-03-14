@@ -4,6 +4,21 @@
 
 # 확실히 어떤 유형 문제인줄 알고, 규칙을 찾아낼 수 있다면 코드 자체는 매우 간단했다.
 # -------------------------------------------------------------------------------- enumerate
+# index와 value 값을 튜플로 묶어서 보내준다.
+# 당연하지만 index는 int
+# value는 원래 타입
+# a = ['a','b','c','d']
+# b = 'abcd'
+# c = '1234'
+# d = [1,2,3,4]
+# for i, value in enumerate(d):
+#   print(i,value)
+#   print(type(i),type(value))
+
+# for i in enumerate(b):
+#   print(i)
+#   print(type(i))
+
 # -------------------------------------------------------------------------------- round 함수
 # round함수는 반올림해주는데
 # 1.5는 2가 나오지만
@@ -253,41 +268,41 @@
 #   return answer
 
 # ------------------------------------------- 내꺼
-from copy import deepcopy
+# from copy import deepcopy
 
 
-def find_root(parent, x):
-  if parent[x] != x:
-    parent[x] = find_root(parent,parent[x])
-  return parent[x]
+# def find_root(parent, x):
+#   if parent[x] != x:
+#     parent[x] = find_root(parent,parent[x])
+#   return parent[x]
 
-def union(parent, x,y):
-  x = find_root(parent,x)
-  y = find_root(parent,y)
-  if x < y:
-    parent[y] = x
-  else:
-    parent[x] = y
+# def union(parent, x,y):
+#   x = find_root(parent,x)
+#   y = find_root(parent,y)
+#   if x < y:
+#     parent[y] = x
+#   else:
+#     parent[x] = y
 
 
-def solution(n, wires):
-  # parent list가 필요해
-  parent = [0] * (n+1)
+# def solution(n, wires):
+#   # parent list가 필요해
+#   parent = [0] * (n+1)
 
-  for i in range(1,n+1):
-    parent[i] = i
+#   for i in range(1,n+1):
+#     parent[i] = i
 
-  ignore_index = 0
-  for i in range(len(wires)):
-    each_parent = deepcopy(parent)
-    print(each_parent)
-    if i == ignore_index:
-      continue
-    union(each_parent, wires[i][0], wires[i][1])
+#   ignore_index = 0
+#   for i in range(len(wires)):
+#     each_parent = deepcopy(parent)
+#     print(each_parent)
+#     if i == ignore_index:
+#       continue
+#     union(each_parent, wires[i][0], wires[i][1])
 
-    print(each_parent)
+#     print(each_parent)
 
-다시 해봐
+# 다시 해봐
     
 
 
@@ -295,7 +310,7 @@ def solution(n, wires):
 
 
 
-print(solution(9, [[1,3],[2,3],[3,4],[4,5],[4,6],[4,7],[7,8],[7,9]]))
+# print(solution(9, [[1,3],[2,3],[3,4],[4,5],[4,6],[4,7],[7,8],[7,9]]))
 # print(solution(4, [[1,2],[2,3],[3,4]]))
 # print(solution(7, [[1,2],[2,7],[3,7],[3,4],[4,5],[6,7]]))
 
@@ -369,9 +384,91 @@ print(solution(9, [[1,3],[2,3],[3,4],[4,5],[4,6],[4,7],[7,8],[7,9]]))
 # print(solution(16,16,2,2))
 
 
-# -------------------------------------------------------------------------------- 9.
-# ------------------------------------------- 내꺼
+# -------------------------------------------------------------------------------- 9. 2개 이하로 다른 비트 - 실패! 복습
+# https://art-coding3.tistory.com/46
+# https://velog.io/@sem/%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%A8%B8%EC%8A%A4-LEVEL2-2%EA%B0%9C-%EC%9D%B4%ED%95%98%EB%A1%9C-%EB%8B%A4%EB%A5%B8-%EB%B9%84%ED%8A%B8-Python
+# ------------------------------------------- 내꺼 + 커뮤 - 런타임에러, 시간초과 10분만 더 고민해보자!! 
+# 비트연산자 사용하자 XOR - 같은 것은 0 다른 것은 1로 표시된다.
+# def f(i):
+#   x = i+1
+#   while True:
+#     if bin(i ^ x).count('1') <= 2:
+#       break
+#     else:
+#       x += 1
+#   return x
 
-# -------------------------------------------------------------------------------- 10.
+
+# def solution(numbers):
+#   answer = []
+#   for i in numbers:
+#     answer.append(f(i))
+#   return answer
+
+# # ------------------------------------------- 커뮤니티 홀짝일 경우 규칙을 눈치챘어야 했다!!
+# def f(x):
+#   if x % 2 == 0:
+#     return x+1
+    
+#   else:
+#     y = '0' + bin(x)[2:]
+#     # 오른쪽에서 '0'의 인덱스
+#     idx = y.rfind('0')
+#     y = list(y)
+#     print(y, idx)
+#     y[idx] = '1'
+#     y[idx+1] = '0'
+            
+#     return int(''.join(y), 2)
+
+# def solution(numbers):
+#   answer = [f(i) for i in numbers]
+#   return answer
+
+
+# print(solution([7,15]))
+# print(solution([2,7]))
+# print(solution([2,7,4,5,8,20]))
+# -------------------------------------------------------------------------------- 10. 배달 
+# 양방향 통행
+# N개의 마을 중에서 K 시간 이하로 배달이 가능한 마을에서만 주문을 받으려고 합니다
 # ------------------------------------------- 내꺼
+# 최소힙..?
+# 다익스트라!!!
+# INF = int(1e9)
+# import heapq
+
+# def solution(n, road, k):
+#   distance = [INF] * (n+1)
+#   graph = [[] for _ in range(n+1)]
+#   for i in road:
+#     a,b,c = i
+#     graph[a].append((b,c))
+#     graph[b].append((a,c))
+  
+#   def dijkstra(start):
+#     q = []
+#     heapq.heappush(q,(0,start))
+#     distance[start] = 0
+#     while q:
+#       time,now = heapq.heappop(q)
+#       if distance[now] < time:
+#         continue
+#       for i in graph[now]:
+#         total_time = time + i[1]
+#         if total_time < distance[i[0]]:
+#           distance[i[0]] = total_time
+#           heapq.heappush(q,(total_time, i[0]))
+  
+#   dijkstra(1)
+#   answer = 0
+#   for i in distance:
+#     if i <= k:
+#       answer += 1
+#   return answer
+
+
+# print(solution(5, [[1,2,1],[2,3,3],[5,2,2],[1,4,2],[5,3,1],[5,4,2]], 3))
+# print(solution(6, [[1,2,1],[1,3,2],[2,3,2],[3,4,3],[3,5,2],[3,5,3],[5,6,1]], 4))
+
 
