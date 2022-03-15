@@ -581,14 +581,38 @@
 
 # print(solution(["java backend junior pizza 150","python frontend senior chicken 210","python frontend senior chicken 150","cpp backend senior pizza 260","java backend junior chicken 80","python backend senior chicken 50"], ["java and backend and junior and pizza 100","python and frontend and senior and chicken 200","cpp and - and senior and pizza 250","- and backend and senior and - 150","- and - and - and chicken 100","- and - and - and - 150"]))
 
-# -------------------------------------------------------------------------------- 10. 튜플
+# -------------------------------------------------------------------------------- 10. 튜플 28분 컷!
 # ------------------------------------------- 내꺼
-def solution(s):
-    answer = []
-    return answer
+# def solution(s):
+#   answer = []
+#   s = s[2:-2]
+#   s = s.split('},{')
+#   s.sort(key=lambda x: (len(x)))
+#   for i in s:
+#     i = list(map(int,i.split(',')))
+#     for j in i:
+#       if j not in answer:
+#         answer.append((j))
+#   return answer
 
-print(solution("{{2},{2,1},{2,1,3},{2,1,3,4}}"))
-print(solution("{{1,2,3},{2,1},{1,2,4,3},{2}}"))
-print(solution("{{20,111},{111}}"))
-print(solution("{{123}}"))
-print(solution("{{4,2,3},{3},{2,3,4,1},{2,3}}"))
+# ------------------------------------------- 이거 이외에는 커뮤보다 내가 나은듯
+# 갯수를 세서 정렬하는 방식도 괜춘하네...
+# 정규표현식 공부해야하나...?
+# import re
+# from collections import Counter
+
+
+# def solution(s):
+#     s = Counter(re.findall('\d+', s))
+#     print(s)
+#     new_s = sorted(s.items(), key=lambda x: x[1], reverse=True)
+#     print(new_s)
+#     answer = [k for k, v in new_s]
+    # return list(map(int, answer))
+
+
+# print(solution("{{2},{2,1},{2,1,3},{2,1,3,4}}"))
+# print(solution("{{1,2,3},{2,1},{1,2,4,3},{2}}"))
+# print(solution("{{20,111},{111}}"))
+# print(solution("{{123}}"))
+# print(solution("{{4,2,3},{3},{2,3,4,1},{2,3}}"))
