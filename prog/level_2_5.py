@@ -1,3 +1,8 @@
+# -------------------------------------------------------------------------------- LRU 알고리즘
+# 페이지 교체 알고리즘
+# 원하는 값이 캐시 안에 없으면 가장 오래 전의 값을 빼고 원하는 값을 캐시에 넣는다.
+# 반대로 원하는 값이 캐시 안에 있으면 해당 값을 캐시의 가장 최근 위치에 넣는다.
+
 # -------------------------------------------------------------------------------- 나 집합자료형에 대해선 아무것도 모르네...
 # 그냥 set 함수가 어떻게 되는지만 알고 있다.
 # 순서가 없고 중복이 불가능한 자료형
@@ -73,6 +78,33 @@
 # a.extend([4,5])
 
 # print(a)
+
+# -------------------------------------------------------------------------------- eval
+# 강력한 만큼 Command Injection 공격에 취약
+# from math import sqrt
+
+
+# a = eval('"BlockDMask" +" "+"blog"')
+# print(f"eval('\"BlockDMask\"' + '\" blog\"') : {a}")
+
+# b = eval("100 + 32")
+# print(f'eval("100 + 32") : {b}')
+
+# c = eval("abs(-56)")
+# print(f'eval("abs(-56)") : {c}')
+
+# d = eval("len([1,2,3,4])")
+# print(f'eval("len([1,2,3,4])") : {d}')
+
+# e = eval("round(1.5)")
+# print(f'eval("round(1.5)") : {e}')
+
+# f = eval("list(range(9))")
+# print(f'eval("list(range(9))") : {f}')
+
+# g = eval("sqrt(16)")
+# print(f'eval("sqrt(16)") : {g}')
+
 # -------------------------------------------------------------------------------- 1. 후보키 실패!
 # ------------------------------------------- 내꺼 접근법은 비슷한 듯 했으나 근처에도 가지 못했다!
 # ------------------------------------------- 커뮤니티 뭔가 간단해보이는데 로직 자체도 뭔가 복잡하네... 
@@ -265,10 +297,306 @@
 # print(solution('E=M*C^2', 'e=m*c^2'))
 
 # -------------------------------------------------------------------------------- 5. 수식 최대화
-# ------------------------------------------- 내꺼
-def solution(expression):
-    answer = 0
-    return answer
+# 완전탐색???
+# ------------------------------------------- 커뮤
+# from itertools import permutations
 
-print(solution("100-200*300-500+20"))
-print(solution("50*6-3*2"))
+# def operation(num1,num2,op):
+#     if op == '*':
+#         return str(int(num1) * int(num2))
+#     if op == '+':
+#         return str(int(num1) + int(num2))
+#     if op == '-':
+#         return str(int(num1) - int(num2))
+
+
+# def calc(expression, op):
+#     string = []
+#     tmp = ''
+#     for i in expression:
+#         if i.isdigit():
+#             tmp += i
+#         else:
+#             string.append(tmp)
+#             string.append(i)
+#             tmp = ''
+#     string.append(tmp)
+
+#     for o in op:
+#         stack = []
+#         while len(string) != 0:
+#             tmp = string.pop(0)
+#             if tmp == o:
+#                 stack.append(operation(stack.pop(), string.pop(0), o))
+#             else:
+#                 stack.append(tmp)
+#         string = stack
+
+#     return abs(int(string[0]))
+
+
+# def solution(expression):
+#     op = list(permutations(['*','+','-'], 3))
+#     result = []
+#     for i in op:
+#         result.append(calc(expression, i))
+#     return max(result)
+
+
+# print(solution("100-200*300-500+20"))
+# print(solution("50*6-3*2"))
+
+# -------------------------------------------------------------------------------- 6. 쿼드압축 후 개수 세기
+# 재귀함수
+# ------------------------------------------- 커뮤 간단해보이는데 굉장히 짜임새 있게 잘 짜여있다...
+# def solution(arr):
+#     result=[0,0]
+#     length=len(arr)
+    
+#     def compression(a,b,l):
+#         # 더이상 나뉠 수 없더라도 start와 해당 값이 비교됨으로써 자체적으로 재귀함수가 종료된다.
+#         start = arr[a][b]
+#         for i in range(a,a+l):
+#             for j in range(b,b+l):
+#                 if arr[i][j] != start:
+#                     l=l//2
+#                     compression(a,b,l)
+#                     compression(a,b+l,l)
+#                     compression(a+l,b,l)
+#                     compression(a+l,b+l,l)
+#                     return
+#         # 2중 for문이 새로운 함수를 부르지 않고 정상적으로 끝난다면,
+#         # = 범위 내 값이 전부 같다면
+#         result[start] += 1
+        
+#     compression(0,0,length)
+    
+#     return (result)
+
+
+# print(solution([[1,1,0,0],[1,0,0,0],[1,0,0,1],[1,1,1,1]]))
+# print(solution([[1,1,1,1,1,1,1,1],[0,1,1,1,1,1,1,1],[0,0,0,0,1,1,1,1],[0,1,0,0,1,1,1,1],[0,0,0,0,0,0,1,1],[0,0,0,0,0,0,0,1],[0,0,0,0,1,0,0,1],[0,0,0,0,1,1,1,1]]))
+
+# -------------------------------------------------------------------------------- 7. 캐시 17분 컷!!!
+#  게시물을 가져오는 부분의 실행시간이 너무 오래 걸린
+#  캐시 크기를 얼마로 해야 효율적인지 몰라 난감한 상황
+#  캐시 크기 <= 30
+#  최대 도시 수는 100,000
+#  도시 이름은 최대 20자
+#  "총 실행시간"을 출력
+# ------------------------------------------- 내꺼
+# def solution(cacheSize, cities):
+#     if cacheSize == 0:
+#         return len(cities) * 5
+#     cach = []
+#     answer = 0
+#     for city in cities:
+#         city = city.lower()
+#         if city in cach:
+#             answer += 1
+#             cach.remove(city)
+#             cach.append(city)
+#         else:
+#             answer += 5
+#             if len(cach) == cacheSize:
+#                 cach.pop(0)
+#             cach.append(city)
+#     return answer
+
+# print(solution(3, ["Jeju", "Pangyo", "Seoul", "NewYork", "LA", "Jeju", "Pangyo", "Seoul", "NewYork", "LA"]))
+# print(solution(3, ["Jeju", "Pangyo", "Seoul", "Jeju", "Pangyo", "Seoul", "Jeju", "Pangyo", "Seoul"]))
+# print(solution(2, ["Jeju", "Pangyo", "Seoul", "NewYork", "LA", "SanFrancisco", "Seoul", "Rome", "Paris", "Jeju", "NewYork", "Rome"]))
+# print(solution(5, ["Jeju", "Pangyo", "Seoul", "NewYork", "LA", "SanFrancisco", "Seoul", "Rome", "Paris", "Jeju", "NewYork", "Rome"]))
+# print(solution(2, ["Jeju", "Pangyo", "NewYork", "newyork"]))
+# print(solution(0, ["Jeju", "Pangyo", "Seoul", "NewYork", "LA"]))
+
+# -------------------------------------------------------------------------------- 8. 빛의 경로 실패!! 담에 다시 풀어보자
+# ------------------------------------------- 내꺼 루프로 변경해보라고....? 못해 ㅅㅂ...
+# dx = [1,0,-1,0]
+# dy = [0,-1,0,1]
+
+# def solution(grid):
+#     grid = list(map(str,grid))
+#     answer = []
+#     answer_detail = []
+
+#     x = 0
+#     y = 0
+
+#     def dfs(x,y,cicle,index):
+#         if (x,y,index) in cicle:
+#             return
+#         cicle.append((x,y,index))
+        
+#         nx = x + dx[index]
+#         ny = y + dy[index]
+
+#         if nx < 0:
+#             nx = (len(grid)-1)
+#         elif nx >= len(grid):
+#             nx = 0
+
+#         if ny < 0:
+#             ny = len(grid[0])-1
+#         elif ny >= len(grid[0]):
+#             ny = 0
+
+#         if grid[nx][ny] == 'S':
+#             dfs(nx,ny,cicle,index)
+#         elif grid[nx][ny] == 'R':
+#             dfs(nx,ny,cicle,(index +1)%4)
+#         elif grid[nx][ny] == 'L':
+#             dfs(nx,ny,cicle,(index -1)%4)
+    
+#     for i in range(4):
+#         circle = []
+#         index = i
+#         dfs(x,y,circle,index)
+
+#         if set(circle) not in answer_detail:
+#             answer.append(len(circle))
+#             answer_detail.append(set(circle))
+
+#     answer.sort()
+#     return answer
+
+
+# print(solution(["SL","LR"]))
+# print(solution(["S"]))
+# print(solution(["R","R"]))
+
+# -------------------------------------------------------------------------------- 9. 올바른 괄호 3분 컷!
+# ------------------------------------------- 내꺼
+# def solution(s):
+#     result = 0
+#     for i in s:
+#         if result < 0:
+#             return False
+#         if i == '(':
+#             result += 1
+#         else:
+#             result -= 1
+#     if result == 0:
+#         return True
+#     else:
+#         return False
+
+# print(solution("()()"))
+# print(solution("(())()"))
+# print(solution(")()("))
+# print(solution("(()("))
+
+# -------------------------------------------------------------------------------- 10. [3차] 방금그곡
+# 음악 끝부분과 처음 부분이 이어서 재생된 멜로디일 수도 있다.
+# 한 음악을 중간에 끊을 경우 원본 음악에는 네오가 기억한 멜로디가 들어있다 해도 그 곡이 네오가 들은 곡이 아닐 수도 있다.
+# 네오는 기억한 멜로디를 재생 시간과 제공된 악보를 직접 보면서 비교
+
+# 재생된 시간이 제일 긴 음악 제목을 반환
+# 재생된 시간도 같을 경우 먼저 입력된 음악 제목을 반환한다.
+# ------------------------------------------- 내꺼
+# def solution(m, musicinfos):
+#     change = {'C#': 'c', 'D#': 'd', 'E#': 'e', 'F#': 'f', 'G#': 'g', 'A#': 'a', 'B#': 'b'}
+
+#     for rm in change.keys():
+#         m = m.replace(rm, change[rm])
+
+#     splited = []
+#     for i in musicinfos:
+#         splited_s = i.split(',')
+#         for rm in change.keys():
+#             splited_s[-1] = splited_s[-1].replace(rm, change[rm])
+
+#         big_hour, big_min = map(int,splited_s[1].split(':'))
+#         small_hour, small_min = map(int,splited_s[0].split(':'))
+#         total_time = (big_hour-small_hour)*60 + (big_min-small_min)
+
+
+#         time, rest = divmod(total_time,len(splited_s[-1]))
+#         splited.append((splited_s[2], splited_s[-1]*time + splited_s[-1][:rest]))
+
+#     # answer = []
+#     # for i in splited:
+#     #     if m in i[1]:
+#     #         answer.append((i[0],len(i[1])))
+    
+#     # if answer == []:
+#     #     return '(None)'
+#     # else:
+#     #     if len(answer) >1:
+#     #         answer.sort(key=lambda x: (-len(x[1])))
+#     #     return answer[0][0]
+
+# ------------------------------------------- 내꺼 + 커뮤
+# def solution(m, musicinfos):
+#     change = {'C#': 'c', 'D#': 'd', 'E#': 'e', 'F#': 'f', 'G#': 'g', 'A#': 'a', 'B#': 'b'}
+
+#     for rm in change.keys():
+#         m = m.replace(rm, change[rm])
+
+
+#     candidate = "(None)"
+#     prev_du = 0
+#     for i in musicinfos:
+#         splited_s = i.split(',')
+#         for rm in change.keys():
+#             splited_s[-1] = splited_s[-1].replace(rm, change[rm])
+
+#         big_hour, big_min = map(int,splited_s[1].split(':'))
+#         small_hour, small_min = map(int,splited_s[0].split(':'))
+#         total_time = (big_hour-small_hour)*60 + (big_min-small_min)
+#         print(total_time)
+
+
+#         time, rest = divmod(total_time,len(splited_s[-1]))
+#         hello = splited_s[2], splited_s[-1]*time + splited_s[-1][:rest]
+
+#         if m in hello:
+#             if prev_du >= total_time:
+#                 pass
+#             else:
+#                 candidate = splited_s[2]
+#                 prev_du = total_time
+
+#     return candidate
+
+# # ------------------------------------------- 커뮤니티
+# from datetime import datetime
+# def solution(m, musicinfos):
+#     rmv = {"C#":"c","D#":"d","E#":"e","F#":"f","G#":"g","A#":"a","B#":"b"}
+#     candidate = "(None)"
+#     prev_du = 0
+#     for rm in rmv.keys():
+#         m = m.replace(rm, rmv[rm])
+
+#     for info in musicinfos:
+#         split_info = info.split(',')
+#         for rm in rmv.keys():
+#             split_info[-1] = split_info[-1].replace(rm,rmv[rm])
+
+#         st = datetime.strptime(split_info[0], "%H:%M")
+#         et = datetime.strptime(split_info[1], "%H:%M")
+#         duration = (((et-st).seconds)//60)
+#         print(duration)
+
+    #     if len(split_info[-1]) < duration:
+    #         cir = duration // len(split_info[-1])
+    #         more = duration % len(split_info[-1])
+    #         split_info[-1] *= cir
+    #         split_info[-1] += split_info[-1][:more]
+
+    #     elif len(split_info[-1]) > duration:   
+    #         split_info[-1] = split_info[-1][:duration]
+
+
+    #     if m in split_info[-1]:
+    #         if prev_du >= duration:
+    #             pass
+    #         else:
+    #             candidate = split_info[2]
+    #             prev_du = duration
+
+    # return candidate
+
+# print(solution("ABCDEFG", ["12:00,12:14,HELLO,CDEFGAB", "13:00,13:05,WORLD,ABCDEF"]))
+# print(solution("CC#BCC#BCC#BCC#B", ["03:00,03:30,FOO,CC#B", "04:00,04:08,BAR,CC#BCC#BCC#B"]))
+# print(solution("ABC", ["12:00,12:14,HELLO,C#DEFGAB", "13:00,13:05,WORLD,ABCDEF"]))
