@@ -1,16 +1,231 @@
 # 3번째까지 정리했고, 내일은 recap 5문제, timeout 2문제 fail 1문제 풀고 규민이꺼 좀 하자.
+# -------------------------------------------------------------------------------- list와 string 처리의 속도차이 봐라...ㄷㄷ
+# 짝지어 제거하기
+# 문자열
+# 테스트 1 〉	실패 (시간 초과)
+# 테스트 2 〉	통과 (88.60ms, 11.7MB)
+# 테스트 3 〉	통과 (1233.56ms, 11.8MB)
+# 테스트 4 〉	통과 (1323.38ms, 11.9MB)
+# 테스트 5 〉	통과 (1322.84ms, 11.8MB)
+# 테스트 6 〉	통과 (1323.41ms, 11.6MB)
+# 테스트 7 〉	통과 (1317.05ms, 11.9MB)
+# 테스트 8 〉	실패 (시간 초과)
+
+# 리스트
+# 테스트 1 〉	통과 (216.92ms, 16.3MB)
+# 테스트 2 〉	통과 (151.76ms, 11.8MB)
+# 테스트 3 〉	통과 (242.95ms, 12.2MB)
+# 테스트 4 〉	통과 (242.51ms, 12.2MB)
+# 테스트 5 〉	통과 (242.48ms, 12.2MB)
+# 테스트 6 〉	통과 (240.88ms, 12.2MB)
+# 테스트 7 〉	통과 (219.21ms, 12.3MB)
+# 테스트 8 〉	통과 (258.94ms, 14.7MB)
+
+# 결론
+# 문자열 관련 내장함수 써야하는 것 아니면 리스트 변환 후 처리하는 것이 좋다.
+
 # -------------------------------------------------------------------------------- 2. 짝지어 제거하기
-# ------------------------------------------- 내꺼 10분 컷!!
+# ------------------------------------------- 내꺼 시간초과!
+# def solution(s):
+#   tmp = ''
+#   for i in s:
+#     if len(tmp) != 0 and tmp[-1] == i:
+#       tmp = tmp[:-1]
+#       continue
+#     tmp += i
+#   if tmp == '':
+#     return 1
+#   else:
+#     return 0
+
+# ------------------------------------------- 내꺼 2 문자열과 list의 속도차이...!!!
+# def solution(s):
+#   stack = []
+#   for i in s:
+#     if len(stack) == 0:
+#       stack.append(i)
+#     elif len(stack) != 0 and stack[-1] == i:
+#       stack.pop()
+#     elif len(stack) != 0 and stack[-1] != i:
+#       stack.append(i)
+
+#   if len(stack) == 0:
+#     return 1
+#   else:
+#     return 0
+
+
+# print(solution('baabaa'))
+# print(solution('cdcd'))
+
 # -------------------------------------------------------------------------------- 3. 최솟값 만들기
-# ------------------------------------------- 내꺼 
+# ------------------------------------------- 내꺼 / 2번째 - 4분 컷!
+# def solution(A,B):
+#   A.sort()
+#   B.sort(reverse=True)
+#   answer = 0
+#   for i,j in zip(A,B):
+#     answer += (i*j)
+
+#   return answer
+
+# ------------------------------------------- 내꺼 / 1번째 이게 평균적으로 더 빠르긴 하다.
+# zip과 인덱싱 처리의 차이
+# 무조건 내장함수 사용이 좋은 건 아닐 수도 있다!!
+
+# def solution(A,B):
+#   n = len(A)
+#   answer = 0
+#   A.sort()
+#   B.sort(reverse=True)
+
+#   for i in range(n):
+#     answer += A[i] * B[i]
+#   return answer
+
+# print(solution([1,4,2],	[5,4,4]))
+# print(solution([1,2], [3,4]))
+
 # -------------------------------------------------------------------------------- 1. 오픈채팅방
-# ------------------------------------------- 내꺼
-# -------------------------------------------------------------------------------- 7. 숫자의 표현
+# dic으로 시도, 실패
+# list 시도, 시간초과 뜸
+# ------------------------------------------- 내꺼 
+# def solution(records):
+#   answer = []
+#   for record in records:
+#     record = record.split(' ')
+
+#     if record[0] == 'Enter':
+#       for i in answer:
+#         if i[1] == record[1]:
+#           i[2] = record[2]
+#           if i[0] == 'Enter':
+#             i[3] = f'{record[2]}님이 들어왔습니다.'
+#           else:
+#             i[3] = f'{record[2]}님이 나갔습니다.'
+#       else:
+#         answer.append([record[0],record[1],record[2],f'{record[2]}님이 들어왔습니다.'])
+
+#     elif record[0] == 'Leave':
+#       for i in answer:
+#         if i[1] == record[1]:
+#           username = i[2]
+#       answer.append([record[0],record[1],username,f'{username}님이 나갔습니다.'])
+
+#     elif record[0] == 'Change':
+#       for i in answer:
+#         if i[1] == record[1]:
+#           i[2] = record[2]
+#           if i[0] == 'Enter':
+#             i[3] = f'{record[2]}님이 들어왔습니다.'
+#           else:
+#             i[3] = f'{record[2]}님이 나갔습니다.'
+#   real_answer = []
+#   for i in answer:
+#     real_answer.append(i[-1])
+  
+#   return real_answer
+
+# ------------------------------------------- dic을 이렇게 쓰는거구나...ㅋㅋㅋㅋㅋ
+# def solution(records):
+#   answer = []
+#   userdict = {}
+#   for record in records:
+#     i = record.split(' ')
+#     if (i[0] == 'Enter') | (i[0] == 'Change'):
+#       userdict[i[1]] = i[2]
+
+#   for record in records: 
+#     i = record.split(' ')
+#     if i[0] == 'Enter': 
+#       answer.append(f"{userdict[i[1]]}님이 들어왔습니다.")
+#     elif i[0] == 'Leave': 
+#       answer.append(f"{userdict[i[1]]}님이 나갔습니다.")
+#     else:
+#       pass
+#   return answer
+
+
+# print(solution(["Enter uid1234 Muzi", "Enter uid4567 Prodo","Leave uid1234","Enter uid1234 Prodo","Change uid4567 Ryan"]))
+
+# -------------------------------------------------------------------------------- 7. 숫자의 표현 얼탱이가 없네;; 오늘 밤에 다시 풀자
 # ------------------------------------------- 내꺼 20분 컷!
+# def solution(n):
+#   summ = 0
+#   count = 0
+#   index1 = 1
+#   index2 = 1
+#   while index1 <= n//2 + 1 or index2 <= n//2 + 1:
+#     if summ < n:
+#       summ += index2
+#       index2 += 1
+#     elif summ > n:
+#       summ -= index1
+#       index1 += 1
+#     else:
+#       count += 1
+#       summ += index2
+#       index2 += 1
+#   return count + 1
+
+
+# print(solution(15))
 # -------------------------------------------------------------------------------- 10. 스킬트리 21분 컷!
+# ------------------------------------------- 내꺼  뭔가 아무렇게나 막푸는 느낌... 뭐징ㅋㅋㅋ
+# def solution(skill, skill_trees):
+#   count = len(skill_trees)
+#   for skill_tree in skill_trees:
+#     tmp_skill = skill
+#     for i in skill_tree:
+#       if i in tmp_skill and i != tmp_skill[0]:
+#         count -= 1
+#         break
+#       elif i in tmp_skill and i == tmp_skill[0]:
+#         tmp_skill= tmp_skill[1:]
+
+#   return count
+
 # ------------------------------------------- 내꺼 + for else
-# -------------------------------------------------------------------------------- 1. 다음 큰 숫자 - 복습!
+# def solution(skill, skill_trees):
+#   count = 0
+#   for tree in skill_trees:
+#     skill_index = 0
+#     for i in range(len(tree)):
+#       if tree[i] in skill:
+#         if tree[i] == skill[skill_index]:
+#           skill_index += 1
+#           if skill_index == len(skill):
+#             count += 1
+#             break
+#         else:
+#           break
+#       if i == len(tree)-1:
+#         count += 1
+
+#   return count
+
+
+# print(solution("CBD", ["BACDE", "CBADF", "AECB", "BDA"]))
+
+# -------------------------------------------------------------------------------- 1. 다음 큰 숫자 3분 컷ㅋㅋㅋㅋㅋ
+#  n보다 큰 자연수
+#  n은 2진수로 변환했을 때 1의 갯수가 같습니다.
+#  다음 큰 숫자는 조건 1, 2를 만족하는 수 중 가장 작은 수
 # ------------------------------------------- 내꺼 35분 컷! 너무 수학적으로 풀려고 하지 말자!
+# 아 그게 그 뜻이었구나...
+# def solution(n):
+#   bin_n = bin(n)[2:]
+#   many = bin_n.count('1')
+#   while True:
+#     n += 1
+#     if bin(n)[2:].count('1') == many:
+#       break
+#   return n
+  
+# print(solution(78))
+# print(solution(15))
+# print(solution(32))
+
 # -------------------------------------------------------------------------------- 2. 피로도
 # ------------------------------------------- 내꺼 14분 컷!!
 # -------------------------------------------------------------------------------- 3. 행렬의 곱셈 실패! -- 복습!!
