@@ -175,16 +175,155 @@
 # print(solution(10,9,[[1,1,10,9]]))
 
 # -------------------------------------------------------------------------------- 7. 삼각 달팽이
-# ------------------------------------------- 내꺼 무의미
-# ------------------------------------------- 커뮤니티 훌륭하다! 그래프 있는 것은 왠만하면 dx,dy 적용해보자
+# ------------------------------------------- 내꺼 19분 컷!! 기쁘다!!
+# 아래,오른,대각선 왼위
+# dx = [1,0,-1]
+# dy = [0,1,-1]
+
+# def solution(n):
+#   graph = [[0] * (i+1) for i in range(n)]
+#   max_value = 0
+#   if n % 2 == 0:
+#     max_value = (n+1) * (n//2)
+#   else:
+#     max_value = ((n+1) * (n//2)) + (n//2+1)
+  
+#   d_index = 0
+#   x = 0
+#   y = 0
+#   graph[x][y] = 1
+#   if n == 1:
+#     return [1]
+
+#   while True:
+#     nx = x + dx[d_index]
+#     ny = y + dy[d_index]
+#     if 0 <= nx < n and 0 <= ny < n and graph[nx][ny] == 0:
+#       graph[nx][ny] = graph[x][y] + 1
+#       if graph[nx][ny] == max_value:
+#         break
+#       x,y = nx,ny
+#     else:
+#       d_index = (d_index+1)%3
+
+#   answer = []
+    
+#   for i in graph:
+#     for j in i:
+#       answer.append(j)
+
+#   return answer
+
+# print(solution(1))
+# print(solution(4))
+# print(solution(5))
+# print(solution(1000))
 
 
-# -------------------------------------------------------------------------------- 9. 2개 이하로 다른 비트 - 실패! 복습
+# -------------------------------------------------------------------------------- 9. 2개 이하로 다른 비트
 # https://art-coding3.tistory.com/46
 # https://velog.io/@sem/%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%A8%B8%EC%8A%A4-LEVEL2-2%EA%B0%9C-%EC%9D%B4%ED%95%98%EB%A1%9C-%EB%8B%A4%EB%A5%B8-%EB%B9%84%ED%8A%B8-Python
-# ------------------------------------------- 내꺼 + 커뮤 - 런타임에러, 시간초과 10분만 더 고민해보자!! 
+# 100,000개의 길이가 10의 15승 만큼 있다...?
+# 오른쪽에서부터 0을 찾은 다음에 
+# 그 뒤에 1과 자리 바꿔
+# ------------------------------------------- 내꺼 실패 두번째 17분 컷!! 기쁘다!!
+# def solution(numbers):
+#   answer = []
+#   for number in numbers:
+#     number = int(number)
+#     if number % 2 == 0:
+#       answer.append(number + 1)
+#     else:
+#       a = '0'
+#       a += bin(number)[2:]
+#       zero_i = a.rfind('0')
+#       a = list(a)
+#       a[zero_i],a[zero_i+1] = a[zero_i+1],a[zero_i]
+#       answer.append(int(''.join(a),2))
+
+#   return answer
+
+# print(solution([2,7,9]))
+
 # -------------------------------------------------------------------------------- 5. 거리두기 확인하기 실패!
-# 똑같은 bfs인데 뭐가 문제였던거여...
+# 맨해튼 거리1가 2 이하
 # 애초에 q에 들어가는 값을 (x,y,거리)로 설정해서
 # nx,ny할 때 nd라는 거리값도 +1 해주니 괜춘하네
+# ------------------------------------------- 내꺼 두번째 35분 컷!!
+# from collections import deque
+# from copy import deepcopy
+
+# dx = [0,1,0,-1]
+# dy = [-1,0,1,0]
+
+# def dfs(graph,x,y,dist):
+#   if graph[x][y] != 'P':
+#     return True
+#   graph[x][y] = dist
+#   q = deque([(x,y,dist)])
+#   while q:
+#     now_x, now_y, now_dist = q.popleft()
+#     for i in range(4):
+#       nx = now_x + dx[i]
+#       ny = now_y + dy[i]
+#       if 0<= nx < 5 and 0<= ny < 5:
+#         if graph[nx][ny] == 'P':
+#           if now_dist+1 > 2:
+#             graph[nx][ny] = now_dist+1
+#             q.append((nx,ny,now_dist+1))
+#           else:
+#             return False
+#         elif graph[nx][ny] == 'O':
+#           graph[nx][ny] = now_dist+1
+#           q.append((nx,ny,now_dist+1))
+#   return True
+
+# def solution(places):
+#   result = []
+#   for place in places:
+#     for i in range(len(place)):
+#       place[i] = list(place[i])
+
+#     p_list = []
+#     for i in range(5):
+#       for j in range(5):
+#         if place[i][j] == 'P':
+#           p_list.append((i,j))
+    
+#     answer = 1
+#     for i in p_list:
+#       if answer == 0:
+#         break
+#       copy_place = deepcopy(place)
+#       if dfs(copy_place,i[0],i[1],0) == False:
+#         answer = 0
+
+#     result.append(answer)
+#   return result
+
+
+# print(solution([["POOOP", "OXXOX", "OPXPX", "OOXOX", "POXXP"], ["POOPX", "OXPXP", "PXXXO", "OXXXO", "OOOPP"], ["PXOPX", "OXOXP", "OXPOX", "OXXOP", "PXPOX"], ["OOOXX", "XOOOX", "OOOXX", "OXOOX", "OOOOO"], ["PXPXP", "XPXPX", "PXPXP", "XPXPX", "PXPXP"]]))
+
+# -------------------------------------------------------------------------------- 1. 후보키 실패!
+# ------------------------------------------- 내꺼 접근법은 비슷한 듯 했으나 근처에도 가지 못했다!
+# ------------------------------------------- 커뮤니티 뭔가 간단해보이는데 로직 자체도 뭔가 복잡하네... 
+# -------------------------------------------------------------------------------- 2. 조이스틱 실패ㅋㅋㅋㅋ 뭐짘ㅋㅋ
+# ------------------------------------------- 내꺼
+# -------------------------------------------------------------------------------- 4. [1차] 뉴스 클러스터링
+# 자카드 유사도
+# 교집합 크기를 두 집합의 합집합 크기로 나눈 값으로 정의
+# 집합 A와 집합 B가 모두 공집합일 경우에는 나눗셈이 정의되지 않으니 따로 J(A, B) = 1로 정의
+# 65536을 곱한 후에 소수점 아래를 버리고 정수부만 출력
+# ------------------------------------------- 내꺼
+# -------------------------------------------------------------------------------- 5. 수식 최대화
+# 완전탐색???
+# ------------------------------------------- 커뮤
+# -------------------------------------------------------------------------------- 6. 쿼드압축 후 개수 세기
+# 재귀함수
+# ------------------------------------------- 커뮤 간단해보이는데 굉장히 짜임새 있게 잘 짜여있다...
+
+
+
+
+# -------------------------------------------------------------------------------- 2. 양궁대회
 # ------------------------------------------- 내꺼
