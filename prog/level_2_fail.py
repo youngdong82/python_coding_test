@@ -1,3 +1,8 @@
+# -------------------------------------------------------------------------------- Counter 와 element
+# 4. [1차] 뉴스 클러스터링
+  # inter = list((Counter1 & Counter2).elements())
+  # union = list((Counter1 | Counter2).elements())
+
 # -------------------------------------------------------------------------------- sort와 string
 # strnig은 sort()사용 못함
 # 그러나
@@ -304,17 +309,108 @@
 
 # print(solution([["POOOP", "OXXOX", "OPXPX", "OOXOX", "POXXP"], ["POOPX", "OXPXP", "PXXXO", "OXXXO", "OOOPP"], ["PXOPX", "OXOXP", "OXPOX", "OXXOP", "PXPOX"], ["OOOXX", "XOOOX", "OOOXX", "OXOOX", "OOOOO"], ["PXPXP", "XPXPX", "PXPXP", "XPXPX", "PXPXP"]]))
 
+# ------------------------------------------------------------------------------------------------ 220320
 # -------------------------------------------------------------------------------- 1. 후보키 실패!
 # ------------------------------------------- 내꺼 접근법은 비슷한 듯 했으나 근처에도 가지 못했다!
 # ------------------------------------------- 커뮤니티 뭔가 간단해보이는데 로직 자체도 뭔가 복잡하네... 
-# -------------------------------------------------------------------------------- 2. 조이스틱 실패ㅋㅋㅋㅋ 뭐짘ㅋㅋ
-# ------------------------------------------- 내꺼
+
+
+
+# -------------------------------------------------------------------------------- 2. 조이스틱
+# ------------------------------------------- 내꺼 실패!! 두번째 45분 컷!
+# def solution(name):
+#   alpha = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+#   name = str(name)
+#   up_down = 0
+#   for i in name:
+#     normal_move = alpha.index(i)
+#     up_down += min(normal_move, 26- normal_move)
+  
+#   left_right = 0
+#   not_a = []
+#   for i in range(1, len(name)):
+#     if name[i] != 'A':
+#       not_a.append(i)
+
+#   if len(not_a) == 0:
+#     left_right = 0
+#   else:
+#     left = not_a[-1]
+#     right = len(name) - not_a[0]
+#     max_index = 0
+#     min_index = len(name)
+#     mid = len(name)//2
+#     for i in not_a:
+#       if i <= mid:
+#         max_index = max(max_index, i)
+#       else:
+#         min_index = min(min_index,i)
+#     backward_left = (max_index * 2) + (len(name) - min_index)
+#     backward_right = max_index + ((len(name) - min_index) * 2)
+#     left_right = min(left, right, backward_left, backward_right)
+
+#   return up_down + left_right
+
+
+# print(solution("AADAAAADADA"))
+# print(solution("AADAAAAAADADA"))
+# print(solution("AAAAADAAADAA"))
+# print(solution("JEROEN"))
+# print(solution("JAN"))
+# print(solution("A"))
+# print(solution("D"))
+
+
 # -------------------------------------------------------------------------------- 4. [1차] 뉴스 클러스터링
 # 자카드 유사도
 # 교집합 크기를 두 집합의 합집합 크기로 나눈 값으로 정의
 # 집합 A와 집합 B가 모두 공집합일 경우에는 나눗셈이 정의되지 않으니 따로 J(A, B) = 1로 정의
 # 65536을 곱한 후에 소수점 아래를 버리고 정수부만 출력
+# Counter!!!
 # ------------------------------------------- 내꺼
+# from collections import Counter
+# from math import floor
+
+
+# def solution(str1, str2):
+#   dic_1 = []
+#   str1 = str1.lower()
+#   for i in range(1,len(str1)):
+#     frag = str1[i-1] + str1[i]
+#     if frag.isalpha():
+#       dic_1.append(frag)
+
+#   dic_2 = []
+#   str2 = str2.lower()
+#   for i in range(1,len(str2)):
+#     frag = str2[i-1] + str2[i]
+#     if frag.isalpha():
+#       dic_2.append(frag)
+
+#   Counter1 = Counter(dic_1)
+#   Counter2 = Counter(dic_2)
+
+#   inter = list((Counter1 & Counter2).elements())
+#   union = list((Counter1 | Counter2).elements())
+
+#   if len(inter) == 0 and len(union) == 0:
+#     answer = 65536
+#   else:
+#     answer = floor(len(union)/len(union) * 65536)
+#   return int(answer)
+
+
+# print(solution('FRANCE','french'))
+# print(solution('handshake','shake hands'))
+# print(solution('aa1+aa2','AAAA12'))
+# print(solution('E=M*C^2','e=m*c^2'))
+# print(solution('abcde','fghij'))
+
+# print(solution('abc','abbb'))
+# print(solution('aa1+aa2','AA12'))
+# print(solution('aaabb','aabbb'))
+# print(solution('aabbb','aaabb'))
+
 # -------------------------------------------------------------------------------- 5. 수식 최대화
 # 완전탐색???
 # ------------------------------------------- 커뮤

@@ -226,6 +226,7 @@
 # print(solution(78))
 # print(solution(15))
 # print(solution(32))
+
 # ------------------------------------------------------------------------------------------------ 220318
 # -------------------------------------------------------------------------------- 2. 피로도
 # 던전의 갯수 1 이상 8 이하 완전탐색 쌉가능
@@ -365,8 +366,54 @@
 # 두 전력망이 가지고 있는 송전탑 개수의 차이(절대값)를 return
 
 # 완전탐색으로 차례대로 하나씩 끊었을 때 갯수 차이가 가장 작은 값 리턴
-# ------------------------------------------- 내꺼 그래도 기쁘다!!!
+# ------------------------------------------- 커뮤 union 으로 풀어보려했는데 실패... 어렵다. 집중도 잘 안돼
+parent = []
 
+def find(a):
+    global parent
+    if parent[a] < 0: 
+      return a
+    parent[a] = find(parent[a])
+    return parent[a]
+
+def merge(a, b):
+    global parent
+    pa = find(a)
+    pb = find(b)
+    if pa == pb:
+      return
+    parent[pa] += parent[pb]
+    parent[pb] = pa
+
+def solution(n, wires):
+    global parent
+    answer = int(1e9)
+    k = len(wires)
+
+    for i in range(k):
+        parent = []
+        for _ in range(n+1):
+          parent.append(-1)
+
+        tmp = []
+        for x in range(k):
+          if x != i:
+            tmp.append(wires[x])
+
+        for a, b in tmp:
+          merge(a, b)
+
+        v = []
+        for x in parent[1:]:
+          if x < 0:
+            v.append(x)
+        answer = min(answer, abs(v[0]-v[1]))
+
+    return answer
+
+print(solution(9, [[1,3],[2,3],[3,4],[4,5],[4,6],[4,7],[7,8],[7,9]]))
+# print(solution(4, [[1,2],[2,3],[3,4]]))
+# print(solution(7, [[1,2],[2,7],[3,7],[3,4],[4,5],[6,7]]))
 
 # -------------------------------------------------------------------------------- 10. 배달 
 # ------------------------------------------- 내꺼 두번째 25분 컷!!
@@ -565,23 +612,121 @@
 # print(solution("[({]})"))
 # print(solution("[({}])"))
 
-# -------------------------------------------------------------------------------- 10. 튜플 28분 컷!
-# ------------------------------------------- 내꺼
-# -------------------------------------------------------------------------------- 7. 캐시 17분 컷!!!
-#  게시물을 가져오는 부분의 실행시간이 너무 오래 걸린
-#  캐시 크기를 얼마로 해야 효율적인지 몰라 난감한 상황
+# ------------------------------------------------------------------------------------------------ 220321
+# -------------------------------------------------------------------------------- 10. 튜플 
+# ------------------------------------------- 내꺼 28분 컷! 두번째 18분 컷!
+# def solution(s):
+#   result = s[2:-2].split('},{')
+#   result.sort(key=lambda x:(len(x)))
+#   answer = []
+#   for i in result:
+#     split_i = list(map(int,i.split(',')))
+#     for j in split_i:
+#       if j not in answer:
+#         answer.append(j)
+
+#   return answer
+
+
+# print(solution("{{2},{2,1},{2,1,3},{2,1,3,4}}"))
+# print(solution("{{1,2,3},{2,1},{1,2,4,3},{2}}"))
+# print(solution("{{20,111},{111}}"))
+# print(solution("{{123}}"))
+# print(solution("{{4,2,3},{3},{2,3,4,1},{2,3}}"))
+
+# -------------------------------------------------------------------------------- 7. [1차] 캐시 
+# 캐시 크기에 따른 실행시간 측정 프로그램을 작성
 #  캐시 크기 <= 30
 #  최대 도시 수는 100,000
 #  도시 이름은 최대 20자
 #  "총 실행시간"을 출력
-# ------------------------------------------- 내꺼
-# -------------------------------------------------------------------------------- 9. 올바른 괄호 3분 컷!
-# ------------------------------------------- 내꺼
-# -------------------------------------------------------------------------------- 10. [3차] 방금그곡
-# 음악 끝부분과 처음 부분이 이어서 재생된 멜로디일 수도 있다.
-# 한 음악을 중간에 끊을 경우 원본 음악에는 네오가 기억한 멜로디가 들어있다 해도 그 곡이 네오가 들은 곡이 아닐 수도 있다.
-# 네오는 기억한 멜로디를 재생 시간과 제공된 악보를 직접 보면서 비교
+# ------------------------------------------- 내꺼 17분 컷 두번째 11분 컷!!
+# from collections import deque
 
-# 재생된 시간이 제일 긴 음악 제목을 반환
-# 재생된 시간도 같을 경우 먼저 입력된 음악 제목을 반환한다.
-# ------------------------------------------- 내꺼
+
+# def solution(cacheSize, cities):
+#   total_time = 0
+#   stack = deque([])
+#   if cacheSize == 0:
+#     return 5 * len(cities)
+#   for city in cities:
+#     city = city.lower()
+#     if city in stack:
+#       total_time += 1
+#       stack.remove(city)
+#       stack.append(city)
+#     else:
+#       total_time += 5
+#       if len(stack) >= cacheSize:
+#         stack.popleft()
+#       stack.append(city)
+#   return total_time
+
+
+# print(solution(3, ["Jeju", "Pangyo", "Seoul", "NewYork", "LA", "Jeju", "Pangyo", "Seoul", "NewYork", "LA"]))
+# print(solution(3, ["Jeju", "Pangyo", "Seoul", "Jeju", "Pangyo", "Seoul", "Jeju", "Pangyo", "Seoul"]))
+# print(solution(2, ["Jeju", "Pangyo", "Seoul", "NewYork", "LA", "SanFrancisco", "Seoul", "Rome", "Paris", "Jeju", "NewYork", "Rome"]))
+# print(solution(5, ["Jeju", "Pangyo", "Seoul", "NewYork", "LA", "SanFrancisco", "Seoul", "Rome", "Paris", "Jeju", "NewYork", "Rome"]))
+# print(solution(2, ["Jeju", "Pangyo", "NewYork", "newyork"]))
+# print(solution(0, ["Jeju", "Pangyo", "Seoul", "NewYork", "LA"]))
+
+
+
+# -------------------------------------------------------------------------------- 9. 올바른 괄호 
+# ------------------------------------------- 내꺼 3분 컷! 두번 째 3분 컷!
+# def solution(s):
+#   summ = 0
+#   for i in s:
+#     if summ < 0:
+#       return False
+#     if i == ')':
+#       summ -= 1
+#     elif i == '(':
+#       summ += 1
+#   if summ == 0:
+#     return True
+#   else:
+#     return False
+
+# print(solution("()()"))
+# print(solution("(())()"	))
+# print(solution(")()("))
+# print(solution("(()("))
+
+# -------------------------------------------------------------------------------- 10. [3차] 방금그곡
+# ------------------------------------------- 내꺼 실패 두번째 32분 컷!!
+# def solution(m, musicinfos):
+#   convert = {'C#':'c','D#':'d', 'E#':'e', 'F#':'f', 'G#':'g', 'A#':'a'}
+#   for i in convert.keys():
+#     m = m.replace(i, convert[i])
+
+#   answer = []
+#   for i in musicinfos:
+#     s,e,title,order = i.split(',')
+#     for i in convert.keys():
+#       order = order.replace(i, convert[i])
+
+#     s_hour,s_minutes = list(map(int,s.split(':')))
+#     e_hour,e_minutes = list(map(int,e.split(':')))
+#     total_time = (e_hour - s_hour) * 60 + (e_minutes - s_minutes)
+
+#     seequence = ''
+#     time = total_time // len(order)
+#     left = total_time % len(order)
+#     seequence += (order*time)
+#     seequence += order[:left]
+    
+#     if m in seequence:
+#       answer.append((total_time, title))
+
+#   answer.sort(key=lambda x: -x[0])
+
+#   if len(answer) == 0:
+#     return '(None)'
+#   else:
+#     return answer[0][1]
+
+
+# print(solution("ABCDEFG",["12:00,12:14,HELLO,CDEFGAB", "13:00,13:05,WORLD,ABCDEF"]))
+# print(solution("CC#BCC#BCC#BCC#B",["03:00,03:30,FOO,CC#B", "04:00,04:08,BAR,CC#BCC#BCC#B"]))
+# print(solution("ABC",["12:00,12:14,HELLO,C#DEFGAB", "13:00,13:05,WORLD,ABCDEF"]))
