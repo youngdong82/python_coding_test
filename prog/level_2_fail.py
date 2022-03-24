@@ -7,6 +7,32 @@
 # strnig은 sort()사용 못함
 # 그러나
 # sorted는 가능
+
+# -------------------------------------------------------------------------------- 집합연산자
+# a = {1,2,3,4,5}
+# b = {1,3,5,7,9}
+# ------------------------------------- or 합집합
+# print(a|b)
+# print(set.union(a,b))
+# print(a.union(b))
+
+# ------------------------------------- and 교집합
+# print(a&b)
+# print(set.intersection(a,b))
+# print(a.intersection(b))
+
+# ------------------------------------- and 차집합
+# print(a-b)
+# print(set.difference(a,b) ) 
+# print(a.difference(b))
+
+# ------------------------------------- remove 와 discard
+# remove()는 실제 존재하는 대상을 지우는 동작
+# 대상이 없다면 에러
+
+# discard()는 존재하지 않음을 보장하려고 할때 사용
+# 대상이 없어도 에러가 나지 않는다.
+
 # -------------------------------------------------------------------------------- 5. 124나라의 숫자 실패! - 복습!!
 # ------------------------------------------- 내꺼
 # def solution(n):
@@ -310,10 +336,40 @@
 # print(solution([["POOOP", "OXXOX", "OPXPX", "OOXOX", "POXXP"], ["POOPX", "OXPXP", "PXXXO", "OXXXO", "OOOPP"], ["PXOPX", "OXOXP", "OXPOX", "OXXOP", "PXPOX"], ["OOOXX", "XOOOX", "OOOXX", "OXOOX", "OOOOO"], ["PXPXP", "XPXPX", "PXPXP", "XPXPX", "PXPXP"]]))
 
 # ------------------------------------------------------------------------------------------------ 220320
-# -------------------------------------------------------------------------------- 1. 후보키 실패!
-# ------------------------------------------- 내꺼 접근법은 비슷한 듯 했으나 근처에도 가지 못했다!
+# -------------------------------------------------------------------------------- 1. 후보키 실패! 복습 필수!!!
 # ------------------------------------------- 커뮤니티 뭔가 간단해보이는데 로직 자체도 뭔가 복잡하네... 
+# from itertools import combinations
 
+# def solution(relation):
+#   n_row = len(relation)
+#   n_col = len(relation[0])
+
+#   candidates=[]
+#   for i in range(1,n_col+1):
+#     candidates.extend(combinations(range(n_col),i))
+  
+#   final=[]
+#   for keys in candidates:
+#     tmp=[]
+#     for item in relation:
+#       ttuple = ''
+#       for key in keys:
+#         ttuple += item[key]
+#       tmp.append(ttuple)
+#     if len(set(tmp)) == n_row:
+#       final.append(keys)
+
+#   answer = set(final[:])
+
+#   for i in range(len(final)):
+#     for j in range(i+1,len(final)):
+#       if len(final[i]) == len(set(final[i]) & set(final[j])):
+#         print(final[i], final[j])
+#         answer.discard(final[j])
+
+#   return answer
+
+# print(solution([["100","ryan","music","2"],["200","apeach","math","2"],["300","tube","computer","3"],["400","con","computer","4"],["500","muzi","music","3"],["600","apeach","music","2"]]))
 
 
 # -------------------------------------------------------------------------------- 2. 조이스틱
@@ -414,12 +470,56 @@
 # -------------------------------------------------------------------------------- 5. 수식 최대화
 # 완전탐색???
 # ------------------------------------------- 커뮤
+# from itertools import permutations
+
+
+# def operation(num1,num2,op):
+#   if op == '*':
+#     return str(int(num1) * int(num2))
+#   if op == '+':
+#     return str(int(num1) + int(num2))
+#   if op == '-':
+#     return str(int(num1) - int(num2))
+
+# def calc(expression, op):
+#   string = []
+#   tmp = ''
+#   for i in expression:
+#     if i.isdigit():
+#       tmp += i
+#     else:
+#       string.append(tmp)
+#       string.append(i)
+#       tmp = ''
+#   string.append(tmp)
+#   print(string)
+
+#   for o in op:
+#     print(o)
+#     stack = []
+#     while len(string) != 0:
+#       tmp = string.pop(0)
+#       if tmp == o:
+#         stack.append(operation(stack.pop(), string.pop(0), o))
+#       else:
+#         stack.append(tmp)
+#     string = stack
+
+#   return abs(int(string[0]))
+
+# def solution(expression):
+#     op = list(permutations(['*','+','-'], 3))
+#     result = []
+#     for i in op:
+#         result.append(calc(expression, i))
+#     return max(result)
+
+
+# print(solution("100-200*300-500+20"))
+# print(solution("50*6-3*2"))
+
 # -------------------------------------------------------------------------------- 6. 쿼드압축 후 개수 세기
 # 재귀함수
 # ------------------------------------------- 커뮤 간단해보이는데 굉장히 짜임새 있게 잘 짜여있다...
 
 
-
-
-# -------------------------------------------------------------------------------- 2. 양궁대회
-# ------------------------------------------- 내꺼

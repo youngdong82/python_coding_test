@@ -284,28 +284,28 @@
 # -------------------------------------------------------------------------------- 4. 메뉴 리뉴얼 복습!! 내꺼 시간초과 두번째 시간초과
 # dic을 사용하자
 # ------------------------------------------- 내꺼 + 커뮤 굉장히 빠르다...!!!
-from itertools import combinations
+# from itertools import combinations
 
 
-def solution(orders, course):
-  answer = []
-  for i in course:
-    candidates = []
-    for order in orders:
-      candidates += combinations(sorted(order),i)
+# def solution(orders, course):
+#   answer = []
+#   for i in course:
+#     candidates = []
+#     for order in orders:
+#       candidates += combinations(sorted(order),i)
 
-    dic = {}
-    for candidate in candidates:
-      if candidate not in dic.keys():
-        dic[candidate] = 1
-      else:
-        dic[candidate] += 1
+#     dic = {}
+#     for candidate in candidates:
+#       if candidate not in dic.keys():
+#         dic[candidate] = 1
+#       else:
+#         dic[candidate] += 1
 
-    for combi, time in dic.items():
-      if time == max(dic.values()) and time >=2 :
-        answer.append(''.join(combi))
+#     for combi, time in dic.items():
+#       if time == max(dic.values()) and time >=2 :
+#         answer.append(''.join(combi))
 
-  return sorted(answer)
+#   return sorted(answer)
 
 
 # print(solution(["ABCFG", "AC", "CDE", "ACDE", "BCFG", "ACDEH"], [2,3,4]))
@@ -321,19 +321,265 @@ def solution(orders, course):
 # 지원 조건을 선택하면 해당 조건에 맞는 지원자가 몇 명인 지 쉽게 알 수 있는 도구
 # info 배열의 크기는 1 이상 50,000 이하
 # query 배열의 크기는 1 이상 100,000 이하
-# 나눈 다음 정렬을 좀 해놓을까...?
-# 그 후 이진탐색..? 맞추긴 했다ㅋㅋㅋㅋㅋㅋㅋ
+
 # string을 index값으로 바꿔도 큰 차이는 없다. 오히려 string이 빠르다!!
-# ------------------------------------------- 내꺼 - 정확도는 ok but 시간초과 
+# ------------------------------------------- 내꺼 - 정확도는 ok but 시간초과 두번째 여전히 시간초과
+# def solution(infos, querys):
+#   answer = []
+#   for query in querys:
+#     lang, posi, career, pref_score = query.split(' and ')
+#     pref, score = pref_score.split(' ')
+#     # print(lang, posi, career, pref, score)
 
-# -------------------------------------------------------------------------------- 3. 압축 1시간 컷ㅋㅋㅋ
-# ------------------------------------------- 내꺼 뭔가 어거지로 만들긴 했는데 체계적이지 않다.
+#     count = 0
+#     for info in infos:
+#       i_lang, i_posi, i_career, i_pref, i_score = info.split(' ')
+
+#       if lang == '-' or lang == i_lang:
+#         if posi == '-' or posi == i_posi:
+#           if career == '-' or career == i_career:
+#             if pref == '-' or pref == i_pref:
+#               if int(i_score) >= int(score):
+#                 # print(lang, posi, career, pref, score)
+#                 # print(i_lang, i_posi, i_career, i_pref, i_score)
+#                 # print()
+#                 count += 1
+#             else:
+#               continue
+#           else:
+#             continue
+#         else:
+#           continue
+#       else:
+#         continue
+#     answer.append(count)
+#   return answer
+
+# ------------------------------------------- 내꺼
+# from itertools import combinations
 
 
-# -------------------------------------------------------------------------------- 8. 빛의 경로 실패!! 담에 다시 풀어보자
-# ------------------------------------------- 내꺼 루프로 변경해보라고....? 못해 ㅅㅂ...
+# def solution(info, query):
+#   answer = []
+#   db = {}
+#   for i in info:
+#     temp = i.split()
+#     conditions = temp[:-1]
+#     score = int(temp[-1])
+#     for n in range(5):
+#       combis = list(combinations(range(4), n))
+#       for combi in combis:
+#         condi_copy = conditions.copy()
+#         for index in combi:
+#           condi_copy[index] = '-'
+#         merged_condi = ''.join(condi_copy)
+#         print(merged_condi)
+#         if merged_condi in db:
+#           db[merged_condi].append(score)
+#         else:
+#           db[merged_condi] = [score]
+
+#   for value in db.values():
+#     value.sort()
+#   print(db)
+
+#   for q in query:
+#     qry = []
+#     for i in q.split():
+#       if i != 'and':
+#         qry.append(i)
+
+#     q_condi = ''.join(qry[:-1])
+#     q_score = int(qry[-1])
+#     if q_condi in db:
+#       data = db[q_condi]
+#       if len(data) > 0:          
+#         start, end = 0, len(data)
+#         while start != end and start != len(data):
+#           mid = (start + end) // 2
+#           if data[mid] >= q_score:
+#             end = mid
+#           else:
+#             start = mid + 1
+#         answer.append(len(data) - start)      # 해당 인덱스부터 끝까지의 갯수가 정답
+#     else:
+#       answer.append(0)
+
+#   return answer
 
 
+# print(solution(["java backend junior pizza 150","python frontend senior chicken 210","python frontend senior chicken 150","cpp backend senior pizza 260","java backend junior chicken 80","python backend senior chicken 50"], ["java and backend and junior and pizza 100","python and frontend and senior and chicken 200","cpp and - and senior and pizza 250","- and backend and senior and - 150","- and - and - and chicken 100","- and - and - and - 150"]))
+
+
+# -------------------------------------------------------------------------------- 3. 압축 
+# ------------------------------------------- 내꺼 1시간 컷ㅋㅋㅋ 두번째 20분 컷!!
+# def solution(msg):
+#   alpha = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+#   dic = {}
+#   index = 0
+#   for i in range(len(alpha)):
+#     index += 1
+#     dic[alpha[i]] = index
+
+#   answer = []
+#   tmp = ''
+#   msg = list(msg)
+#   while len(msg) > 0:
+#     # print(tmp)
+#     a = msg.pop(0)
+#     if tmp+a not in dic.keys():
+#       index += 1
+#       dic[tmp+a] = index
+#       # print(dic)
+#       answer.append(dic[tmp])
+#       tmp = a
+#     else:
+#       tmp += a
+
+#   answer.append(dic[tmp])
+
+#   return answer
+
+
+# print(solution('KAKAO'))
+# print(solution('TOBEORNOTTOBEORTOBEORNOT'))
+# print(solution('ABABABABABABABAB'))
+
+
+# -------------------------------------------------------------------------------- 8. 빛의 경로 실패!!
+# ------------------------------------------- 내꺼 두번째 변경!! 야호!!
+dx = [0,-1,0,1]
+dy = [1,0,-1,0]
+
+def move(grid, x,y,d_index):
+  nx = x + dx[d_index]
+  ny = y + dy[d_index]
+  if 0 <= nx < len(grid) and 0<= ny < len(grid[0]):
+    return nx,ny,(x,y,nx,ny,d_index,'O')
+  else:
+    if nx < 0:
+      nx = len(grid)-1
+    elif nx == len(grid):
+      nx = 0
+
+    if ny < 0:
+      ny = len(grid[0])-1
+    elif ny == len(grid[0]):
+      ny = 0
+    return nx,ny,(x,y,nx,ny,d_index,'C')
+
+def solution(grid):
+  answer = []
+  for i in range(4):
+    x = 0
+    y = 0
+    history = []
+    d_index = i
+    while True:
+      x,y,hist = move(grid,x,y,d_index)
+
+      if hist in history:
+        break
+      else:
+        history.append(hist)
+
+      if grid[x][y] == 'L':
+        d_index = (d_index-1)%4
+      elif grid[x][y] == 'R':
+        d_index = (d_index+1)%4
+
+    if set(history) not in answer:
+      answer.append(set(history))
+
+  real_answer = []
+  for i in answer:
+    real_answer.append(len(i))
+  real_answer.sort()
+  return real_answer
+
+# ------------------------------------------- 커뮤 내껀 뭐가 문제일까??
+def solution(grid):
+  # 이동 방향용 리스트 d
+  d = [[-1, 0], [1, 0], [0, 1], [0, -1]]
+  # 격자의 값에 따른 방향 이동 방법
+  right = {0: 3, 1: 2, 2: 0, 3: 1}
+  left = {0: 2, 1:3, 2: 1, 3: 0}
+  
+  answer = []
+  w, h = len(grid[0]), len(grid)
+  # 각 격자에서의 모든 방향을 이동하였는지 판단하는 리스트 case
+  cases = [[[1]*4 for _ in range(w)] for _ in range(h)]
+  for y in range(h):
+      for x in range(w):
+          for i in range(4):
+              # 이미 이동한 적 있는 방향은 판단 X
+              if not cases[y][x][i]:
+                  continue
+              cnt = 0 # 길이 판단을 위한 변수
+              ty, tx, ti = y, x, i # 위치 ty, tx, 방향 ti
+              while True:
+                  cases[ty][tx][ti] -= 1
+                  cnt += 1
+                  now = grid[ty][tx]
+                  # 현재 격자의 값을 확인하여 방향 결정
+                  if now == 'L':
+                      ti = left[ti]
+                  elif now == 'R' :
+                      ti = right[ti]
+                  tx, ty = (tx+d[ti][1])%w, (ty+d[ti][0])%h
+                  # 처음 출발점에 도착하면 완료
+                  if tx == x and ty == y and ti == i:
+                      break
+              answer.append(cnt)
+  # 값을 정렬 후 리턴
+  answer.sort()
+  return answer
+
+
+print(solution(["SL","LR"]))
+print(solution(["S"]))
+print(solution(["R","R"]))
 
 # -------------------------------------------------------------------------------- 1. k진수에서 소수 개수 구하기 진수변환이랑 소수 확인하기 복습!!
-# ------------------------------------------- 내꺼
+# ------------------------------------------- 내꺼 두번째 24분 컷!!
+# from math import sqrt
+
+
+# def convert(n,k):
+#   digits = '0123456789ABCDEF'
+#   answer = ''
+#   while True:
+#     time, rest = divmod(n,k)
+#     n = time
+#     answer += digits[rest]
+#     if time == 0:
+#       break
+#   return answer[::-1]
+
+# def prime(n):
+#   if n == 0 or n == 1:
+#     return False
+#   for i in range(2,int(sqrt(n))+1):
+#     if n%i == 0:
+#       return False
+#   return True
+
+# def solution(n, k):
+#   converted = convert(n,k)
+#   tmp = ''
+#   count = 0
+#   for i in converted:
+#     if i == '0' and tmp != '':
+#       if prime(int(tmp)) == True:
+#         count += 1
+#       tmp = ''
+#     else:
+#       tmp += i
+#   if tmp != '':
+#     if prime(int(tmp)) == True:
+#       count += 1
+
+#   return count
+
+# print(solution(437674, 3))
+# print(solution(110011, 10))
