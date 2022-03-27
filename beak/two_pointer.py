@@ -88,28 +88,75 @@
 # else:
 #   print(0)
 
-# -------------------------------------------------------------------------------- 4. 1644번
-# ------------------------------------------- 내꺼
-# n = int(input())
-
+# -------------------------------------------------------------------------------- 4. 1644번  복습!!
 # 1. n보다 작은 소수들 전부 구해서 prime_deck에 넣기
 # 2. 부분합 적용해서 (자기자신 포함 가능) 가능할 때마다 count += 1
 # 3. count 출력
+# ------------------------------------------- 내꺼
+from math import sqrt
+
+n = int(input())
+# 에라토네스의 체를 이용한 소수 list 구하기
+array = [True for i in range(n+1)]
+
+for i in range(2,int(sqrt(n))+1):
+  if array[i] == True:
+    j = 2
+    while i * j <= n:
+      array[i*j] = False
+      j += 1
+
+prime_deck = []
+for i in range(len(array)):
+  if array[i] == True:
+    prime_deck.append(i)
+
+prime_deck = prime_deck[2:]
+
+# 부분 합
+sum_reck = [0 for _ in range(len(prime_deck)+1)]
+
+for i in range(len(prime_deck)):
+  sum_reck[i+1] = sum(prime_deck[:i+1])
+
+left = 0
+right = 0
+
+count = 0
+while left < len(sum_reck) and right < len(sum_reck):
+  summ = sum_reck[right] - sum_reck[left]
+  if summ == n:
+    count += 1
+    left += 1
+  elif summ > n:
+    left += 1
+  else:
+    right += 1
+
+print(count)
+
+
+
+
+
+
+
+
 
 # -------------------------------------------------------------------------------- 5. 1450번
 # 시키는대로 하면 안끝남
 # ------------------------------------------- 내꺼
-from itertools import combinations
+# from itertools import combinations
 
 
-n,c = map(int,input().split())
-deck = list(map(int,input().split()))
+# n,c = map(int,input().split())
+# deck = list(map(int,input().split()))
 
 
-count = 0
-for i in range(1,n+1):
-  candidates = list(combinations(deck,i))
-  for candidate in candidates:
-    if sum(candidate) <= c:
-      count += 1
-print(count+1)
+# count = 0
+# for i in range(1,n+1):
+#   candidates = list(combinations(deck,i))
+#   for candidate in candidates:
+#     if sum(candidate) <= c:
+#       count += 1
+# print(count+1)
