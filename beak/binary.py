@@ -10,8 +10,6 @@
 # 존재여부 확인을 위해선??
 # 갯수 세기 참고
 
-
-
 # # ------------------------------------- bisect_left
 # # 왼쪽에서 특정 값을 넣는다면 나오는 index 값
 # left = bisect_left(a, 4)
@@ -25,6 +23,38 @@
 # # ------------------------------------- 갯수 구하기
 
 # print('how many', right - left)
+
+
+# -------------------------------------------------------------------------------- LIS 알고리즘 가장 긴 증가하는 부분 수열
+# https://seohyun0120.tistory.com/entry/%EA%B0%80%EC%9E%A5-%EA%B8%B4-%EC%A6%9D%EA%B0%80%ED%95%98%EB%8A%94-%EB%B6%80%EB%B6%84-%EC%88%98%EC%97%B4LIS-%EC%99%84%EC%A0%84-%EC%A0%95%EB%B3%B5-%EB%B0%B1%EC%A4%80-%ED%8C%8C%EC%9D%B4%EC%8D%AC
+
+# 1. 다이나믹 프로그래밍
+# 시간복잡도 O(N^2)
+# a = [10,20,12,15,30,15,50]
+# dp = [1] * len(a)
+
+# for i in range(len(a)):
+#   for j in range(i):
+#     if a[i] > a[j]:
+#       dp[i] = max(dp[i], dp[j]+1)
+#   print(dp)
+
+
+# 2. 이분탐색
+# 시간복잡도 O(N log N)
+# from bisect import bisect_left
+
+# a = [10,20,12,15,30,15,50]
+# dp = [a[0]]
+
+# for i in range(len(a)):
+#   if a[i] > dp[-1]:
+#     dp.append(a[i])
+#   else:
+#     index = bisect_left(dp, a[i])
+#     dp[index] = a[i]
+#   print(dp)
+# print(len(dp))
 
 
 # -------------------------------------------------------------------------------- 1. 1920 번 수 찾기
@@ -132,3 +162,145 @@
 # if len(answer)!= 0:
 #   print(max(answer))
 
+# -------------------------------------------------------------------------------- 4. 2805 번 나무 자르기 복습
+# 최대값 최소값 구할 때 맞는 mid들을 모은 후 그곳에서 고르는 것이 아닌
+# 이진탐색 할때 설정을 바꿔서 start나 end를 출력하자
+# 위의 문제도 같다.
+# + 무조건 start 0 하지말고 최솟값 확인하자
+# ------------------------------------------- 커뮤니티
+# n,m = map(int,input().split())
+# trees = list(map(int,input().split()))
+
+# start = 1
+# end = max(trees)
+
+# while start <= end:
+#   mid = (start + end)//2
+#   result = 0
+#   for i in trees:
+#     if mid <= i:
+#       result += (i-mid)
+#   if result >= m:
+#     start = mid+1
+#   else:
+#     end = mid-1
+
+# print(end)
+
+# -------------------------------------------------------------------------------- 5. 2110 번 공유기 설치 복습
+# 한 집에는 공유기를 하나만 설치할 수 있고,
+# 가장 인접한 두 공유기 사이의 거리를 가능한 크게 하여 설치
+# ------------------------------------------- 내꺼
+# n,c = map(int, input().split())
+# houses = []
+# for i in range(n):
+#   houses.append(int(input()))
+# houses.sort()
+
+
+# def binary():
+#   left = 1
+#   right = max(houses) - 1
+
+#   while left <= right:
+#     mid = (left + right) // 2
+#     count = 1
+#     wifi = min(houses) + mid
+
+#     for i in range(1, len(houses)):
+#       if wifi <= houses[i]:
+#         count += 1
+#         wifi = houses[i] + mid
+#     print(left,mid,right, 'wifi:',wifi, 'count:', count)
+
+#     if count >= c:
+#       left = mid + 1
+#     elif count < c:
+#       right = mid -1
+#   return right
+
+# print(binary())
+
+# -------------------------------------------------------------------------------- 6. 1300 번 k번째 수 복습 이해가 안돼....
+# ------------------------------------------- 내꺼 메모리 초과
+# n = int(input())
+# k = int(input())
+
+# k_list = []
+# for i in range(1,n+1):
+#   for j in range(1,n+1):
+#     k_list.append(i*j)
+
+# k_list.sort()
+# print(k_list)
+# print(k_list[k-1])
+
+# ------------------------------------------- 커뮤니티
+# n = int(input())
+# k = int(input())
+
+# def binary_search(target):
+#   start = 1
+#   end = n*n
+#   while start <= end:
+#     mid = (start + end) // 2
+#     # print(start,mid,end)
+#     cnt = 0
+#     for i in range(1, n+1):
+#       cnt += min(mid//i, n)
+#     if cnt >= target:
+#       end = mid-1
+#     else:
+#       start = mid+1
+#     # print(cnt)
+#   return start
+
+
+# print(binary_search(k))
+
+# -------------------------------------------------------------------------------- 7. 120115 번 가장 긴 증가하는 부분 수열 2
+# ------------------------------------------- 내꺼
+# import sys 
+# input = sys.stdin.readline 
+
+# n = int(input()) 
+# cases = list(map(int, input().split())) 
+# lis = [0] 
+# for case in cases: 
+#   if lis[-1]<case: 
+#     lis.append(case) 
+#   else:
+#     print(lis, case)
+#     left = 0 
+#     right = len(lis) 
+
+#     while left<right: 
+#       mid = (right+left)//2 
+#       print(left,mid,right)
+#       if lis[mid]<case: 
+#         left = mid+1 
+#       else: 
+#         right = mid 
+#     lis[right] = case
+#     print(lis, case)
+#     print()
+# print(lis)
+# print(len(lis)-1)
+
+
+n,m = map(int,input().split())
+
+tmp = []
+
+def back():
+  if len(tmp) == m:
+    print(' '.join(map(str,tmp)))
+    return
+
+  for i in range(1,n+1):
+    if i not in tmp:
+      tmp.append(i)
+      back()
+      tmp.pop()
+
+back()
