@@ -1,25 +1,4 @@
 # -------------------------------------------------------------------------------- 1. 15649 번 N과 M (1)
-# 자주하는 실수
-# 1. 가지치기를 하지 않아서 시간초과 발생
-# 2. 한 단계 더 들어갈 때 가능한 값인지 불가능한 값인지 비효율적으로 판단(visited 같은 함수를 이용하자)
-# 3. 재귀를 들어갔다가 탈출할 때 값을 원래대로 바꿔놓지 않는다. 넣었으면 빼라.
-
-# 기본적인 구조
-
-# 방문처리를 위한 visited리스트 (중복이 가능하다면 필요없다.)
-
-# 깊이를 담을 임의의 리스트
-# def dfs():
-#   원하는 깊이에 도달했다면 or 더이상 갈 수 없다면, 
-#   출력을 하던 answer 값을 지정을 하던 탈출
-
-#   (리스트 내 같은 원소 때문에 중복 출력이 싫다면 overlap 변수 사용)
-#   포문을 돌면서
-#   방문처리한 후
-#   dfs()
-#   빠져나온 후 다른 길로 가는데 방문처리되어있으면 안되니까.
-#   방문처리 취소
-
 # ------------------------------------------- 내꺼 맞긴 한데 백트래킹으로 풀지 않았다.
 # from itertools import permutations
 
@@ -108,7 +87,7 @@
 #     tmp.pop()
 # back()
 
-# -------------------------------------------------------------------------------- 5. 9663 번 N-Queen
+# -------------------------------------------------------------------------------- 5. 9663 번 N-Queen 복습
 # 어려운데...ㅠ
 # ------------------------------------------- 커뮤니티
 # n = int(input())
@@ -417,6 +396,28 @@
 
 # -------------------------------------------------------------------------------- 9. 15654 번 n과 m (9)
 # ------------------------------------------- 내꺼 시간초과
+# n,m = map(int,input().split())
+# data = list(map(int,input().split()))
+# data.sort()
+# visited = [False] * n
+
+# tmp = []
+# answer = []
+# def dfs():
+#   if len(tmp) == m:
+#     print(' '.join(map(str,tmp)))
+#     return
+#   overlap = 0
+#   for i in range(n):
+#     if not visited[i] and overlap != data[i]:
+#       tmp.append(data[i])
+#       visited[i] = True
+#       overlap = data[i]
+#       dfs()
+#       tmp.pop()
+#       visited[i] = False
+# dfs()
+
 # ------------------------------------------- 내꺼 2
 # from itertools import permutations
 
@@ -435,6 +436,29 @@
 
 # -------------------------------------------------------------------------------- 9. 15654 번 n과 m (10)
 # ------------------------------------------- 내꺼
+# n,m = map(int,input().split())
+# data = list(map(int,input().split()))
+# data.sort()
+# visited = [False] * n
+
+# tmp = []
+# def dfs():
+#   if len(tmp) == m:
+#     if tmp == sorted(tmp):
+#       print(' '.join(map(str,tmp)))
+#     return
+  
+#   overlap = 0
+#   for i in range(n):
+#     if visited[i] == False and overlap != data[i]:
+#       visited[i] = True
+#       tmp.append(data[i])
+#       overlap = data[i]
+#       dfs()
+#       visited[i] = False
+#       tmp.pop()
+# dfs()
+
 # ------------------------------------------- 내꺼 2
 # from itertools import combinations
 
@@ -453,6 +477,28 @@
 
 # -------------------------------------------------------------------------------- 9. 15654 번 n과 m (11)
 # ------------------------------------------- 내꺼 1
+# n,m = map(int,input().split())
+# data = list(map(int,input().split()))
+# data.sort()
+# visited = [False] * n
+
+# tmp = []
+# def dfs():
+#   if len(tmp) == m:
+#     print(' '.join(map(str,tmp)))
+#     return
+  
+#   overlap = 0
+#   for i in range(n):
+#     if overlap != data[i]:
+#       visited[i] = True
+#       tmp.append(data[i])
+#       overlap = data[i]
+#       dfs()
+#       visited[i] = False
+#       tmp.pop()
+# dfs()
+
 # ------------------------------------------- 내꺼 2
 # from itertools import product
 
@@ -469,6 +515,28 @@
 #   print(' '.join(map(str,i)))
 
 # -------------------------------------------------------------------------------- 9. 15654 번 n과 m (12)
+# ------------------------------------------- 내꺼 1
+# n,m = map(int,input().split())
+# data = list(map(int,input().split()))
+# data.sort()
+
+# tmp = []
+# def dfs():
+#   if len(tmp) == m:
+#     if tmp == sorted(tmp):
+#       print(' '.join(map(str,tmp)))
+#     return
+  
+#   overlap = 0
+#   for i in range(n):
+#     if overlap != data[i]:
+#       tmp.append(data[i])
+#       overlap = data[i]
+#       dfs()
+#       tmp.pop()
+
+# dfs()
+
 # ------------------------------------------- 내꺼 2
 # from itertools import combinations_with_replacement
 
