@@ -106,3 +106,72 @@
 # print(solution([["ICN", "JFK"], ["HND", "IAD"], ["JFK", "HND"]]))
 # print(solution([["ICN", "SFO"], ["ICN", "ATL"], ["SFO", "ATL"], ["ATL", "ICN"], ["ATL","SFO"]]))
 
+# -------------------------------------------------------------------------------- 4. 입국심사 복습
+# 시간을 기준으로 그 시간에 받을 수 있는 사람의 수가 원하는 값인가? 작은가? 큰가?
+# ------------------------------------------- 내꺼
+# def solution(n, times):
+#   answer = 0
+
+#   # 이건 시간이다 시간
+#   start = 1
+#   end = max(times) * n
+
+#   while start <= end:
+#     # mid란 가장 적게걸리는 시간과 많이 걸릴 때의 중간
+#     mid = (start + end)//2
+#     people = 0
+#     for time in times:
+#       people += mid // time
+#       if people >= n:
+#           break
+#     print(mid,people)
+#     if people >= n:
+#       answer = mid
+#       end = mid - 1
+#     elif people < n:
+#         start = mid + 1
+
+#   return answer
+
+
+# print(solution(6,[7,10]))
+# -------------------------------------------------------------------------------- 5. 베스트앨범
+# 장르 별로 가장 많이 재생된 노래를 두 개씩 모아 베스트 앨범을 출시
+# 고유 번호로 구분
+# 속한 노래가 많이 재생된 장르를 먼저 수록합니다. 장르 별 총 재생시간 필요
+# 장르 내에서 많이 재생된 노래를 먼저 수록합니다. 곡 별 재싱시간 필요 => 다 더하면 되니까 위에꺼 해결
+# 재생 횟수가 같은 노래 중에서는 고유 번호가 낮은 노래를 먼저 수록
+
+# ------------------------------------------- 내꺼
+# def solution(genres, plays):
+#   dic = {}
+#   total={}
+#   index = 0
+#   for genre,play in zip(genres,plays):
+#     if genre in dic.keys():
+#       dic[genre].append((play,index))
+#       total[genre] += play
+#     else:
+#       dic[genre] = [(play,index)]
+#       total[genre] = play
+#     index += 1
+
+
+#   genre_sort = sorted(total.items(), key=lambda x: (-x[1]))
+
+#   for genre in dic.keys():
+#     dic[genre].sort(key=lambda x: (-x[0],x[1]))
+  
+#   # 다 해놓고 뭐여 이게!!!
+#   answer = []
+#   for genre in genre_sort:
+#     if len(dic[genre[0]]) == 1:
+#       answer.append(dic[genre[0]][0][1])
+#     else:
+#       for i in range(2):
+#         answer.append(dic[genre[0]][i][1])
+#   return answer
+
+
+# print(solution(["classic", "pop", "classic", "classic", "pop"],[500, 600, 150, 800, 2500]))
+
