@@ -21,6 +21,37 @@
 # 연산이 끝난 후 연산 성공이나 실패를 반환해야 한다면 달라지겠지만,
 # 그게 아니라 단순히 글로벌 변수 연산이 목적이라면, 사용하지 않는 경우가 있다.
 
+# -------------------------------------------------------------------------------- 링크드 리스트
+# 각 노드가 데이터와 포인터를 가지고 한 줄로 연결되어 있는 방식으로 데이터를 저장하는 자료 구조
+
+# 삽입과 삭제가 빈번하다면? LinkedList,
+# 데이터 접근,조회가 더 중요하다면? Array
+# -------------------------------------------------------------------------------- copy()와 deepcopy()의 차이
+# # 1차원 리스트의 경우,
+# # copy()로 복사해도,
+# # 원 리스트의 값이 변경되어도 복사된 리스트에 영향을 주지 않는다.
+
+# a = [1, 2, 3]
+# b = a.copy()
+# a[0] = 4
+
+# print(a)
+# print(b)
+
+# # 2차원 리스트의 경우,
+# # copy()로 복사하면,
+# # 원 리스트의 값이 변경되면 복사된 리스트의 값이 변경된다.
+
+# # 이를 방지하기 위해 deepcopy()를 사용한다.
+
+# aa = [[1, 2, 3], [4, 5, 6]]
+# bb = a.copy()
+# bb[0][0] = 7
+
+# print(aa)
+# print(bb) 
+
+
 # -------------------------------------------------------------------------------- 이분탐색 구조
 # 탐색의 범위는 무엇으로 할지
 # 탐색의 기준을 무엇으로 할지
@@ -174,4 +205,139 @@
 
 
 # print(solution(["classic", "pop", "classic", "classic", "pop"],[500, 600, 150, 800, 2500]))
+
+# -------------------------------------------------------------------------------- 6. 보석 쇼핑
+# 집합자료형 + 투포인터??
+# 가장 짧은 구간이 여러 개라면 시작 진열대 번호가 가장 작은 구간을 return 
+  # left,right으로 만든 list가 gem_reck의 갯수보다 작다면
+  # 절대로 모든 종류를 포함할 수 없다. => right += 1로 범위 자체를 늘려
+  # left,right으로 만든 list가 gem_reck의 갯수와 같거나 크다면
+  # 포함한다면, answer에 기록하고
+  # 최소를 찾아야하기 때문에, 전체적으로 오른쪽으로 이동해야하기 때문에 => left += 1
+  # 포함하지 않는다면
+  # 범위를 늘려야함으로, => right +=1 
+  # dic = {}
+  # for i in range(len(gems)):
+  #   if gems[i] not in dic.keys():
+  #     dic[gems[i]] = [i]
+  #   else:
+  #     dic[gems[i]].append(i)
+  # print(dic)
+# ------------------------------------------- 내꺼 시간초과!! 효율성을 높여보자
+# def solution(gems):
+#   gem_reck = list(set(gems))
+
+#   answer_reck = []
+#   left = 0
+#   right = 1
+
+#   while right <= len(gems):
+#     # print(gems[left: right])
+#     if right - left < len(gem_reck):
+#       right += 1
+#     elif right - left >= len(gem_reck):
+#       visited = [False] * len(gem_reck)
+#       for i in range(len(gem_reck)) :
+#         if gem_reck[i] in gems[left: right]:
+#           visited[i] = True
+#       if visited.count(True) == len(gem_reck):
+#         # print('good!')
+#         # print()
+#         answer_reck.append((right-left, left+1,right))
+#         left += 1
+#       else:
+#         right += 1
+#   answer_reck.sort()
+#   answer = answer_reck[0]
+
+#   return [answer[1],answer[2]]
+
+# ------------------------------------------- 커뮤니티
+# 같은 투포인터인데 이렇게 큰 차이가 나나...?
+# 어짜피 visited의 True의 갯수로 확인하니까
+# 종류의 갯수로 확인하자. (전부 필요한 것이니까 가능)
+# def solution(gems):
+#   gem_reck = len(set(gems))
+
+#   shortest = len(gems)+1
+#   left = 0
+#   right = 0
+#   contained = {}
+#   answer = []
+
+#   while right < len(gems):
+#     if gems[right] not in contained:
+#       contained[gems[right]] = 1
+#     else:
+#       contained[gems[right]] += 1
+#     right += 1
+#     # 다 포함하고 있는 애들 중에서, 
+#     if len(contained) == gem_reck:
+#       while left < right:
+#         if contained[gems[left]] > 1:
+#           contained[gems[left]] -= 1
+#           left +=1
+#         elif shortest > right - left:
+#           shortest = right - left
+#           answer = [left+1, right]
+#           break
+#         else:
+#           break
+#   return answer
+
+
+# print(solution(["DIA", "RUBY", "RUBY", "DIA", "DIA", "EMERALD", "SAPPHIRE", "DIA"]))
+# print(solution(["AA", "AB", "AC", "AA", "AC"]))
+# print(solution(["XYZ", "XYZ", "XYZ"]))
+# print(solution(["ZZZ", "YYY", "NNNN", "YYY", "BBB"]))
+
+# -------------------------------------------------------------------------------- 7. 경주로 건설 시간초과 복습
+# bfs느낌 bfs랑 dfs 합치는 것이 아니라 bfs 자체에서 건드릴 수 있나???
+# 아냐 아예 애초부터 dfs로 해야하는 느낌
+# 0은 빔, 1은 벽
+# 직선도로 100, 코너 500
+
+# isVisit에 Cost를 저장하고, 다시 방문했을 때의 Cost가 더 작다면 방문을 허용하는 식으로 작업했습니다.
+# ------------------------------------------- 내꺼
+# from collections import deque
+
+
+# dx = [-1,0,1,0]
+# dy = [0,1,0,-1]
+
+# def bfs(graph,x,y,direc,cost,visited,n):
+#   q = deque([(x,y,direc,cost)])
+#   visited[x][y] = cost
+#   while q:
+#     now_x, now_y,now_direc,now_cost = q.popleft()
+#     for i in range(4):
+#       nx = now_x + dx[i]
+#       ny = now_y + dy[i]
+#       # 범위 안에 있는 경우만 처리
+#       if 0<= nx < n and 0 <= ny < n:
+#         # 벽이 아니라 갈 수 있는 것만 처리
+#         if graph[nx][ny] == 0:
+#           new_cost = 0
+#           if now_direc != -1 and now_direc != i:
+#             new_cost = now_cost + 600
+#           elif now_direc == -1 or now_direc == i:
+#             new_cost = now_cost + 100
+#           # 방문했던 곳이라면
+#           if visited[nx][ny] != -1:
+#             if new_cost <= visited[nx][ny]:
+#               visited[nx][ny] = new_cost
+#               q.append((nx,ny,i,new_cost))
+#           # 방문하지 않았다면
+#           else:
+#             visited[nx][ny] = new_cost
+#             q.append((nx,ny,i,new_cost))
+
+# def solution(board):
+#   n = len(board)
+#   visited = [[-1] * n for _ in range(n)]
+#   bfs(board,0,0,-1,0,visited,n)
+#   for i in visited:
+#     print(i)
+#   answer = visited[len(board)-1][len(board)-1]
+#   return answer
 
