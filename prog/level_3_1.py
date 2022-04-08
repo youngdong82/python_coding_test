@@ -341,3 +341,275 @@
 #   answer = visited[len(board)-1][len(board)-1]
 #   return answer
 
+# ------------------------------------------- 커뮤니티 3차원 dp
+# from collections import deque
+
+# def solution(board):
+#     result = 10000
+#     N = len(board)
+
+#     dx = [-1,0,1,0]
+#     dy = [0,1,0,-1]
+
+#     visited = [[[10000] * N for _ in range(N)] for _ in range(4)]
+#     q = deque([(0,0,0,1),(0,0,0,2)])
+
+#     while q:
+#       now_x, now_y, now_cost, now_direc = q.popleft()
+#       for i in range(4):
+#         nx = now_x + dx[i]
+#         ny = now_y + dy[i]
+
+#         if 0 <= nx < N and 0 <= ny < N:
+#           if board[nx][ny] == 0:
+#             new_cost = now_cost + 100
+#             if now_direc != i:
+#               new_cost += 500
+#             if new_cost < visited[i][nx][ny]:
+#               visited[i][nx][ny] = new_cost
+#               if nx == N-1 and ny == N-1:
+#                 continue
+#               q.append((nx, ny, new_cost, i))
+
+#     for i in range(4):
+#         result = min([result, visited[i][N-1][N-1]])
+#     return result
+
+
+# print(solution([[0,0,0],[0,0,0],[0,0,0]]))
+# print(solution([[0,0,0,0,0,0,0,1],[0,0,0,0,0,0,0,0],[0,0,0,0,0,1,0,0],[0,0,0,0,1,0,0,0],[0,0,0,1,0,0,0,1],[0,0,1,0,0,0,1,0],[0,1,0,0,0,1,0,0],[1,0,0,0,0,0,0,0]]))
+# print(solution([[0,0,1,0],[0,0,0,0],[0,1,0,1],[1,0,0,0]]))
+# print(solution([[0,0,0,0,0,0],[0,1,1,1,1,0],[0,0,1,0,0,0],[1,0,0,1,0,1],[0,1,0,0,0,1],[0,0,0,0,0,0]]))
+# print(solution([[0, 0, 0, 0, 0, 0, 0, 0], [1, 0, 1, 1, 1, 1, 1, 0], [1, 0, 0, 1, 0, 0, 0, 0], [1, 1, 0, 0, 0, 1, 1, 1], [1, 1, 1, 1, 0, 0, 0, 0], [1, 1, 1, 1, 1, 1, 1, 0], [1, 1, 1, 1, 1, 1, 1, 0], [1, 1, 1, 1, 1, 1, 1, 0]]))
+
+# -------------------------------------------------------------------------------- 8. 불량 사용자 실패!! 복습
+# 당첨에서 제외되어야 할 제재 아이디 목록은 몇가지 경우의 수가 가능한 지
+# 1에서 8이하면 완전탐색?
+# '*' 문자를 하나 이상 포함
+# 중복해서 제재 아이디 목록에 들어가는 경우는 없습니다.
+# 제재 아이디 목록들을 구했을 때, 아이디들이 나열된 순서와 관계없이 아이디 목록의 내용이 동일하다면 같은 것으로 처리하여 하나로 세면 됩니다.
+
+# 1. banned_id 별로 일치하는 아이디 list 작성(아이디 자체 이름 필요해)
+#   1-1 check 함수로 하나씩 확인한 후 True라면 tmp에 넣기
+
+# ------------------------------------------- 커뮤
+# from itertools import permutations
+
+
+# def check(candidate, banned_id):
+#   for i in range(len(banned_id)):
+#     if len(banned_id[i]) != len(candidate[i]):
+#       return False
+#     for j in range(len(candidate[i])):
+#       if banned_id[i][j] == "*":
+#         continue
+#       if banned_id[i][j] != candidate[i][j]:
+#         return False
+#   return True
+
+# def solution(user_id, banned_id):
+#   candidates = list(permutations(user_id,len(banned_id)))
+#   answer = []
+#   for candidate in candidates:
+#     if not check(candidate, banned_id):
+#       continue
+#     else:
+#       candidate = set(candidate)
+#       if candidate not in answer:
+#         answer.append(candidate)
+#   return len(answer)
+
+# print(solution(["frodo", "fradi", "crodo", "abc123", "frodoc"],["fr*d*", "abc1**"]))
+# print(solution(["frodo", "fradi", "crodo", "abc123", "frodoc"],["*rodo", "*rodo", "******"]))
+# print(solution(["frodo", "fradi", "crodo", "abc123", "frodoc"],["fr*d*", "*rodo", "******", "******"]))
+
+# -------------------------------------------------------------------------------- 9. 징검다리 건너기 복습
+# 뭔가 디테일이 많이 부족하다.
+# 풀이법을 알게되어도 계속 틀린다.
+# 구현 연습이 필요한 느낌.
+
+# 최대 몇 명까지 징검다리를 건널 수 있는지 
+# 친구들의 수는 무제한 
+# stones 배열의 크기는 1 이상 200,000 이하
+# 각 원소들의 값은 1 이상 200,000,000 이하인 자연수
+# k는 1 이상 stones의 길이 이하
+
+# 걍 하나씩 빼면서 세보면 편하겠지만,
+# 절대 안되겠지?
+
+# 이분탐색?
+# 기준이 뭔데?
+# 한명 ~ 스톤의 최대 값
+# ------------------------------------------- 내꺼
+# k+1개씩 한 세트로 생각하면서 한 칸씩 움직이면서 생각해보자
+# 한 세트 안에서 가장 큰 수-1 이 최대 건널 수 있는 수
+# 를 모은 세트 중에 가장 작은 값이 정답
+
+# 정확성만
+# def solution(stones, k):
+#   answer = 0
+#   while True:
+#     answer += 1
+#     for i in range(len(stones)):
+#       if stones[i] == 0:
+#         continue
+#       stones[i] -= 1
+
+#     count = 0
+#     for i in stones:
+#       if i == 0:
+#         count += 1
+#         if count == k:
+#           return answer
+#       else:
+#         count = 0
+
+# ------------------------------------------- 커뮤니티
+# def solution(stones, k):
+#   left = 1
+#   right = 200000000
+#   while left <= right:
+#     copy_stones = stones.copy()
+#     mid = (left +right) //2
+#     count = 0
+
+#     for i in copy_stones:
+#       if i -mid <= 0:
+#         count += 1
+#       else:
+#         count = 0
+#       if count >= k:
+#         break
+#     if count >= k:
+#       right = mid -1
+#     else:
+#       left = mid + 1
+#   return left
+
+
+# print(solution([2, 4, 5, 3, 2, 1, 4, 2, 5, 1],3))
+
+# -------------------------------------------------------------------------------- 10. 표 편집
+# 모든 명령어를 수행한 후 표의 상태와 처음 주어진 표의 상태를 비교하여 삭제되지 않은 행은 O,
+# 삭제된 행은 X로 표시하여 문자열 형태로 return 
+
+# stack을 이용하는 까다로운 구현문제?
+# ------------------------------------------- 내꺼 50분 컷? 시간초과???
+# def solution(n, k, cmd):
+#   # 첫번째는 index, 두번째는 value
+#   ori_table = []
+#   for i in range(n):
+#     ori_table.append(i)
+#   table = ori_table.copy()
+
+#   deleted = []
+#   for i in cmd:
+#     order_set = i.split(' ')
+#     if str(order_set[0]) == 'U':
+#       order_set[1] = int(order_set[1])
+#       if k >= order_set[1]:
+#         k -= order_set[1]
+#       else:
+#         k = 0
+#     elif str(order_set[0]) == 'D':
+#       order_set[1] = int(order_set[1])
+#       if k+order_set[1] <= n-1:
+#         k += order_set[1]
+#       else:
+#         k = n-1
+#     elif str(order_set[0]) == 'C':
+#       # 없애고
+#       deleted.append((k,table[k]))
+#       table.remove(table[k])
+#       # k의 위치에 따라 
+#       if k == len(table):
+#         k -= 1
+#     elif str(order_set[0]) == 'Z':
+#       index,value = deleted.pop()
+#       if index > k:
+#         table.insert(index,value)
+#       else:
+#         table.insert(index,value)
+#         k+=1
+
+#     print(order_set)
+#     print('k',k)
+#     print('table',table)
+#     print('deleted', deleted)
+#     print()
+  
+  # sorted_table = [0] * n
+  # for i in table:
+  #   sorted_table[i] = i
+
+  # answer = ''
+  # for i,j in zip(ori_table,sorted_table):
+  #   if i == j:
+  #     answer += 'O'
+  #   else:
+  #     answer += 'X'
+  # return answer
+
+# ------------------------------------------- 커뮤니티 링크드 리스트
+# ref: https://kjhoon0330.tistory.com/entry/%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%A8%B8%EC%8A%A4-%ED%91%9C-%ED%8E%B8%EC%A7%91-Python
+
+# def solution(n, k, cmd):
+#   cur = k
+#   table = { i:[i - 1, i + 1] for i in range(n) }
+#   answer = ['O'] * n
+#   table[0] = [None, 1]
+#   table[n - 1] = [n - 2, None]
+#   stack = []
+#   print(table)
+
+  # for c in cmd:
+  #   if c == "C":
+  #     # 삭제
+  #     answer[cur] = 'X'
+  #     prev, next = table[cur]
+  #     stack.append([prev, cur, next])
+  #     if next == None:
+  #       cur = table[cur][0]
+  #     else:
+  #       cur = table[cur][1]
+  #     if prev == None:
+  #       table[next][0] = None
+  #     elif next == None:
+  #       table[prev][1] = None
+  #     else:
+  #       table[prev][1] = next
+  #       table[next][0] = prev
+  #   elif c == "Z":
+  #     # 복구
+  #     prev, now, next = stack.pop()
+  #     answer[now] = 'O'
+  #     if prev == None:
+  #       table[next][0] = now
+  #     elif next == None:
+  #       table[prev][1] = now
+  #     else:
+  #       table[next][0] = now
+  #       table[prev][1] = now
+
+  #   else:
+  #     # 커서 이동
+  #     c1, c2 = c.split(' ')
+  #     c2 = int(c2)
+  #     if c1 == 'D':
+  #       for _ in range(c2):
+  #         cur = table[cur][1]
+  #     else:
+  #       for _ in range(c2):
+  #         cur = table[cur][0]
+  # return ''.join(answer)
+
+
+# print(solution(8,2,["D 2","C","U 3","C","D 4","C","U 2","Z","Z"]))
+# print(solution(8,2,["D 2","C","U 3","C","D 4","C","U 2","Z","Z","U 1","C"]))
+
+# -------------------------------------------------------------------------------- 11. 
+# ------------------------------------------- 내꺼
+# -------------------------------------------------------------------------------- 12. 
+# ------------------------------------------- 내꺼
+# -------------------------------------------------------------------------------- 13. 
+# ------------------------------------------- 내꺼
