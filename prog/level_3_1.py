@@ -22,7 +22,13 @@
 # 그게 아니라 단순히 글로벌 변수 연산이 목적이라면, 사용하지 않는 경우가 있다.
 
 # -------------------------------------------------------------------------------- 링크드 리스트
+# 10번 표 편집 관련
 # 각 노드가 데이터와 포인터를 가지고 한 줄로 연결되어 있는 방식으로 데이터를 저장하는 자료 구조
+
+# 링크드 리스트를 구현하기 위해 따로 클래스를 만들 수도 있었지만,
+# dict 자료구조를 이용하면 구현도 간편하고 특정 열에 대한 검색시간도 적게 만들 수 있다.
+
+# key 값은 열의 번호, value 값은 [ prev 열, next 열 ] 로 지정하면 특정 열에 접근하는 시간 복잡도도 O(1)이라 링크드 리스트보다 빠른 접근을 할 수 있습니다.
 
 # 삽입과 삭제가 빈번하다면? LinkedList,
 # 데이터 접근,조회가 더 중요하다면? Array
@@ -507,16 +513,11 @@
 #     order_set = i.split(' ')
 #     if str(order_set[0]) == 'U':
 #       order_set[1] = int(order_set[1])
-#       if k >= order_set[1]:
-#         k -= order_set[1]
-#       else:
-#         k = 0
+#       k -= order_set[1]
 #     elif str(order_set[0]) == 'D':
 #       order_set[1] = int(order_set[1])
-#       if k+order_set[1] <= n-1:
-#         k += order_set[1]
-#       else:
-#         k = n-1
+#       k += order_set[1]
+
 #     elif str(order_set[0]) == 'C':
 #       # 없애고
 #       deleted.append((k,table[k]))
@@ -524,6 +525,7 @@
 #       # k의 위치에 따라 
 #       if k == len(table):
 #         k -= 1
+
 #     elif str(order_set[0]) == 'Z':
 #       index,value = deleted.pop()
 #       if index > k:
@@ -562,54 +564,50 @@
 #   stack = []
 #   print(table)
 
-  # for c in cmd:
-  #   if c == "C":
-  #     # 삭제
-  #     answer[cur] = 'X'
-  #     prev, next = table[cur]
-  #     stack.append([prev, cur, next])
-  #     if next == None:
-  #       cur = table[cur][0]
-  #     else:
-  #       cur = table[cur][1]
-  #     if prev == None:
-  #       table[next][0] = None
-  #     elif next == None:
-  #       table[prev][1] = None
-  #     else:
-  #       table[prev][1] = next
-  #       table[next][0] = prev
-  #   elif c == "Z":
-  #     # 복구
-  #     prev, now, next = stack.pop()
-  #     answer[now] = 'O'
-  #     if prev == None:
-  #       table[next][0] = now
-  #     elif next == None:
-  #       table[prev][1] = now
-  #     else:
-  #       table[next][0] = now
-  #       table[prev][1] = now
+#   for c in cmd:
+#     if c == "C":
+#   #     # 삭제
+#       answer[cur] = 'X'
+#       prev, next = table[cur]
+#       stack.append([prev, cur, next])
+#       # 헤드 옮기기
+#       if next == None:
+#         cur = table[cur][0]
+#       else:
+#         cur = table[cur][1]
+#       # 값 설정
+#       if prev == None:
+#         table[next][0] = None
+#       elif next == None:
+#         table[prev][1] = None
+#       else:
+#         table[prev][1] = next
+#         table[next][0] = prev
 
-  #   else:
-  #     # 커서 이동
-  #     c1, c2 = c.split(' ')
-  #     c2 = int(c2)
-  #     if c1 == 'D':
-  #       for _ in range(c2):
-  #         cur = table[cur][1]
-  #     else:
-  #       for _ in range(c2):
-  #         cur = table[cur][0]
-  # return ''.join(answer)
+#     elif c == "Z":
+#       # 복구
+#       prev, now, next = stack.pop()
+#       answer[now] = 'O'
+#       if prev == None:
+#         table[next][0] = now
+#       elif next == None:
+#         table[prev][1] = now
+#       else:
+#         table[next][0] = now
+#         table[prev][1] = now
+
+#     else:
+#       # 커서 이동
+#       c1, c2 = c.split(' ')
+#       c2 = int(c2)
+#       if c1 == 'D':
+#         for _ in range(c2):
+#           cur = table[cur][1]
+#       else:
+#         for _ in range(c2):
+#           cur = table[cur][0]
+#   return ''.join(answer)
 
 
 # print(solution(8,2,["D 2","C","U 3","C","D 4","C","U 2","Z","Z"]))
 # print(solution(8,2,["D 2","C","U 3","C","D 4","C","U 2","Z","Z","U 1","C"]))
-
-# -------------------------------------------------------------------------------- 11. 
-# ------------------------------------------- 내꺼
-# -------------------------------------------------------------------------------- 12. 
-# ------------------------------------------- 내꺼
-# -------------------------------------------------------------------------------- 13. 
-# ------------------------------------------- 내꺼
