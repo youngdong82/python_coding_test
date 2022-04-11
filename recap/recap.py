@@ -43,7 +43,7 @@
 # q.popleft()
 
 
-#--------------------------------------- 우선순위 큐(최소 힙)
+#--------------------------------------- 우선순위 힙(최소 힙)
 # 삽입,삭제 전부 O(logN)
 # 첫번째 원소를 기준으로 우선순위를 설정한다.
 # (가치, 물건번호)로 설정하면 가치 순서대로 정렬 됨
@@ -66,7 +66,6 @@
 # 다익스트라
 # 특히 그리디는 많은 유형 접하고 풀어보는 수 밖에 없다.
 
-
 # -------------------------------------------------------------------------- 구현
 # 완전탐색, 시뮬레이션
 # 데이터 처리량이 많을 때는 메모리 제한을 고려하자
@@ -77,25 +76,38 @@
 # 대체로 까다로운 조건들이 많다.
 # 감은 잡히는데 막상 코드로 옮기자니 막막 => 각 단계마다 함수화를 시켜서 나눠서 생각하자.
 
-
 #-------------------------------------------------------------------------- DFS 와 BFS
 # 2차원 배열에서 탐색 문제를 만나면, 그래프 형태로 표현한 다음 풀이법 고민!
 # 나의 경험으로 일단 맞는 것 같은 알고리즘 써놓고 그곳에다 수정하는 것이 더 효율적이다.
 # 아무것도 안 쓰면 아무것도 생각 안남.
 
+# dfs는 stack, bfs는 queue개념을 이용한다.
+
 #--------------------------------------- DFS
 # 인접 리스트: 공간복잡도 O(E) E는 간선의 갯수
 # 간선의 비용을 O(V)시간만에 알 수 있다.
 # 스택 자료구조 이용
-# 재귀함수
 # O(N)
 
+# 재귀함수
 # def dfs(graph,start,visited):
 #   visited[start] = True
 #   print(start, end=' ')
 #   for i in graph[start]:
 #     if visited[start] == False:
 #       dfs(graph,i,visited)
+
+#반복문
+# def dfs(graph, start):
+#   visited = []
+#   stack = [start]
+  
+#   while stack:
+#     now = stack.pop()
+#     if now not in visited:
+#       visited.append(now)
+#       stack.extend(graph[now])
+#   return visited
 
 #--------------------------------------- BFS
 # 인접 리스트 : 공간복잡도 O(E) E는 간선의 갯수
@@ -116,7 +128,6 @@
 #       if visited[i] == False:
 #         visited[i] = True
 #         q.append(i)
-
 
 #-------------------------------------------------------------------------- 정렬
 # array = [6,4,5,9,1,8,2,3,7]
@@ -140,23 +151,21 @@
 # 더이상 정렬할 것이 없다는 뜻이므로 종료
 
 # a = [4,3,2,5,1,8,7]
-# n = len(a)
 
 # def bubble_sort(a):
 #   end = len(a) - 1
 #   while end > 0:
-#     last_swap = 0
 #     for i in range(end):
 #       if a[i] > a[i+1]:
 #         a[i],a[i+1] = a[i+1],a[i]
-#         last_swap = i
-#     end = last_swap
+#     end -=1
+
+# bubble_sort(a)
 
 # print(a)
 
-
 #--------------------------------------- 선택정렬
-# O(N2) - 이중 반복문
+# O(N^2) - 이중 반복문
 # for i in range(n):
 #   min_value = i
 #   for j in range(i+1, n):
@@ -194,29 +203,23 @@
 #--------------------------------------- 힙 정렬
 # 시간 복잡도: O(NlogN)
 # https://ratsgo.github.io/data%20structure&algorithm/2017/09/27/heapsort/ 꼭 읽자!!
-from typing import Counter
+# 기본 리스트에다 heappush로 넣지 않으면,
+# 기존의 리스트에 heqpify를 하지 않으면 
+# heapq관련 메소드 작동 안함. 당연하지 힙자료구조가 아니니까!
 
+# import heapq
 
-def heapify(unsorted, index, heap_size):
-  largest = index
-  left_index = 2 * index + 1
-  right_index = 2 * index + 2
-  if left_index < heap_size and unsorted[left_index] > unsorted[largest]:
-    largest = left_index
-  if right_index < heap_size and unsorted[right_index] > unsorted[largest]:
-    largest = right_index
-  if largest != index:
-    unsorted[largest], unsorted[index] = unsorted[index], unsorted[largest]
-    heapify(unsorted, largest, heap_size)
+# h = []
+# heapq.heappush(h,value)
+# heapq.heappop(h)
 
-def heap_sort(unsorted):
-  n = len(unsorted)
-  for i in range(n//2-1, -1, -1):
-    heapify(unsorted, i, n)
-  for i in range(n-1, 0, -1):
-    unsorted[0],unsorted[i] = unsorted[i],unsorted[0]
-    heapify(unsorted, 0, i)
-  return unsorted
+# hh = [4,6,2,1,4,5]
+# heapq.heapify(hh)
+# print(hh)
+# heapq.heappop(hh)
+# print(hh)
+# heapq.heappop(hh)
+# print(hh)
 
 
 #--------------------------------------- 합병 정렬
@@ -226,35 +229,35 @@ def heap_sort(unsorted):
 # 이 URL 아주 설명 잘 되어있다.
 # https://bblackscene21.tistory.com/8 
 
-def mergeSort(list,p,q):
-	if p>= q: return
-	mid = (p + q) // 2
-	mergeSort(list, p, mid)
-	mergeSort(list, mid+ 1, q)
-	merge(list, p, mid + 1, q)
+# def mergeSort(list,p,q):
+# 	if p>= q: return
+# 	mid = (p + q) // 2
+# 	mergeSort(list, p, mid)
+# 	mergeSort(list, mid+ 1, q)
+# 	merge(list, p, mid + 1, q)
 
 
-def merge(list, left, right, end):
-	merged = []
-	l, r = left, right
-	while l < right and r <= end:
-		if list[l] <= list[r]:
-			merged.append(list[l])
-			l +=1
-		else:
-			merged.append(list[r])
-			r +=1
-	while l < right:
-		merged.append(list[l])
-		l +=1
-	while r <= end:
-		merged.append(list[r])
-		r+=1
+# def merge(list, left, right, end):
+# 	merged = []
+# 	l, r = left, right
+# 	while l < right and r <= end:
+# 		if list[l] <= list[r]:
+# 			merged.append(list[l])
+# 			l +=1
+# 		else:
+# 			merged.append(list[r])
+# 			r +=1
+# 	while l < right:
+# 		merged.append(list[l])
+# 		l +=1
+# 	while r <= end:
+# 		merged.append(list[r])
+# 		r+=1
 
-	l = left
-	for n in merged:
-		list[l] = n	
-		l +=1
+# 	l = left
+# 	for n in merged:
+# 		list[l] = n	
+# 		l +=1
 
 #--------------------------------------- 계수정렬
 # O(N+K)
@@ -273,6 +276,7 @@ def merge(list, left, right, end):
 #     print(i, end=' ')
 
 # 기수정렬이란?
+# 개어려움;;
 
 #--------------------------------------------------------------------------이진탐색
 # 정렬되지 않은 리스트에서 데이터를 찾을 때, 순차 탐색을 사용한다.
@@ -336,7 +340,6 @@ def merge(list, left, right, end):
 # 일부를 떼어내도 트리구조 유지
 # 파일 시스템처럼 계층적이고 정렬된 데이터를 다루기에 적합
 # 왼쪽 자식 < 부모 < 오른쪽 자식
-
 
 
 #-------------------------------------------------------------------------- 다이나믹 프로그래밍
@@ -562,7 +565,7 @@ def merge(list, left, right, end):
 # 음수 데이터 있을 경우 해결 불가
 
 # n = 5
-# m = 7
+# target = 7
 # array = [1,2,3,2,5]
 
 # count = 0
@@ -570,13 +573,13 @@ def merge(list, left, right, end):
 # inter_sum = 0
 
 # for start in range(n):
-#   while inter_sum < m and end<n:
+#   while inter_sum < target and end < n:
 #     inter_sum += array[end]
 #     end += 1
-#   if inter_sum == m:
+#   if inter_sum == target:
 #     count += 1
 #   inter_sum -= array[start]
-  
+
 #--------------------------------------- 합집합
 # a = [1,4,5,8]
 # b = [2,3,6,7,9]
@@ -591,9 +594,11 @@ def merge(list, left, right, end):
 #     d[k] = a[i]
 #     i += 1
 #   else:
-#     d[k]= b[i]
+#     d[k]= b[j]
 #     j+=1
 #   k += 1
+
+# print(d)
 
 #--------------------------------------- 구간 합
 # n = 5
@@ -663,7 +668,6 @@ def merge(list, left, right, end):
 # # len(a) ** 3
 
 
-
 #-------------------------------------------------------------------------- 2차원 리스트 90도 회전
 # a = [[1,2,3], [4,5,6], [7,8,9]]
 
@@ -686,49 +690,3 @@ def merge(list, left, right, end):
 #     for j in range(column):
 #       res[column-1-j][i] = a[i][j]
 #   return res
-
-#-------------------------------------------------------------------------- 파이썬의 큰 수에 대해 
-# https://ahracho.github.io/posts/python/2017-05-09-python-integer-overflow/
-# 다른 언어는 너무 큰수는 메모리의 한계 때문에 에러가 난다.
-# 파이썬은 에러가 나지 않는다.
-# 파이썬에는 오버플로우가 없다
-# 파이썬 2에서는 정수형 데이터 타입이 int와 long 두 가지가 있었는데, int는 C에서의 그것과 같은 4바이트 데이터형이고, 
-# long은 arbitrary precision을 따르는 데이터형이다.
-# 그래서 int 타입 변수의 값이 표현 범위를 넘어서게 되면 자동으로 long으로 타입 변경이 되는 형식이었다.
-
-# 파이썬 3에서는 long 타입이 없어지고 int 타입만 남았는데,
-# 이 int가 arbitrary precision을 지원하여 오버플로우가 발생하지 않게 되었다.
-
-# arbitrary precision란?
-# 사용할 수 있는 메모리양이 정해져 있는 기존의 fixed-precision과 달리,
-# 남아있는 만큼의 가용 메모리를 모두 수 표현에 끌어다 쓸 수 있는 형태
-
-# 기본 28바이트를 사용하다 이를 넘어가면 4바이트씩 증가하면서 수 표현에 사용하는 바이트 수가 탄력적으로 늘어난다.
-
-#-------------------------------------------------------------------------- Counter
-# from collections import Counter
-# array = [1,2,4,4,4,6,7,8,8,8,8,8,9,10]
-# k = 3
-# # 각 문자열에 대한 갯수를 사전 집합자료가 담긴 클래스 형태로 출력
-# count1 = Counter(array)
-# # 각 문자열에 대한 갯수를 많은 순서대로 k개만큼 출력
-# # tuple 형태로 담긴 list (a, b) = a가 b개 있다.
-# count2 = Counter(array).most_common(k)
-
-# print(count1)
-# print(count2)
-
-# -------------------------------------------------------------------------------- list.replace(key, value)
-# -------------------------------------------------------------------------------- lower, upper
-# upper, lower등은 type만 string이면 굳이 알파벳에 안걸어줘도 에러가 나지 않는다
-# -------------------------------------------------------------------------------- str 관련 에러
-# 'str' object does not support item assignment
-# 특수문자는 리스트에서 not in 작동 안하는듯?? 확인해보자!
-# 안되는 것 없음 전부 다 됨
-
-# 문자열 변환은 문자열 변환으로 끝내자. 리스트로 바꿔서 해결하지 말고!!
-# 문자열 슬라이싱이랑 replace 등으로 충분히 할 수 있다!!
-# replace에 대해서 좀 더 알아보자
-# index도 가능한가?? 그럼 인덱스 함수도?? 응 전부 가능
-# 안되는 건 지금까지 단 하나 item assignment
-# ex) a[3] = 'd'
