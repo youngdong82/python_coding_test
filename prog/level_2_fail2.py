@@ -63,23 +63,117 @@
 # -------------------------------------------------------------------------------- 1. 행렬 테두리 회전하기
 # 중앙의 15와 21이 있는 영역은 회전하지 않는 것을 주의
 # 회전에 의해 위치가 바뀐 숫자들 중 가장 작은 숫자들을 순서대로 배열에 담아 return 
-# ------------------------------------------- 내꺼 ㅅㅂ 졸라 오래걸리긴 했지만 풀었다.
+# ------------------------------------------- 내꺼 ㅅㅂ 졸라 오래걸리긴 했지만 풀었다. 3번째 40분 컷!!!
 # 접근법은 같으나 커뮤니티 배울 필요가 있다.
 
 # def solution(rows, columns, queries):
+#   graph = []
+#   index = 0
+#   for i in range(rows):
+#     tmp = []
+#     for j in range(columns):
+#       index += 1
+#       tmp.append(index)
+#     graph.append(tmp)
+
+#   answer = []
+#   for query in queries:
+#     sx,sy,ex,ey = query
+#     sx -= 1
+#     sy -= 1
+#     ex -= 1
+#     ey -= 1
+#     max_value = rotate(graph,sx,sy,ex,ey)
+#     answer.append(max_value)
+
+#   return answer
+
+# def rotate(graph,sx,sy,ex,ey):
+#   reck = []
+#   # 왼쪽에서 오른쪽
+#   tmp = 0
+#   for i in range(ey,sy,-1):
+#     if i == ey:
+#       tmp = graph[sx][i]
+#     graph[sx][i] = graph[sx][i-1]
+#     reck.append(graph[sx][i])
+
+#   # 위에서 아래
+#   tmp2 = 0
+#   for i in range(ex,sx,-1):
+#     if i == ex:
+#       tmp2 = graph[i][ey]
+#     if i == sx+1:
+#       graph[i][ey] = tmp
+#     else:
+#       graph[i][ey] = graph[i-1][ey]
+#     reck.append(graph[i][ey])
+
+#   # 오른쪽에서 왼쪽
+#   tmp3 = 0
+#   for i in range(sy,ey):
+#     if i == sy:
+#       tmp3 = graph[ex][i]
+#     if i == ey-1:
+#       graph[ex][i] = tmp2
+#     else:
+#       graph[ex][i] = graph[ex][i+1]
+#     reck.append(graph[ex][i])
+
+#   # 아래에서 위
+#   for i in range(sx,ex):
+#     if i == ex-1:
+#       graph[i][sy] = tmp3
+#     else:
+#       graph[i][sy] = graph[i+1][sy]
+#     reck.append(graph[i][sy])
+
+#   return min(reck)
+
+      
 
 # print(solution(6,6,[[2,2,5,4],[3,3,6,6],[5,1,6,3]]))
 # print(solution(3,3,[[1,1,2,2],[1,2,2,3],[2,1,3,2],[2,2,3,3]]))
 # print(solution(10,9,[[1,1,10,9]]))
 
 # -------------------------------------------------------------------------------- 7. 삼각 달팽이
-# ------------------------------------------- 내꺼 19분 컷!! 기쁘다!!
-# 아래,오른,대각선 왼위
+# ------------------------------------------- 내꺼 19분 컷!! 기쁘다!! 재귀로 구현하니까 recursive maximum뜬다??
+# import sys
+
+# sys.setrecursionlimit(10001)
+# dx = [1,0,-1]
+# dy = [0,1,-1]
+
 # def solution(n):
+#   n = int(n)
+#   graph = [[0] * n for _ in range(n)]
+
+#   x,y = -1,0
+#   graph[x][y] = 0
+#   i = 0
+#   dfs(graph,x,y,i,n)
+#   asnwer = []
+#   for i in graph:
+#     for j in i:
+#       if j != 0:
+#         asnwer.append(j)
+#   return asnwer
+
+# def dfs(graph,x,y,i,n):
+#   if n == 0:
+#     return
+#   for _ in range(n):
+#     nx = x + dx[i]
+#     ny = y + dy[i]
+#     graph[nx][ny] = graph[x][y] + 1
+#     x,y = nx,ny
+#   i = (i+1)%3
+#   dfs(graph,x,y,i,n-1)
 
 # print(solution(1))
 # print(solution(4))
 # print(solution(5))
+# print(solution(100))
 # print(solution(1000))
 
 
@@ -87,10 +181,24 @@
 # https://art-coding3.tistory.com/46
 # https://velog.io/@sem/%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%A8%B8%EC%8A%A4-LEVEL2-2%EA%B0%9C-%EC%9D%B4%ED%95%98%EB%A1%9C-%EB%8B%A4%EB%A5%B8-%EB%B9%84%ED%8A%B8-Python
 # 100,000개의 길이가 10의 15승 만큼 있다...?
-# 오른쪽에서부터 0을 찾은 다음에 
-# 그 뒤에 1과 자리 바꿔
-# ------------------------------------------- 내꺼 실패 두번째 17분 컷!! 기쁘다!!
+# ------------------------------------------- 내꺼 실패 두번째 17분 컷!! 기쁘다!! 3번째 18분 컷!!
 # def solution(numbers):
+#   answer = []
+#   for i in numbers:
+#     i = int(i)
+#     bit = bin(i)[2:]
+#     rjust_bit = bit.rjust(len(bit)+1,'0')
+#     bit_list = list(rjust_bit)
+
+#     a = rjust_bit.rfind('0')
+#     if a == len(rjust_bit)-1:
+#       bit_list[a] = '1'
+#     else:
+#       bit_list[a],bit_list[a+1] = bit_list[a+1],bit_list[a]
+
+#     answer.append(int(''.join(bit_list),2))
+#   return answer
+
 
 # print(solution([2,7,9]))
 
