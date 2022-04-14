@@ -143,16 +143,42 @@
 # print(solution("L"))
 # print(solution("LR"))
 
-# -------------------------------------------------------------------------------- 8. n^2 배열 자르기 - 실패! 그래도 복습 할 가치가 있다!
+# -------------------------------------------------------------------------------- 8. n^2 배열 자르기 - 복복습!!
 # 시키는 대로 따라하는 것이 아니라 규칙을 알아내야해!
 # 아니 이걸 어떻게 알아내...?
 # 몫과 나머지
 # ------------------------------------------- 내꺼 시간초과
 # def solution(n, left, right):
+#     graph = [[0] * n for _ in range(n)]
+
+#     for i in range(len(graph)):
+#         for j in range(len(graph[0])):
+#             graph[i][j] = max(i,j)+1
+
+#     answer = []
+#     for i in range(left,right+1):
+#         time,rest = divmod(i,n)
+#         answer.append(graph[time][rest])
+#     return answer
+
+# ------------------------------------------- 내꺼2 바로 구해버리기?? 오 개쩐다
+# 풀이를 생각하고 나서는 3분 컷, 그러나 힌트가 있었기에 가능했었다.ㅠ
+# def solution(n, left, right):
+#     n = int(n)
+#     left = int(left)
+#     right = int(right)
+#     answer = []
+#     for i in range(left,right+1):
+#         time,rest = divmod(i,n)
+#         if rest > time:
+#             answer.append(rest+1)
+#         else:
+#             answer.append(time+1)
+#     return answer
+
 
 # print(solution(3,2,5))
 # print(solution(4,7,14))
-
 
 # -------------------------------------------------------------------------------- 2. 예상 대진표 성공 but 시간초관
 # 몇 번째 라운드에서 만나는지 return
@@ -178,7 +204,7 @@
 
 # print(solution(8,4,7))
 
-# -------------------------------------------------------------------------------- 4. 가장 큰 정사각형 찾기 - 복습!!!
+# -------------------------------------------------------------------------------- 4. 가장 큰 정사각형 찾기
 # 동적 프로그래밍 문제인지 알고 푸는 것과
 # 모르고 접하는 것은 천지차이...
 # 1000*1000 이하의 2차원 배열
@@ -222,7 +248,6 @@
 # print(solution(5000))
 # print(solution(999999999))
 
-# ------------------------------------------------------------------------------------------------ 220321
 # -------------------------------------------------------------------------------- 8. n진수 게임
 # 여러 사람이 둥글게 앉아서 숫자를 하나씩 차례대로 말하는 게임
 # 뭔가 나쁘진 않다. 진수변환 정도는 아예 외우자!!!
@@ -254,17 +279,161 @@
 # print(solution(16,16,2,1))
 # print(solution(16,16,2,2))
 
-# -------------------------------------------------------------------------------- 4. 메뉴 리뉴얼 복습!! 내꺼 시간초과 두번째 시간초과
-# dic을 사용하자
-# ------------------------------------------- 내꺼 + 커뮤 굉장히 빠르다...!!!
+# -------------------------------------------------------------------------------- 4. 메뉴 리뉴얼 복복습!!
+# ------------------------------------------- 내꺼 시간초과 두번째 시간초과 3번째 시간초과
+# 쓰여진 모든 메뉴들 정리하고
+# 그것을 만들수 있는 모든 케이스 렉 만든 후
+# 계속 안으로 들어감
+# 하나하나확인
+# from itertools import combinations
+
+
 # def solution(orders, course):
+#     orders.sort(key=lambda x:(len(x)))
+#     reck = []
+#     for i in orders:
+#         for j in i:
+#             if j not in reck:
+#                 reck.append(j)
+#     answer = []
+#     for i in course:
+#         candidates = list(combinations(reck,i))
+#         answer_reck = []
+#         for candi in candidates:
+#             count = 0
+#             for order in orders:
+#                 toggle = True
+#                 for each in candi:
+#                     if each not in order:
+#                         toggle = False
+#                 if toggle:
+#                     count += 1
+#             if count >=2:
+#                 answer_reck.append((count,''.join(sorted(candi))))
+#         answer_reck.sort(reverse=True)
+#         for count,menu in answer_reck:
+#             if count == answer_reck[0][0]:
+#                 answer.append(menu)
+#     answer.sort()
+#     return answer
+
+# ------------------------------------------- 내꺼 2
+# 쓰여진 모든 메뉴들 정리하고
+# 그것을 만들수 있는 모든 케이스 렉 만든 후
+# 한번 빠져나온 후에 - 의미없는듯??
+# 집합연산으로 확인
+# from itertools import combinations
+
+
+# def solution(orders, course):
+#     orders.sort(key=lambda x:(len(x)))
+#     reck = []
+#     for i in orders:
+#         for j in i:
+#             if j not in reck:
+#                 reck.append(j)
+#     candi_reck = []
+#     for i in course:
+#         candidates = list(combinations(reck,i))
+#         for candi in candidates:
+#             candi_reck.append(candi)
+
+#     answer_reck = {}
+#     for candi in candi_reck:
+#         count = 0
+#         for order in orders:
+#             toggle = True
+#             for each in candi:
+#                 if each not in order:
+#                     toggle = False
+#             if toggle:
+#                 count += 1
+#         if count >=2:
+#             if len(candi) not in answer_reck.keys():
+#                 answer_reck[len(candi)] = [(count,''.join(sorted(candi)))]
+#             else:
+#                 answer_reck[len(candi)].append((count,''.join(sorted(candi))))
+
+#     answer = []
+#     for i in answer_reck.values():
+#         i.sort(reverse = True)
+#         for j in i:
+#             if j[0] == i[0][0]:
+#                 answer.append(j[1])
+#     answer.sort()
+#     return answer
+
+# ------------------------------------------- 내꺼
+# 이거 크게 다른 것 없이 순서의 차이였던걸로 기억하는데...꾸준히 못 푸네
+# 집합연산 사용해보자
+# from itertools import combinations
+
+
+# def solution(orders, course):
+#     orders.sort(key=lambda x:(len(x)))
+#     reck = []
+#     # 정렬 된 orders를 돌면서 order별로 만들 수 있는 조합들 reck에 넣기
+#     for order in orders:
+#         for i in range(2,len(order)+1):
+#             candidates = list(combinations(order,i))
+#             for candi in candidates:
+#                 reck.append(''.join(sorted(candi)))
+
+#     # 중복되는 값 제거 후 정렬
+#     reck = list(set(reck))
+#     reck.sort()
+
+#     dic = {}
+#     for i in reck:
+#         count = 0
+#         for order in orders:
+#             if set(i) & set(order) == set(i):
+#                 count += 1
+#         if count >= 2:
+#             if len(i) not in dic.keys():
+#                 dic[len(i)] = [(count,i)]
+#             else:
+#                 dic[len(i)].append((count,i))
+
+#     answer = []
+#     for i in dic.values():
+#         i.sort(reverse = True)
+#         for each in i:
+#             if each[0] == i[0][0]:
+#                 answer.append(each[1])
+#     answer.sort()
+#     return answer
+
+# ------------------------------------------- 커뮤 놀랍다 놀라워...!!!!
+# from itertools import combinations
+
+
+# def solution(orders, course):
+#   answer = []
+#   for i in course:
+#     candidates = []
+#     for order in orders:
+#       candidates += combinations(sorted(order),i)
+
+#     dic = {}
+#     for candidate in candidates:
+#       if candidate not in dic.keys():
+#         dic[candidate] = 1
+#       else:
+#         dic[candidate] += 1
+
+#     for combi, time in dic.items():
+#       if time == max(dic.values()) and time >=2 :
+#         answer.append(''.join(combi))
+
+#   return sorted(answer)
 
 
 # print(solution(["ABCFG", "AC", "CDE", "ACDE", "BCFG", "ACDEH"], [2,3,4]))
 # print(solution(["ABCDE", "AB", "CD", "ADE", "XYZ", "XYZ", "ACD"], [2,3,5]))
 # print(solution(["XYZ", "XWY", "WXA"], [2,3,4]))
 
-# -------------------------------------------------------------------------------- 6. [1차] 프렌즈4블록
+# -------------------------------------------------------------------------------- 6. [1차] 프렌즈4블록 복복습!!
 # 지워지는 블록은 모두 몇 개
 # ------------------------------------------- 커뮤...
 # def pop_num(b, m, n):
@@ -294,31 +463,67 @@
 
 
 # ------------------------------------------- 내꺼
-# def rotate_right(board):
-#   new_board = []
-#   for j in range(len(board[0])):
-#     tmp = []
-#     for i in range(len(board)):
-#       tmp.append(board[i][j])
-#     tmp.reverse()
-#     new_board.append(tmp)
-#   return new_board
 
 # print(solution(4,5,["CCBDE", "AAADE", "AAABF", "CCBBF"]))
 # print(solution(6,6,["TTTANT", "RRFACC", "RRRFCC", "TRRRAA", "TTMMMF", "TMMTTJ"]))
 
 
 
-# -------------------------------------------------------------------------------- 9. 순위 검색 - 시간초과!
+# -------------------------------------------------------------------------------- 9. 순위 검색 - 복복습!!
 # 지원 조건을 선택하면 해당 조건에 맞는 지원자가 몇 명인 지 쉽게 알 수 있는 도구
 # info 배열의 크기는 1 이상 50,000 이하
 # query 배열의 크기는 1 이상 100,000 이하
+# ------------------------------------------- 커뮤
+# from itertools import combinations
 
-# string을 index값으로 바꿔도 큰 차이는 없다. 오히려 string이 빠르다!!
-# ------------------------------------------- 내꺼 - 정확도는 ok but 시간초과 두번째 여전히 시간초과
-# ------------------------------------------- 내꺼
+
 # def solution(info, query):
+#     dic = {}
+#     for i in info:
+#         temp = i.split(' ')
+#         conditions = temp[:-1]
+#         score = int(temp[-1])
+#         for n in range(5):
+#             combis = list(combinations(range(4), n))
+#             # print(combis)
+#             for combi in combis:
+#                 condi_copy = conditions.copy()
+#                 for index in combi:
+#                     condi_copy[index] = '-'
+#                 merged_condi = ''.join(condi_copy)
+#                 if merged_condi in dic:
+#                     dic[merged_condi].append(score)
+#                 else:
+#                     dic[merged_condi] = [score]
 
+#     for value in dic.values():
+#         value.sort()
+
+#     answer = []
+#     for q in query:
+#         qry = []
+#         for i in q.split():
+#             if i != 'and':
+#                 qry.append(i)
+
+#         q_condi = ''.join(qry[:-1])
+#         q_score = int(qry[-1])
+
+#         if q_condi in dic:
+#             data = dic[q_condi]
+#             if len(data) > 0:          
+#                 start, end = 0, len(data)
+#                 while start != end and start != len(data):
+#                     mid = (start + end) // 2
+#                     if data[mid] >= q_score:
+#                         end = mid
+#                     else:
+#                         start = mid + 1
+#                 answer.append(len(data) - start)      # 해당 인덱스부터 끝까지의 갯수가 정답
+#         else:
+#             answer.append(0)
+
+#     return answer
 
 
 # print(solution(["java backend junior pizza 150","python frontend senior chicken 210","python frontend senior chicken 150","cpp backend senior pizza 260","java backend junior chicken 80","python backend senior chicken 50"], ["java and backend and junior and pizza 100","python and frontend and senior and chicken 200","cpp and - and senior and pizza 250","- and backend and senior and - 150","- and - and - and chicken 100","- and - and - and - 150"]))
@@ -355,17 +560,7 @@
 # print(solution('TOBEORNOTTOBEORTOBEORNOT'))
 # print(solution('ABABABABABABABAB'))
 
-
-# -------------------------------------------------------------------------------- 8. 빛의 경로 실패!!
-# ------------------------------------------- 내꺼 두번째 변경!! 야호!!
-# def solution(grid):
-
-
-# print(solution(["SL","LR"]))
-# print(solution(["S"]))
-# print(solution(["R","R"]))
-
-# -------------------------------------------------------------------------------- 1. k진수에서 소수 개수 구하기 진수변환이랑 소수 확인하기 복습!!
+# -------------------------------------------------------------------------------- 1. k진수에서 소수 개수 구하기
 # ------------------------------------------- 내꺼 두번째 24분 컷!! 3번째 20분 컷!!
 # from math import sqrt
 

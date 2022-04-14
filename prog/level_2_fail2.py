@@ -1,5 +1,5 @@
 
-# -------------------------------------------------------------------------------- 5. 124나라의 숫자 실패! - 복습!!
+# -------------------------------------------------------------------------------- 5. 124나라의 숫자
 # ------------------------------------------- 내꺼 3번째 24분 컷!!!!!!
 # def solution(num):
 #   tmp = ''
@@ -202,19 +202,100 @@
 
 # print(solution([2,7,9]))
 
-# -------------------------------------------------------------------------------- 5. 거리두기 확인하기 실패!
+# -------------------------------------------------------------------------------- 5. 거리두기 확인하기
 # 맨해튼 거리1가 2 이하
-# 애초에 q에 들어가는 값을 (x,y,거리)로 설정해서
-# nx,ny할 때 nd라는 거리값도 +1 해주니 괜춘하네
-# ------------------------------------------- 내꺼 두번째 35분 컷!!
+# 파티션 x, 빈자리o, 응시자 p
+# ------------------------------------------- 내꺼 두번째 35분 컷!! 3번째 실패!
+# from collections import deque
+# from copy import deepcopy
+
+# dx = [0,1,0,-1]
+# dy = [-1,0,1,0]
+
+# def dfs(graph,x,y,dist):
+#   if graph[x][y] != 'P':
+#     return True
+#   graph[x][y] = dist
+#   q = deque([(x,y,dist)])
+#   while q:
+#     now_x, now_y, now_dist = q.popleft()
+#     for i in range(4):
+#       nx = now_x + dx[i]
+#       ny = now_y + dy[i]
+#       if 0<= nx < 5 and 0<= ny < 5:
+#         if graph[nx][ny] == 'P':
+#           if now_dist+1 > 2:
+#             graph[nx][ny] = now_dist+1
+#             q.append((nx,ny,now_dist+1))
+#           else:
+#             return False
+#         elif graph[nx][ny] == 'O':
+#           graph[nx][ny] = now_dist+1
+#           q.append((nx,ny,now_dist+1))
+#   return True
+
 # def solution(places):
+#   result = []
+#   for place in places:
+#     for i in range(len(place)):
+#       place[i] = list(place[i])
+
+#     p_list = []
+#     for i in range(5):
+#       for j in range(5):
+#         if place[i][j] == 'P':
+#           p_list.append((i,j))
+    
+#     answer = 1
+#     for i in p_list:
+#       if answer == 0:
+#         break
+#       copy_place = deepcopy(place)
+#       if dfs(copy_place,i[0],i[1],0) == False:
+#         answer = 0
+
+#     result.append(answer)
+#   return result
+
 
 # print(solution([["POOOP", "OXXOX", "OPXPX", "OOXOX", "POXXP"], ["POOPX", "OXPXP", "PXXXO", "OXXXO", "OOOPP"], ["PXOPX", "OXOXP", "OXPOX", "OXXOP", "PXPOX"], ["OOOXX", "XOOOX", "OOOXX", "OXOOX", "OOOOO"], ["PXPXP", "XPXPX", "PXPXP", "XPXPX", "PXPXP"]]))
 
-# ------------------------------------------------------------------------------------------------ 220320
-# -------------------------------------------------------------------------------- 1. 후보키 실패! 복습 필수!!!
+# -------------------------------------------------------------------------------- 1. 후보키 실패! 복복습 필수!!!
+# 컬럼(column)의 길이는 1 이상 8 이하
+# 로우(row)의 길이는 1 이상 20 이하
+# 모든 문자열의 길이는 1 이상 8 이하
 # ------------------------------------------- 커뮤니티 뭔가 간단해보이는데 로직 자체도 뭔가 복잡하네... 
+# from itertools import combinations
+
 # def solution(relation):
+#   n_row = len(relation)
+#   n_col = len(relation[0])
+
+#   candidates=[]
+#   for i in range(1,n_col+1):
+#     candidates.extend(combinations(range(n_col),i))
+  
+#   final=[]
+#   for keys in candidates:
+#     tmp=[]
+#     for item in relation:
+#       ttuple = ''
+#       for key in keys:
+#         ttuple += item[key]
+#       tmp.append(ttuple)
+#     if len(set(tmp)) == n_row:
+#       final.append(keys)
+
+#   answer = set(final[:])
+
+#   for i in range(len(final)):
+#     for j in range(i+1,len(final)):
+#       if len(final[i]) == len(set(final[i]) & set(final[j])):
+#         print(final[i], final[j])
+#         answer.discard(final[j])
+
+#   return answer
+
 
 # print(solution([["100","ryan","music","2"],["200","apeach","math","2"],["300","tube","computer","3"],["400","con","computer","4"],["500","muzi","music","3"],["600","apeach","music","2"]]))
 
@@ -256,22 +337,99 @@
 # print(solution("A"))
 # print(solution("D"))
 
-# -------------------------------------------------------------------------------- 4. [1차] 뉴스 클러스터링
-# 자카드 유사도
-# 교집합 크기를 두 집합의 합집합 크기로 나눈 값으로 정의
-# 집합 A와 집합 B가 모두 공집합일 경우에는 나눗셈이 정의되지 않으니 따로 J(A, B) = 1로 정의
-# 65536을 곱한 후에 소수점 아래를 버리고 정수부만 출력
-# Counter!!!
-# ------------------------------------------- 내꺼
-# def solution(str1, str2):
+# -------------------------------------------------------------------------------- 4. [1차] 뉴스 클러스터링 복복습!!
+# ------------------------------------------- 내꺼 3번째 50분 컷!
+# def solution2(str1, str2):
+#   str_1_reck = []
+#   str1 = str1.upper()
+#   for i in range(len(str1)-1):
+#     tmp = str1[i]+str1[i+1]
+#     if tmp.isalpha():
+#       str_1_reck.append(tmp)
 
+#   str_2_reck = []
+#   str2 = str2.upper()
+#   for i in range(len(str2)-1):
+#     tmp = str2[i]+str2[i+1]
+#     if tmp.isalpha():
+#       str_2_reck.append(tmp)
+
+#   # dic에 몇개씩 들어갔는지 세자.
+#   dic_1 = {}
+#   for i in str_1_reck:
+#     if i not in dic_1.keys():
+#       dic_1[i] = 1
+#     else:
+#       dic_1[i] += 1
+
+#   dic_2 = {}
+#   for i in str_2_reck:
+#     if i not in dic_2.keys():
+#       dic_2[i] = 1
+#     else:
+#       dic_2[i] += 1
+
+#   AND = {}
+#   OR = {}
+#   for key1,value1 in dic_1.items():
+#     OR[key1] = value1
+
+#     for key2,value2 in dic_2.items():
+#       if key1 == key2:
+#         AND[key1] = min(value1,value2)
+#         OR[key2] = max(OR[key2],value2)
+#       else:
+#         if key2 in OR.keys():
+#           OR[key2] = max(OR[key2],value2)
+#         else:
+#           OR[key2] = value2
+
+#   len_and = 0
+#   len_or = 0
+#   for i in AND.values():
+#     len_and += i
+#   for i in OR.values():
+#     len_or += i
+
+#   if len_and == 0 and len_or == 0:
+#     return 65536
+#   else:
+#     return int(len_and / len_or * 65536)
+
+# ------------------------------------------- 커뮤
+# from collections import Counter
+
+# def solution(str1, str2):
+#     str1_low = str1.lower()
+#     str2_low = str2.lower()
+
+#     str1_lst = []
+#     str2_lst = []
+
+#     for i in range(len(str1_low)-1):
+#         if str1_low[i].isalpha() and str1_low[i+1].isalpha():
+#             str1_lst.append(str1_low[i] + str1_low[i+1])
+#     for j in range(len(str2_low)-1):
+#         if str2_low[j].isalpha() and str2_low[j+1].isalpha():
+#             str2_lst.append(str2_low[j] + str2_low[j+1])
+
+#     Counter1 = Counter(str1_lst)
+#     Counter2 = Counter(str2_lst)
+
+#     inter = list((Counter1 & Counter2).elements())
+#     union = list((Counter1 | Counter2).elements())
+
+#     if len(union) == 0 and len(inter) == 0:
+#         return 65536
+#     else:
+#         return int(len(inter) / len(union) * 65536)
 
 # print(solution('FRANCE','french'))
 # print(solution('handshake','shake hands'))
 # print(solution('aa1+aa2','AAAA12'))
 # print(solution('E=M*C^2','e=m*c^2'))
-# print(solution('abcde','fghij'))
 
+# print(solution('abcde','fghij'))
 # print(solution('abc','abbb'))
 # print(solution('aa1+aa2','AA12'))
 # print(solution('aaabb','aabbb'))
