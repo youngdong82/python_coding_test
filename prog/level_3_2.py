@@ -44,34 +44,34 @@
 # 경로를 알고 합승여부 따져야함
 # 200 **3으로 시간복잡도는 가능
 # ------------------------------------------- 내꺼
-import heapq
+# import heapq
 
 
-INF = int(1e9)
-def solution(n, s, a, b, fares):
-  print(fares)
-  graph = [[] for i in range(n+1)]
-  distance = [INF] * (n+1)
+# INF = int(1e9)
+# def solution(n, s, a, b, fares):
+#   print(fares)
+#   graph = [[] for i in range(n+1)]
+#   distance = [INF] * (n+1)
 
-  for fare in fares:
-    start,end,cost = fare
-    graph[start].append((end,cost))
+#   for fare in fares:
+#     start,end,cost = fare
+#     graph[start].append((end,cost))
   
-  dijkstra(s)
+#   dijkstra(s)
   
-  def dijkstra(start):
-    q = []
-    heapq.heappush(q,(0,start))
-    distance[start] = 0
-    while q:
-      cost,now = heapq.heappop(q)
-      if distance[now] < cost:
-        continue
-      for i in graph[now]:
-        new_cost = cost + i[1]
-        if new_cost < distance[i[0]]:
-          distance[i[0]] = new_cost
-          heapq.heappush(q,(cost,i[0]))
+#   def dijkstra(start):
+#     q = []
+#     heapq.heappush(q,(0,start))
+#     distance[start] = 0
+#     while q:
+#       cost,now = heapq.heappop(q)
+#       if distance[now] < cost:
+#         continue
+#       for i in graph[now]:
+#         new_cost = cost + i[1]
+#         if new_cost < distance[i[0]]:
+#           distance[i[0]] = new_cost
+#           heapq.heappush(q,(cost,i[0]))
 
 # print(solution(6,4,6,2,[[4,1,10], [3,5,24], [5,6,2], [3,1,41], [5,1,24], [4,6,50], [2,4,66], [2,3,22], [1,6,25]]))
 # print(solution(7,3,4,1,[[5,7,9], [4,6,4], [3,6,1], [3,2,3], [2,1,6]]))
@@ -297,3 +297,119 @@ def solution(n, s, a, b, fares):
 
 
 # print(solution(4,[[0,1,1],[0,2,2],[1,2,5],[1,3,1],[2,3,8]]))
+
+# -------------------------------------------------------------------------------- 6. 광고 삽입
+# 공익광고가 들어갈 시작 시각을 구해서 return 하도록 solution 함수를 완성
+# 가장 많은 곳이 여러 곳이라면, 그 중에서 가장 빠른 시작 시각을 return 
+
+# 일단 계산하기 쉽게 만든 후에
+# 0초부터 각 재생시간 시작부분으로 넘어가면서
+# 각 구간별 총 재생시간 구하기
+# ------------------------------------------- 커뮤니티 dp문제
+# def str2int(time):
+#     hour = int(time[:2]) * 3600
+#     minute = int(time[3:5]) * 60
+#     second = int(time[6:])
+    
+#     return hour+minute+second
+
+# def int2str(time):
+#     hour = str(time // 3600).zfill(2)
+#     minute = str(time % 3600 // 60).zfill(2)
+#     second = str(time % 3600 % 60).zfill(2)
+    
+#     return hour+":"+minute+":"+second
+
+# def solution(play_time, adv_time, logs):
+#     dp = [0] * (str2int(play_time) + 1)
+    
+#     for i in logs:
+#         temp = i.split('-')
+#         start = str2int(temp[0])
+#         end = str2int(temp[1])
+#         dp[start] += 1
+#         dp[end] -= 1
+
+#     for i in range(1, str2int(play_time)):
+#         dp[i] += dp[i-1]
+#     for i in range(1, str2int(play_time)):
+#         dp[i] += dp[i-1]
+
+#     max_value = -1
+#     answer = 0
+#     for i in range(str2int(adv_time)-1, str2int(play_time)):
+#         temp = dp[i] - dp[i-str2int(adv_time)] 
+#         if temp > max_value:
+#             max_value = temp
+#             answer = i-str2int(adv_time) + 1
+            
+#     return int2str(answer)
+
+# print(solution("02:03:55","00:14:15",["01:20:15-01:45:14", "00:40:31-01:00:00", "00:25:50-00:48:29", "01:30:59-01:53:29", "01:37:44-02:02:30"]))
+# print(solution("99:59:59","25:00:00",["69:59:59-89:59:59", "01:00:00-21:00:00", "79:59:59-99:59:59", "11:00:00-31:00:00"]))
+# print(solution("50:00:00","50:00:00",["15:36:51-38:21:49", "10:14:18-15:36:51", "38:21:49-42:51:45"]))
+
+# -------------------------------------------------------------------------------- 7. 길 찾기 게임
+# ------------------------------------------- 내꺼
+import sys
+sys.setrecursionlimit(10**6)
+
+def preorder(arrY, arrX, answer):
+    node = arrY[0]
+    idx = arrX.index(node)
+    arrY1 = []
+    arrY2 = []
+    
+    for i in range(1, len(arrY)):
+        if node[0] > arrY[i][0]:
+            arrY1.append(arrY[i])
+        else:
+            arrY2.append(arrY[i])
+
+    answer.append(node[2])
+    if len(arrY1) > 0:
+        preorder(arrY1, arrX[:idx], answer)
+    if len(arrY2) > 0:
+        preorder(arrY2, arrX[idx + 1:], answer)
+    return
+
+def postorder(arrY, arrX, answer):
+    node = arrY[0]
+    idx = arrX.index(node)
+    arrY1 = []
+    arrY2 = []
+    
+    for i in range(1, len(arrY)):
+        if node[0] > arrY[i][0]:
+            arrY1.append(arrY[i])
+        else:
+            arrY2.append(arrY[i])
+    
+    if len(arrY1) > 0:
+        postorder(arrY1, arrX[:idx], answer)
+    if len(arrY2) > 0:
+        postorder(arrY2, arrX[idx + 1:], answer)
+    answer.append(node[2])
+    return
+
+def solution(nodeinfo):
+    preanswer = []
+    postanswer = []
+    
+    for i in range(len(nodeinfo)):
+        nodeinfo[i].append(i+1)
+    # print('nodeinfo', nodeinfo)
+    
+    arrY = sorted(nodeinfo, key = lambda x : (-x[1], x[0]))
+    arrX = sorted(nodeinfo)
+    # print('arrY', arrY)
+    # print('arrX', arrX)
+
+
+    preorder(arrY, arrX, preanswer)
+    postorder(arrY, arrX, postanswer)
+    
+    return [preanswer, postanswer]
+
+
+print(solution([[5,3],[11,5],[13,3],[3,5],[6,1],[1,3],[8,6],[7,2],[2,2]]))

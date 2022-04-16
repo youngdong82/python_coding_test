@@ -41,7 +41,34 @@
 # ------------------------------------------- 내꺼 시간초과
 
 # -------------------------------------------------------------------------------- 4. 메뉴 리뉴얼 복복습!!
-# ------------------------------------------- 내꺼 시간초과 두번째 시간초과 3번째 시간초과
+# ------------------------------------------- 내꺼 시간초과 두번째 시간초과 3번째 시간초과 4번째 시간초괔ㅋㅋㅋㅋㅋㅋ 학습 안하냨ㅋㅋ
+# from itertools import combinations
+
+
+# def solution(orders, course):
+#   answer = []
+#   for i in course:
+#     candidates = []
+#     for order in orders:
+#       candidates += combinations(sorted(order),i)
+
+#     dic = {}
+#     for candidate in candidates:
+#       if candidate not in dic.keys():
+#         dic[candidate] = 1
+#       else:
+#         dic[candidate] += 1
+#     print(dic)
+
+#     for combi, time in dic.items():
+#       if time == max(dic.values()) and time >=2 :
+#         answer.append(''.join(combi))
+
+#   return sorted(answer)
+
+# print(solution(["ABCFG", "AC", "CDE", "ACDE", "BCFG", "ACDEH"],[2,3,4]))
+# print(solution(["ABCDE", "AB", "CD", "ADE", "XYZ", "XYZ", "ACD"],[2,3,5]))
+# print(solution(["XYZ", "XWY", "WXA"],[2,3,4]))
 
 # -------------------------------------------------------------------------------- 6. [1차] 프렌즈4블록 복복습!!
 # 지워지는 블록은 모두 몇 개
