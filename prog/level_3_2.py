@@ -298,7 +298,7 @@
 
 # print(solution(4,[[0,1,1],[0,2,2],[1,2,5],[1,3,1],[2,3,8]]))
 
-# -------------------------------------------------------------------------------- 6. 광고 삽입
+# -------------------------------------------------------------------------------- 6. 광고 삽입 복습
 # 공익광고가 들어갈 시작 시각을 구해서 return 하도록 solution 함수를 완성
 # 가장 많은 곳이 여러 곳이라면, 그 중에서 가장 빠른 시작 시각을 return 
 
@@ -349,67 +349,135 @@
 # print(solution("99:59:59","25:00:00",["69:59:59-89:59:59", "01:00:00-21:00:00", "79:59:59-99:59:59", "11:00:00-31:00:00"]))
 # print(solution("50:00:00","50:00:00",["15:36:51-38:21:49", "10:14:18-15:36:51", "38:21:49-42:51:45"]))
 
-# -------------------------------------------------------------------------------- 7. 길 찾기 게임
+# -------------------------------------------------------------------------------- 7. 길 찾기 게임 복습
 # ------------------------------------------- 내꺼
-import sys
-sys.setrecursionlimit(10**6)
+# import sys
+# sys.setrecursionlimit(10**6)
 
-def preorder(arrY, arrX, answer):
-    node = arrY[0]
-    idx = arrX.index(node)
-    arrY1 = []
-    arrY2 = []
+# def preorder(arrY, arrX, answer):
+#     node = arrY[0]
+#     idx = arrX.index(node)
+#     arrY1 = []
+#     arrY2 = []
     
-    for i in range(1, len(arrY)):
-        if node[0] > arrY[i][0]:
-            arrY1.append(arrY[i])
-        else:
-            arrY2.append(arrY[i])
+#     for i in range(1, len(arrY)):
+#         if node[0] > arrY[i][0]:
+#             arrY1.append(arrY[i])
+#         else:
+#             arrY2.append(arrY[i])
 
-    answer.append(node[2])
-    if len(arrY1) > 0:
-        preorder(arrY1, arrX[:idx], answer)
-    if len(arrY2) > 0:
-        preorder(arrY2, arrX[idx + 1:], answer)
-    return
+#     answer.append(node[2])
+#     if len(arrY1) > 0:
+#         preorder(arrY1, arrX[:idx], answer)
+#     if len(arrY2) > 0:
+#         preorder(arrY2, arrX[idx + 1:], answer)
+#     return
 
-def postorder(arrY, arrX, answer):
-    node = arrY[0]
-    idx = arrX.index(node)
-    arrY1 = []
-    arrY2 = []
+# def postorder(arrY, arrX, answer):
+#     node = arrY[0]
+#     idx = arrX.index(node)
+#     arrY1 = []
+#     arrY2 = []
     
-    for i in range(1, len(arrY)):
-        if node[0] > arrY[i][0]:
-            arrY1.append(arrY[i])
-        else:
-            arrY2.append(arrY[i])
+#     for i in range(1, len(arrY)):
+#         if node[0] > arrY[i][0]:
+#             arrY1.append(arrY[i])
+#         else:
+#             arrY2.append(arrY[i])
     
-    if len(arrY1) > 0:
-        postorder(arrY1, arrX[:idx], answer)
-    if len(arrY2) > 0:
-        postorder(arrY2, arrX[idx + 1:], answer)
-    answer.append(node[2])
-    return
+#     if len(arrY1) > 0:
+#         postorder(arrY1, arrX[:idx], answer)
+#     if len(arrY2) > 0:
+#         postorder(arrY2, arrX[idx + 1:], answer)
+#     answer.append(node[2])
+#     return
 
-def solution(nodeinfo):
-    preanswer = []
-    postanswer = []
+# def solution(nodeinfo):
+#     preanswer = []
+#     postanswer = []
     
-    for i in range(len(nodeinfo)):
-        nodeinfo[i].append(i+1)
-    # print('nodeinfo', nodeinfo)
+#     for i in range(len(nodeinfo)):
+#         nodeinfo[i].append(i+1)
+#     # print('nodeinfo', nodeinfo)
     
-    arrY = sorted(nodeinfo, key = lambda x : (-x[1], x[0]))
-    arrX = sorted(nodeinfo)
-    # print('arrY', arrY)
-    # print('arrX', arrX)
+#     arrY = sorted(nodeinfo, key = lambda x : (-x[1], x[0]))
+#     arrX = sorted(nodeinfo)
+#     # print('arrY', arrY)
+#     # print('arrX', arrX)
 
 
-    preorder(arrY, arrX, preanswer)
-    postorder(arrY, arrX, postanswer)
+#     preorder(arrY, arrX, preanswer)
+#     postorder(arrY, arrX, postanswer)
     
-    return [preanswer, postanswer]
+#     return [preanswer, postanswer]
 
 
-print(solution([[5,3],[11,5],[13,3],[3,5],[6,1],[1,3],[8,6],[7,2],[2,2]]))
+# print(solution([[5,3],[11,5],[13,3],[3,5],[6,1],[1,3],[8,6],[7,2],[2,2]]))
+
+# -------------------------------------------------------------------------------- 8. 입국심사
+# ------------------------------------------- 내꺼
+# def solution(n, times):
+#   start = 1
+#   end = max(times) * n
+
+#   while start <= end:
+#     mid = (start+end)//2
+#     people = 0
+#     for time in times:
+#       people += mid // time
+#       if people >= n:
+#           break
+#     if people < n:
+#       start = mid + 1
+#     elif people >= n:
+#       end = mid - 1
+#   return start
+
+
+# print(solution(6, [1,10]))
+# print(solution(6, [7,10]))
+
+# -------------------------------------------------------------------------------- 9. 정수 삼각형
+# ------------------------------------------- 내꺼 13분 컷!
+# def solution(triangle):
+#   graph = [[0] * len(triangle) for _ in range(len(triangle))]
+#   for i in range(len(triangle)):
+#     for j in range(len(triangle[i])):
+#       graph[i][j] = triangle[i][j]
+
+#   for i in range(1,len(triangle)):
+#     for j in range(len(triangle[i])):
+#       graph[i][j] = graph[i][j] + max(graph[i-1][j],graph[i-1][j-1])
+#   return max(graph[-1])
+
+
+# print(solution([[7], [3, 8], [8, 1, 0], [2, 7, 4, 4], [4, 5, 2, 6, 5]]))
+
+# -------------------------------------------------------------------------------- 10. N으로 표현
+# 규칙이...있나??
+# 머지....감도 안잡히네
+# 거꾸로 가보자
+# ------------------------------------------- 내꺼
+def solution(N, number):
+  dp = [[]]
+  for i in range(1, 9):
+    temp = []
+    for j in range(1, i):
+      for k in dp[j]:
+        for l in dp[i - j]:
+          temp.append(k + l)
+          if k - l >= 0:
+            temp.append(k - l)
+          temp.append(k * l)
+          if l != 0 and k != 0:
+            temp.append(k // l)
+    temp.append(int(str(N) * i))
+    if number in temp:
+      return i
+    dp.append(list(set(temp)))
+
+    return -1
+
+
+print(solution(5,12))
+# print(solution(2,11))
