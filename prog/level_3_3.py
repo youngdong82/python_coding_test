@@ -251,8 +251,205 @@
 # print(solution([9,-1,-5]))
 # print(solution([-16,27,65,-2,58,-92,-68,-71,-61,-33]))
 
+# -------------------------------------------------------------------------------- 6. 가장 긴 팰린드롬
+# 앞뒤를 뒤집어도 똑같은 문자열을 팰린드롬
+# s의 부분문자열(Substring)중 가장 긴 팰린드롬의 길이를 return
+
+# s의 길이 : 2,500 이하
+
+# 왼쪽부터 양옆을 확인하다가 
+# 양옆이 팰린드롬이라면 더 키워보기
+# 그 다음 확인할 때는 커진 크기로 확인하기
+
+# 짝수일 경우도 확인해야해
+# [ababbc]
+# index = 1
+# left = [index-p_size]
+# toggle = True:
+# right = [index+p_size]
+
+# toggle = False:
+# right = [index+p_size+1]
+
+# b
+# a
+# b
+# aa
+
+# ------------------------------------------- 내꺼 너무 복잡하게 짠다...
+# def solution(s):
+#   p_size = 1
+#   index = 1
+#   # 짝수일때/ 홀수면 False
+#   toggle = 1
+#   answer_reck = [(0,-1)]
+
+#   while True:
+#     if index == len(s):
+#       break
+#     now = s[index]
+#     left = s[index-p_size: index]
+
+#     if toggle == 1:
+#       right = s[index: index+p_size]
+#     else:
+#       right = s[index+1: index+p_size+1]
 
 
+#     if len(left) == 0 and len(right) == 0:
+#       break
+#     if left == right[::-1]:
+#       p_size +=1
+#       answer_reck.append((p_size,toggle))
+#       continue
+
+#     if toggle == 1:
+#       toggle = -toggle
+#     else:
+#       index += 1
+#       toggle = -toggle
+    
+#   # print(answer_reck)
+#   answer = answer_reck[-1]
+#   if answer[1] == 1:
+#     return (p_size-1)*2
+#   else:
+#     return (p_size-1)*2 + 1
+
+# ------------------------------------------- 커뮤니티 일단 오키...
+# def palindrome(s, left, right):
+#     while 0 <= left and right <= len(s) and s[left] == s[right-1]:
+#         left -= 1
+#         right += 1
+#     return s[left+1:right-1]
+
+# def solution(s):
+#     if len(s) < 2 or s == s[::-1]:
+#         return len(s)
+    
+#     result = ""
+#     # i가 기준점이다.
+#     for i in range(len(s)-1):
+#         # 길이 기준으로 result update
+#         # 홀수 / 짝수 두가지로 진행된다.
+#         result = max(result, palindrome(s, i, i+1), palindrome(s, i, i+2), key = len)
+#         print(result)
+    
+#     return len(result)
+
+# print(solution("aa"))
+# print(solution("a"))
+# print(solution("abcde"))
+# print(solution("abcd"))
+
+# print(solution("abba"))
+# print(solution("abcdcba"))
+# print(solution("abacde"))
+# print(solution("abcba"))
+
+# print(solution("aaaaaa")) # 6
+# print(solution("aaaaa"))
+# print(solution("abacdedcbaa"))
+# print(solution("b")) #1
+# print(solution("abbb"))
 
 
+# print(solution("abcabcdcbae")) #7
+# print(solution("aaaa")) #4
+# print(solution("abcbaqwertrewqq")) #9
+# print(solution("abcbaqwqabcba")) #13
 
+# -------------------------------------------------------------------------------- 7. 금과 은 운반하기
+#  각 도시의 트럭을 최적으로 운행했을 때, 새로운 도시를 건설하기 위해 금 a kg과 은 b kg을 전달할 수 있는 가장 빠른 시간을 구해
+# 뭐 어떻게 해야하니....? 감도 안오네
+# 변수 따로따로 두고
+# 시간에 따라 남은 양 보면서 채우면 되나??
+# 이거 뭔가 입국심사 문제랑 비슷한 느낌인데 - 비슷한거 맞음
+
+# 시간을 기준으로 이분탐색
+# 시간에 따라 각 트럭별로 최대로 움직일 수 있는 만큼 움직여
+# 기준치보다 넘어가거나 부족하다면
+# 시간으로 조절하면된다.
+# ------------------------------------------- 커뮤니티
+# def solution(a, b, g, s, w, t):
+#     answer = (10**9) * (10**5) * 4
+    
+#     start = 0
+#     end = (10**9) * (10**5) * 4
+    
+#     while start <= end:
+#         mid = (start + end) // 2
+#         gold = 0
+#         silver = 0 
+#         total = 0
+        
+#         for i in range(len(g)):
+#             # 현재 정보
+#             now_gold = g[i]
+#             now_silver = s[i]
+#             now_weight = w[i]
+#             now_time = t[i]
+            
+#             # 주어진 시간내에서 이동할 수 있는 횟수(왕복으로 계산)
+#             move_cnt = mid // (now_time * 2)
+            
+#             # 편도 추가
+#             if mid % (now_time * 2) >= now_time:
+#                 move_cnt += 1
+            
+#             # 총 운반할 수 있는 양이 현재 도시의 금의 양보다 
+#             # 많다면 현재도시 양을 추가하고
+#             if (now_gold < move_cnt * now_weight):
+#               gold += now_gold 
+#             # 적다면 총 운반 가능한 양을 추가
+#             else:
+#               gold += move_cnt * now_weight
+
+#             # 금이랑 같다.
+#             if (now_silver < move_cnt * now_weight):
+#               silver += now_silver 
+#             else:
+#               silver += move_cnt * now_weight
+
+#             # 전체 양(이건 왜하는거지??)
+#             # 둘의 무게를 더한것이 한번에 나를 수 있는 제한보다 큰지 확인
+#             if (now_gold + now_silver < move_cnt * now_weight):
+#               total += now_gold + now_silver
+#             else:
+#               total += move_cnt * now_weight 
+        
+#         if gold >= a and silver >= b and total >= a + b:
+#             end = mid - 1
+#             answer = min(answer, mid)
+#         else:
+#             start = mid + 1
+        
+#     return answer
+
+# print(solution(10,10,[100],[100],[7],[10]))
+# print(solution(90,500,[70,70,0],[0,0,500],[100,100,2],[4,8,1]))
+
+# -------------------------------------------------------------------------------- 8. 거스름돈
+# n은 100,000 이하의 자연수
+# 화폐종류 100종류 이하
+# 1,000,000,007로 나눈 나머지를 return
+# 방법의 경우의 수
+# 각 화폐 갯수는 무한
+# dp
+
+# 각 코인 별 최대 갯수 (n//코인)
+# ------------------------------------------- 내꺼
+# def solution(n, money):
+#   dp = [1] + ([0] * n)
+#   for coin in money:
+#     for price in range(coin,n+1):
+#       print(price)
+#       if price >= coin:
+#         dp[price] += dp[price-coin]
+#     print(dp)
+#   return dp[n] % 1000000007
+
+
+# print(solution(5,[1,2,5]))
+# print(solution(14,[1,2,5,7]))
+# print(solution(4,[2,1]))
