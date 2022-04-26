@@ -453,3 +453,180 @@
 # print(solution(5,[1,2,5]))
 # print(solution(14,[1,2,5,7]))
 # print(solution(4,[2,1]))
+
+# -------------------------------------------------------------------------------- 9. 공 이동 시뮬레이션
+# 열 번호가 감소하는 방향으로 dx칸 이동하는 쿼리 (query(0, dx))
+# 열 번호가 증가하는 방향으로 dx칸 이동하는 쿼리 (query(1, dx))
+# 행 번호가 감소하는 방향으로 dx칸 이동하는 쿼리 (query(2, dx))
+# 행 번호가 증가하는 방향으로 dx칸 이동하는 쿼리 (query(3, dx)
+
+# 움직이지 말고 그대로 더해버리기...???안돼
+# n, m 가 너무큰데...
+# query 20만개
+# query로 네모 박스 만들기
+
+# # ------------------------------------------- 내꺼 시간초과
+# dx = [0,0,-1,1]
+# dy = [-1,1,0,0]
+
+# def solution(n, m, x, y, queries):
+#   answer = 0
+#   for i in range(n):
+#     for j in range(m):
+#       if move(n,m,i,j,queries, x,y):
+#         answer += 1
+#   return answer
+
+# def move(n,m,x,y,queries, tx,ty):
+#   for q in queries:
+#     index = q[0]
+#     much = q[1]
+#     nx = x + (dx[index] * much)
+#     ny = y + (dy[index] * much)
+#     if 0<= nx < n and 0<= ny < m:
+#       x,y = nx,ny
+#   if (x,y) == (tx,ty):
+#     return True
+#   else:
+#     return False
+# ------------------------------------------- 내꺼 시간초과
+dx = [0,0,-1,1]
+dy = [-1,1,0,0]
+
+def solution(n, m, x, y, queries):
+  box_range = make_box_range(queries)
+  # x,y를 기준으로 사방으로 range 잡고
+  answer = 0
+  for i in range(n-box_range[0], n+ box_range[0]+1):
+    for j in range(m-box_range[1], m+ box_range[1]+1):
+      if move(n,m,i,j,queries, x,y):
+        answer += 1
+  return answer
+
+def make_box_range(queries):
+  x, y = 0,0
+  answer = [(x,y)]
+  for q in queries:
+    index = q[0]
+    much = q[1]
+    nx = x + (dx[index] * much)
+    ny = y + (dy[index] * much)
+    answer.append((nx,ny))
+    x,y = nx,ny
+
+  max_x = 0
+  max_y = 0
+  min_x = int(1e9)
+  min_y = int(1e9)
+  for i in answer:
+    max_x = max(max_x, i[0])
+    min_x = min(min_x, i[0])
+    max_y = max(max_y, i[1])
+    min_y = min(min_y, i[1])
+  return [max_x - min_x, max_y - min_y]
+
+def move(n,m,x,y,queries, tx,ty):
+  for q in queries:
+    index = q[0]
+    much = q[1]
+    nx = x + (dx[index] * much)
+    ny = y + (dy[index] * much)
+    if 0<= nx < n and 0<= ny < m:
+      x,y = nx,ny
+  if (x,y) == (tx,ty):
+    return True
+  else:
+    return False
+  
+
+
+
+# print(solution(2,2,0,0,[]))
+print(solution(2,2,0,0,[[2,1],[0,1],[1,1],[0,1],[2,1]]))
+print(solution(2,5,0,1,[[3,1],[2,2],[1,1],[2,3],[0,1],[2,1]]))
+
+
+
+
+
+
+# -------------------------------------------------------------------------------- 10. 줄 서는 방법
+# example = [1,2,3,4]
+
+# 4를 3!로 나누면:
+# 몫 0 나머지 4
+# example[몫]을 answer에 넣기 answer = [1,]
+# example.remove[1]        example = [2,3,4]
+
+# 4를 2!로 나누면
+# 몫 2, 나머지 0
+# =>
+# 몫 1, 나머지 2
+# example[몫]을 answer에 넣기 answer = [1,3,]
+# example.remove(3)        example = [2,4]
+
+# 2를 1!로 나누면:
+# 몫 2, 나머지 0
+# =>
+# 몫 1, 나머지 1
+# example[몫]을 answer에 넣기 answer = [1,3,4]
+# example.remove(2)        example = [2]
+
+# 1개 남았으면 그냥 넣기
+
+# 나머지가 0이라면,
+# 몫 -1 나머지 = 해당 수
+
+# 5를 3!로 나누면:
+# 몫 0 나머지 5
+# example[몫]을 answer에 넣기 answer = [1,]
+# example.remove[1]        example = [2,3,4]
+
+# 5를 2!로 나누면
+# 몫 2, 나머지 1
+# example[몫]을 answer에 넣기 answer = [1,4,]
+# example.remove(4)         example = [2,3]
+
+# 1를 1!로 나누면:
+# 몫 1, 나머지 0
+# =>
+# 몫 0, 나머지 1
+# example[몫]을 answer에 넣기 answer = [1,4,2]
+# example.remove(2)        example = [3]
+
+# 1개 남았으면 그냥 넣기
+
+# 나머지가 0이라면,
+# 몫 -1 나머지 = 해당 수
+
+# ------------------------------------------- 내꺼 시간초과
+# from itertools import permutations
+
+# def solution(n, k):
+#   candidates = list(permutations(range(1,n+1),n))
+#   return candidates[k-1]
+
+# print(solution(4,4))
+
+# ------------------------------------------- 내꺼 오예!!!
+# from math import factorial
+
+
+# def solution(n, k):
+#   example = [i for i in range(1,n+1)]
+
+#   answer = []
+#   while n >0:
+#     time, rest = divmod(k,factorial(n-1))
+#     if rest == 0:
+#       rest = factorial(n-1)
+#       time -= 1
+#     add_value = example[time]
+#     answer.append(add_value)
+#     example.remove(add_value)
+#     k = rest
+#     n -= 1
+
+#   return answer
+
+# print(solution(4,4))
