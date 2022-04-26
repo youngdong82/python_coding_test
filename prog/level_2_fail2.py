@@ -498,5 +498,44 @@
 # -------------------------------------------------------------------------------- 6. 쿼드압축 후 개수 세기
 # 재귀함수
 # ------------------------------------------- 커뮤 간단해보이는데 굉장히 짜임새 있게 잘 짜여있다...
+# def solution(arr):
+#   constant_n = len(arr)
+#   n = constant_n
+#   answer = [0,0]
+#   while n > 0:
+#     # 시작포인트
+#     for i in range(0,constant_n,n):
+#       for j in range(0,constant_n,n):
+#         if arr[i][j] in [0,1]:
+#           toggle = True
+#           for i2 in range(n):
+#             if not toggle:
+#               break
+#             for j2 in range(n):
+#               if arr[i][j] != arr[i+i2][j+j2]:
+#                 toggle = False
+#                 break
+#           # 전부 같다면
+#           if toggle:
+#             if arr[i][j] == 0:
+#               answer[0] += 1
+#             else:
+#               answer[1] += 1
+#             # 전부 다 바꾸고
+#             for i2 in range(n):
+#               for j2 in range(n):
+#                 arr[i+i2][j+j2] = 'X'
+#           # 전부 안같다면
+#           else:
+#             continue
+#           # for each in arr:
+#           #   print(each)
+#           # print()
+#     n //= 2
+#   return answer
 
 
+# print(solution([[1]]))
+# print(solution([[1,0],[1,1]]))
+# print(solution([[1,1,0,0],[1,0,0,0],[1,0,0,1],[1,1,1,1]]))
+# print(solution([[1,1,1,1,1,1,1,1],[0,1,1,1,1,1,1,1],[0,0,0,0,1,1,1,1],[0,1,0,0,1,1,1,1],[0,0,0,0,0,0,1,1],[0,0,0,0,0,0,0,1],[0,0,0,0,1,0,0,1],[0,0,0,0,1,1,1,1]]))
