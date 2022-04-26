@@ -7,7 +7,7 @@ ON OUTS.ANIMAL_ID = INS.ANIMAL_ID
 WHERE INS.ANIMAL_ID is NULL
 ORDER BY OUTS.ANIMAL_ID
 
--------------------- 문제 2. 있었는데요 없었습니다.
+-------------------- 문제 2. 있었는데요 없었습니다. *
 버전1 - LEFT JOIN
 SELECT INS.ANIMAL_ID, INS.NAME
 FROM ANIMAL_INS as INS
@@ -42,7 +42,7 @@ LEFT JOIN ANIMAL_OUTS as OUTS
 WHERE INS.ANIMAL_ID = OUTS.ANIMAL_ID AND INS.DATETIME > OUTS.DATETIME
 ORDER BY INS.DATETIME
 
--------------------- 문제 3. 오랜 기간 보호한 동물(1)
+-------------------- 문제 3. 오랜 기간 보호한 동물(1) *
 SELECT INS.NAME, INS.DATETIME
 FROM ANIMAL_INS as INS
 LEFT JOIN ANIMAL_OUTS as OUTS
@@ -51,7 +51,7 @@ WHERE OUTS.ANIMAL_ID IS NULL
 ORDER BY INS.DATETIME
 LIMIT 3
 
--------------------- 문제 4. 보호소에서 중성화한 동물
+-------------------- 문제 4. 보호소에서 중성화한 동물 *
 버전 1 - 좀 clever 하네... 의도한건 아니지만ㅋㅋㅋㅋㅋ
 중성이었다가 중성이 아니게 될 수는 없다. 아니 의도한것일수도?
 SELECT O.ANIMAL_ID, O.ANIMAL_TYPE, O.NAME
@@ -67,7 +67,7 @@ FROM ANIMAL_INS as I JOIN ANIMAL_OUTS as O
 WHERE I.ANIMAL_ID = O.ANIMAL_ID AND I.SEX_UPON_INTAKE != O.SEX_UPON_OUTCOME
 ORDER BY I.ANIMAL_ID
 
-버전 3
+버전 3 
 SELECT A.ANIMAL_ID, A.ANIMAL_TYPE, A.NAME
 FROM ANIMAL_INS A JOIN ANIMAL_OUTS B
 ON A.ANIMAL_ID=B.ANIMAL_ID
