@@ -63,7 +63,15 @@ FROM
 WHERE A.CART_ID = B.CART_ID
 ORDER BY CART_ID
 
-버전3 – INNER JOIN
+버전3 - LEFT JOIN
+SELECT cp1.cart_id
+FROM cart_products as cp1
+LEFT JOIN cart_products as cp2
+ON cp1.cart_id = cp2.cart_id
+WHERE cp1.name = 'Milk' and cp2.name = 'Yogurt'
+ORDER BY cp1.cart_id
+
+버전4 – INNER JOIN
 SELECT DISTINCT A.CART_ID
 FROM 
  (SELECT CART_ID FROM CART_PRODUCTS WHERE NAME = 'Yogurt') as A
@@ -72,6 +80,15 @@ INNER JOIN
 ON A.CART_ID = B.CART_ID
 ORDER BY CART_ID
 
+--실패 1
+SELECT cp1.cart_id
+FROM cart_products as cp1
+WHERE cp1.name = 'Milk' and EXISTS(
+    SELECT cp2.cart_id
+    FROM cart_products as cp2
+    WHERE cp2.name = 'Yogurt'
+)
+ORDER BY cp1.cart_id
 
 ------------------------------------------  filesort란?
 ref: https://ktdsoss.tistory.com/423
