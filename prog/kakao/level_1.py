@@ -182,7 +182,7 @@
 # print(solution("123_.def"))
 # print(solution("abcdefghijklmn.p"))
 
-# -------------------------------------------------------------------------------- 4. 
+# -------------------------------------------------------------------------------- 4. [1차] 비밀지도
 # ref: https://programmers.co.kr/learn/courses/30/lessons/72410
 
 # 문제 요약:
@@ -207,32 +207,222 @@
 #     0이면 공백, 0이 아니면 #넣기
 
 # -------------------------------- 내꺼
-def solution(n, arr1, arr2):
-  graph1 = []
-  for i in arr1:
-    binary_value = bin(i)[2:].rjust(n,'0')
-    graph1.append(list(binary_value))
+# def solution(n, arr1, arr2):
+#   graph1 = []
+#   for i in arr1:
+#     binary_value = bin(i)[2:].rjust(n,'0')
+#     graph1.append(list(binary_value))
 
-  graph2 = []
-  for i in arr2:
-    binary_value = bin(i)[2:].rjust(n,'0')
-    graph2.append(list(binary_value))
+#   graph2 = []
+#   for i in arr2:
+#     binary_value = bin(i)[2:].rjust(n,'0')
+#     graph2.append(list(binary_value))
   
-  for i in range(n):
-    for j in range(n):
-      graph1[i][j] = int(graph1[i][j]) + int(graph2[i][j])
+#   for i in range(n):
+#     for j in range(n):
+#       graph1[i][j] = int(graph1[i][j]) + int(graph2[i][j])
 
-  answer = []
-  for i in graph1:
-    tmp = ''
-    for j in i:
-      if j == 0:
-        tmp += ' '
+#   answer = []
+#   for i in graph1:
+#     tmp = ''
+#     for j in i:
+#       if j == 0:
+#         tmp += ' '
+#       else:
+#         tmp += '#'
+#     answer.append(tmp)
+
+#   return answer
+
+# print(solution(5, [9, 20, 28, 18, 11], [30, 1, 21, 17, 28]))
+# print(solution(6, [46, 33, 33 ,22, 31, 50], 	[27 ,56, 19, 14, 14, 10]))
+
+# -------------------------------------------------------------------------------- 5. [1차] 다트 게임
+# ref: https://programmers.co.kr/learn/courses/30/lessons/17682
+
+# 문제 요약:
+# 총 3번의 기회
+# Single(S) 1제곱 , Double(D) 2제곱, Triple(T) 3제곱
+# * 전 점수까지 2배, # 마이너스 됨.
+
+# 제한:
+# 총 3번 기회니까 시간 복잡도는 충분하다.
+
+# 풀기 전 생각:
+# 스택, 문자열 변환
+
+# 풀이 계획:
+# 1. stack, tmp 선언
+# 2. dartResult 돌면서,
+#   숫자라면 tmp에 넣고
+#   S,D,T중 하나라면 tmp에서 해당 연산 후 stack에 넣기
+#   *,#라면
+#     *라면 stack이 있다면, stack.pop()*2해서 다시 넣은 후, tmp * 2해서 넣기
+#     #라면 -tmp stack에 넣기
+# 3. sum(stack)리턴
+
+# -------------------------------- 내꺼
+# def solution(dartResult):
+#   dartResult = dartResult.replace('10','A')
+#   stack = []
+#   tmp = 0
+#   for i in dartResult:
+#     if i.isdigit() or i == 'A':
+#       if i.isdigit():
+#         tmp = int(i)
+#       else:
+#         tmp = 10
+#     elif i in ['S','D','T']:
+#       if i == 'D':
+#         tmp **= 2
+#       elif i == 'T':
+#         tmp **= 3
+#       stack.append(tmp)
+#       tmp = 0
+#     elif i in ['*','#']:
+#       if i == '*':
+#         if len(stack) >1:
+#           pop_1 = stack.pop()
+#           pop_2 = stack.pop()
+#           stack.append(pop_2 * 2)
+#           stack.append(pop_1 * 2)
+#         else:
+#           stack.append(stack.pop() * 2)
+#       elif i == '#':
+#         stack.append(-stack.pop())
+#   return sum(stack)
+
+
+# print(solution('1S2D*3T'))
+# print(solution('1D2S#10S'))
+# print(solution('1D2S0T'))
+# print(solution('1S*2T*3S'))
+# print(solution('1D#2S*3S'))
+# print(solution('1T2D3D#'))
+# print(solution('1D2S3T*'))
+
+
+# -------------------------------------------------------------------------------- 5. 크레인 인형뽑기 게임
+# ref: https://programmers.co.kr/learn/courses/30/lessons/64061
+
+# 문제 요약:
+# N x N 크기의 정사각 격자
+# 인형이 없는 곳에서 크레인을 작동시키는 경우에는 아무런 일도 일어나지 않습니다.
+# 터트려져 사라진 인형의 개수를 return
+
+# 제한:
+# 2차원 배열로 크기는 "5 x 5" 이상 "30 x 30" 이하
+# 각 칸에는 0 이상 100 이하인 정수가 담겨있습니다. 0은 빈 칸
+# moves 배열의 크기는 1 이상 1,000 이하
+
+# 풀기 전 생각:
+# 스택, 2차원 리스트, 문자열 다루기
+# 각 칸에 담겨있는 숫자의 종류는 시간 복잡도와 무관.
+# moves 1000번 이하로 돌면서, stack에 넣고, stack[-1]이랑 확인
+# 시간복잡도 = O(N) 1초에 2000만번 연산을 하는 파이썬에겐 충분하다.
+
+# 풀이 계획:
+# 1. stack 선언하고
+# 2. moves 돌면서,
+#   각 moves[i]마다, 
+#   x값 i를 더해주면서 반복문
+#   0이 아닐때 까지, 아니라면 stack에 넣고 0으로 바꿔주기.
+# 3. stack에 넣을 때마다, stack 비어있는지 확인하고,
+#   비어있다면, 그냥 넣고
+#   비어있지 않다면, stack[-1]이랑 비교 후,
+#     같다면 stack.pop()
+#     같지 않다면, 추가
+#     stack.append()
+
+# -------------------------------- 내꺼
+# def solution(board, moves):
+#   stack = []
+#   answer = 0
+#   n = len(board)
+
+#   for each_move in moves:
+#     for j in range(n):
+#       if board[j][each_move - 1] != 0:
+#         now = board[j][each_move - 1]
+#         if not stack:
+#           stack.append(now)
+#         else:
+#           if now == stack[-1]:
+#             stack.pop()
+#             answer += 2
+#           else:
+#             stack.append(now)
+#         board[j][each_move - 1] = 0
+#         break
+#   return answer
+
+
+# print(solution([[0,0,0,0,0],[0,0,1,0,3],[0,2,5,0,1],[4,2,4,4,2],[3,5,1,3,1]], [1,5,3,5,1,2,1,4]))
+
+# -------------------------------------------------------------------------------- 7. 키패드 누르기
+# ref: https://programmers.co.kr/learn/courses/30/lessons/67256
+
+# 문제 요약:
+# 가운데 열의 4개의 숫자 2, 5, 8, 0을 입력할 때
+# 더 가까운 엄지손가락을 사용
+# 거리가 같다면, 편한 손가락 사용.
+# 번호를 누른 엄지손가락이 왼손인 지 오른손인 지를 나타내는 연속된 문자열 형태로 return
+
+# 제한:
+# numbers 배열의 크기는 1 이상 1,000 이하
+
+# 풀기 전 생각:
+# 구현 문제, 2차원 리스트 이동.
+# numbers가 최대 1000이라 해도 시간복잡도 걱정을 할 필요 없다.
+
+# 풀이 계획:
+# 1. 각 숫자를 key값, 2차원 리스트 위치 값을 value로 가진 해시 테이블 초기화
+# 2. answer 문자열, 현재 오른손가락, 왼손가락 위치 선언.
+# 3. numbers 돌면서,
+#   numbers[i]가 1,4,7,*라면
+#     위치 바꿔주고
+#     answer에 'L'추가
+#   numbers[i]가 3,6,9,#라면
+#     위치 바꿔주고
+#     answer에 'R'추가
+#   나머지라면,
+#     위치 비교, 거리 작은 손 추가.
+#     거리 같다면 hand의 값에 따라 answer에 추가
+
+# -------------------------------- 내꺼
+def solution(numbers, hand):
+  number_x_y = {1: (0,0), 2: (0,1), 3: (0,2), 4: (1,0), 5:(1,1), 6:(1,2), 7:(2,0), 8:(2,1), 9:(2,2),'*':(3,0), 0:(3,1), '#':(3,2)}
+  answer = ''
+  left_posi = '*'
+  right_posi = '#'
+
+  for number in numbers:
+    if number in [1,4,7,'*']:
+      left_posi = number
+      answer += 'L'
+    elif number in [3,6,9,'#']:
+      right_posi = number
+      answer += 'R'
+    else:
+      left_dist = abs(number_x_y[left_posi][0] - number_x_y[number][0]) + abs(number_x_y[left_posi][1] - number_x_y[number][1])
+      right_dist = abs(number_x_y[right_posi][0] - number_x_y[number][0]) + abs(number_x_y[right_posi][1] - number_x_y[number][1])
+      if left_dist < right_dist:
+        left_posi = number
+        answer += 'L'
+      elif left_dist > right_dist:
+        right_posi = number
+        answer += 'R'
       else:
-        tmp += '#'
-    answer.append(tmp)
-
+        if hand == 'left':
+          left_posi = number
+          answer += 'L'
+        else:
+          right_posi = number
+          answer += 'R'
   return answer
 
-print(solution(5, [9, 20, 28, 18, 11], [30, 1, 21, 17, 28]))
-# print(solution(6, [46, 33, 33 ,22, 31, 50], 	[27 ,56, 19, 14, 14, 10]))
+
+
+# print(solution([1, 3, 4, 5, 8, 2, 1, 4, 5, 9, 5],"right"))
+# print(solution([7, 0, 8, 2, 8, 3, 1, 5, 7, 6, 2],"left"))
+# print(solution([1, 2, 3, 4, 5, 6, 7, 8, 9, 0],"right"	))
