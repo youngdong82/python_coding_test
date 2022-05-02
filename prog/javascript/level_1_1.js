@@ -1,3 +1,79 @@
+'use strict';
+// -------------------------------------------------------------------------------- 푼 문제
+// 문자열 내 p와 y의 개수
+// x만큼 간격이 있는 n개의 숫자
+// 핸드폰 번호 가리기
+// 콜라츠 추측
+// 짝수와 홀수
+// 제일 작은 수 제거하기
+// 자연수 뒤집어 배열로 만들기
+// 정수 내림차순으로 배치하기
+// 하샤드 수
+// 이상한 문자 만들기
+
+
+// -------------------------------------------------------------------------------- API
+// --------------------------------------- int 관련
+// a = 1
+// a = a.toString()
+// console.log(typeof(a))
+// ------------------ 자동 형 변환
+// console.log(1); 
+// console.log(1+''); 
+// console.log(typeof(1+'')); 
+
+// console.log('8'); 
+// console.log('8' * 2); 
+// console.log(typeof('8' * 1)); 
+
+// console.log('8' + 2); 
+// console.log(typeof('8' + 2)); 
+
+// --------------------------------------- 문자열 관련
+// let string = 'StRing1';
+// string1 = string.toLowerCase();
+// string2 = string.toUpperCase();
+// 인자만큼 왼쪽에서 빼기
+// string3 = string.substring(3);
+// 'string'. 
+// 'string'.
+
+// console.log(string1)
+// console.log(string2)
+// console.log(string3)
+
+// 문자열을 배열로
+// console.log(string.split(''))
+
+//문자열은 기본적으로 배열취급
+// 파이썬과 같이 문자열에 인덱싱으로 값 설정은 불가
+// const a = 'apple'
+// for(let i in a){
+//   if (i%2 == 0){
+//     a[i] = a[i].toUpperCase();
+//   }
+//   console.log(a[i]);
+// }
+// console.log(a)
+// --------------------------------------- 배열 관련
+// let array = [1,2,3,4,5]
+// let array1 = Array(array.length)
+// let array2 = Array(array.length+1).join('*')
+// splice = 기존 요소를 삭제 또는 교체하거나 새 요소를 추가하여 배열의 내용을 변경
+// array.splice(index, deleteTime, string1, string2, ...)
+// ref: https://tocomo.tistory.com/31
+
+// console.log(array.indexOf(3))
+// Array.map()
+// Array.forEach()
+// Array.filter()
+// ------------------ 배열 뒤집기
+// console.log(array.reverse());
+
+// console.log(array1)
+// console.log(array2)
+// delete로 규민이꺼 임시방편 해결 가능하려나?
+// --------------------------------------- 반복문
 // for (let i = 0; i++){
 //   //something
 // }
@@ -160,4 +236,81 @@
 // console.log(solution([4,3,2,1]));
 // console.log(solution([1,2,3,4]));
 // console.log(solution([10]));
+
+// -------------------------------------------------------------------------------- 7. 자연수 뒤집어 배열로 만들기
+// ------------------------------------------- 내꺼
+// function solution(n) {
+//   n_array = n.toString().split('');
+//   answer = n_array.reverse().map(item => parseInt(item)); 
+  
+//   return answer;
+// };
+
+// console.log(solution(12345))
+// -------------------------------------------------------------------------------- 8. 정수 내림차순으로 배치하기
+// ------------------------------------------- 내꺼
+// function solution(n) {
+//   return parseInt(n.toString().split('').sort().reverse().join(''));
+// };
+
+// console.log(solution(118372));
+// -------------------------------------------------------------------------------- 9. 하샤드 수
+// ------------------------------------------- 내꺼
+// function solution(x) {
+//   const xArray = x.toString().split('');
+//   let sumValue = 0;
+//   for(let i in xArray){
+//     sumValue = sumValue + parseInt(xArray[i]);
+//   };
+//   if (x % sumValue === 0){
+//     return true
+//   } else{
+//     return false
+//   }
+// };
+
+// ------------------------------------------- 커뮤니티 10진법 수 나누기 속도는 내꺼가 더 빠름
+// function solution(n){
+//   var result ;
+//   //함수를 완성하세요
+//     var ori_n = n;
+//   var sum =0;
+//   while(n){
+//     sum += n%10;
+//     n /= 10;
+//     n = Math.floor(n);
+//   }
+//   if(ori_n%sum == 0)
+//     result = true;
+//   else
+//     result = false;
+//   return result;
+// }
+
+// console.log(solution(1047));
+// console.log(solution(12));
+// console.log(solution(11));
+// console.log(solution(13));
+
+// -------------------------------------------------------------------------------- 10. 이상한 문자 만들기;
+// ------------------------------------------- 내꺼
+// function solution(s) {
+//   const splitedS = s.split(' ');
+//   let answer = []
+//   for(let i in splitedS){
+//     console.log(splitedS[i]);
+//     let tmp = ''
+//     for (let j in splitedS[i]){
+//       if (j%2 === 0){
+//         tmp += splitedS[i][j].toUpperCase();
+//       } else{
+//         tmp += splitedS[i][j].toLowerCase();
+//       }
+//     }
+//     answer.push(tmp)
+//   }
+//   return answer.join(' ')
+// }
+
+// console.log(solution("try hello world"))
 
