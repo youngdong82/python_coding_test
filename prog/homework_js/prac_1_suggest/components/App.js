@@ -1,7 +1,8 @@
 import SearchInput from './SearchInput.js';
 import Suggestion from './Suggestion.js';
+import SelectedLanguages from './SelectedLanguages.js';
 
-import { fetchLanguages } from './api.js';
+import { fetchLanguages } from '../api.js';
 
 export default function App({ target }) {
   this.state = {
@@ -17,7 +18,13 @@ export default function App({ target }) {
       selectedIndex: 0,
       items: this.state.fetchedLanguages
     })
-  }
+    selecetedLanguages.setState(this.state.selecetedLanguages)
+  };
+
+  const selecetedLanguages = new SelectedLanguages({
+    target,
+    initialState:[]
+  });
   const searchInput = new SearchInput({
     target,
     initialState: '',
@@ -28,6 +35,7 @@ export default function App({ target }) {
         })
       } else {
         const languages = await fetchLanguages(keyword);
+        console.log(languages)
         this.setState({
           fetchedLanguages: languages,
         })
@@ -43,6 +51,17 @@ export default function App({ target }) {
     onSelect: (language) => {
       alert(language);
       
+      const nextSelectedLanguages = [...this.state.selecetedLanguages];
+      const index = nextSelectedLanguages.findIndex((selecetedLanguage) => selecetedLanguage === language)
+      if (index > -1){
+        nextSelectedLanguages.splice(index,1)
+      }
+      nextSelectedLanguages.push(language);
+
+      this.setState({
+        ...this.state,
+        selecetedLanguages: nextSelectedLanguages
+      })
     }
   })
 }
