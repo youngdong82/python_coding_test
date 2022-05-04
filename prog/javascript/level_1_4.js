@@ -53,8 +53,14 @@
 // 체육복
 // 두 개 뽑아서 더하기
 // 모의고사
-// ---------- 카카오 5문제
-
+// ---------- 카카오 7문제
+// 비밀지도
+// 숫자 문자열과 영단어
+// 크레인 인형뽑기 게임
+// [1차] 다트 게임
+// 신고 결과 받기
+// 신규 아이디 추천
+// 키패드 누르기
 
 // -------------------------------------------------------------------------------- API
 // ------------------------------------------- set
@@ -69,7 +75,67 @@
 //   graph[i] = Array(arr2.length).fill(0)
 // }
 // console.log(graph);
+// ------------------------------------------- Map과 Set
+// https://ko.javascript.info/map-set
+// function test() {
+//   const digitAlpha = ['zero','one','two','three','four','five','six','seven','eight','nine'];
+//   const digitMap = new Map();
+//   for(let i=0; i<digitAlpha.length; i++){
+//     digitMap.set(digitAlpha[i],i)
+//   }
+//   console.log(digitMap)
+//   console.log(digitMap.keys())
+//   console.log(digitMap.values())
+//   console.log(digitMap.entries())
+// }
 
+// https://lakelouise.tistory.com/38
+
+// ------------------------------------------- 문자열 숫자인지 확인
+// 1. isNaN()
+//   NaN이라면 true,
+//   숫자라면 false
+// 2. Number()
+//   가능하면 숫자,
+//   불가능하면 NaN
+// 3. parseInt()
+//   가능하면 숫자,
+//   불가능하면 NaN
+
+// 여러가지 쓰다보면 그래도 isNaN이 가장 나은듯...?
+
+// ---------------------- 비교
+// if(Number('1')){
+//   console.log('good')
+// }
+// if(parseInt('a')){
+//   console.log('good')
+// }
+// 그러나 직접 비교시 통과되지 않는다.
+// ===는 false 뜨지만, ==는 같다고 뜬다.
+
+// 그.러.나.
+// NaN == false
+// 이거는 또 false 뜸...
+
+// ---------------------- parseInt와 Number의 차이
+// https://velog.io/@blackwidow/parseInt%EC%99%80-Number%EC%9D%98-%EC%B0%A8%EC%9D%B4
+
+// ---------------------- replace JS와 파이썬의 차이...
+// 파이썬은 모조리 다 바꾸지만,
+// JS는 왼쪽부터 딱 하나만 바꾼다... 평신이야??
+
+// ---------------------- 정규표현식...
+// ---------------------- Map과 object의 차이
+// 타입은 같지만 전혀 다르다.
+// const a = new Map();
+// const b = {};
+
+
+// console.log(typeof(a));
+// console.log(typeof(b));
+// console.log(a);
+// console.log(b);
 
 // -------------------------------------------------------------------------------- 1. 예산
 // ------------------------------------------- 내꺼
@@ -217,35 +283,277 @@
 
 // -------------------------------------------------------------------------------- 6. 비밀지도
 // ------------------------------------------- 내꺼
-function solution(n, arr1, arr2) {
-  const answer = [];
+// function solution(n, arr1, arr2) {
+//   const answer = [];
 
-  for(let i=0; i<n; i++){
-    const tmpArray1 = arr1[i].toString(2).padStart(n,'0').split('');
-    const tmpArray2 = arr2[i].toString(2).padStart(n,'0').split('');
+//   for(let i=0; i<n; i++){
+//     const tmpArray1 = arr1[i].toString(2).padStart(n,'0').split('');
+//     const tmpArray2 = arr2[i].toString(2).padStart(n,'0').split('');
 
-    let mergedString = '';
-    for(let j=0; j<n; j++){
-      const mergedValue = parseInt(tmpArray1[j]) + parseInt(tmpArray2[j]);
-      if (mergedValue === 0){
-        mergedString += ' ';
-      } else{
-        mergedString += '#';
-      }
-    }
-    answer.push(mergedString);
-  }
-  return answer;
-}
+//     let mergedString = '';
+//     for(let j=0; j<n; j++){
+//       const mergedValue = parseInt(tmpArray1[j]) + parseInt(tmpArray2[j]);
+//       if (mergedValue === 0){
+//         mergedString += ' ';
+//       } else{
+//         mergedString += '#';
+//       }
+//     }
+//     answer.push(mergedString);
+//   }
+//   return answer;
+// }
 
-console.log(solution(5,[9, 20, 28, 18, 11],[30, 1, 21, 17, 28]));
+// console.log(solution(5,[9, 20, 28, 18, 11],[30, 1, 21, 17, 28]));
 // console.log(solution(6, [46, 33, 33 ,22, 31, 50],[27 ,56, 19, 14, 14, 10]));
 
-// -------------------------------------------------------------------------------- 7. 
+// -------------------------------------------------------------------------------- 7. 숫자 문자열과 영단어
 // ------------------------------------------- 내꺼
-// -------------------------------------------------------------------------------- 8. 
+// function solution(s) {
+//   const digitAlpha = ['zero','one','two','three','four','five','six','seven','eight','nine'];
+//   const digitMap = new Map();
+//   for(let i=0; i<digitAlpha.length; i++){
+//     digitMap.set(digitAlpha[i],i)
+//   }
+  
+//   let answer = '';
+//   let tmp = '';
+//   for(let i=0; i<s.length; i++){
+//     if(Number(s[i])){
+//       answer += s[i];
+//     } else{
+//       tmp += s[i];
+//     };
+//     if (digitMap.has(tmp)){
+//       answer += digitMap.get(tmp);
+//       tmp = '';
+//     }
+//   }
+//   return parseInt(answer);
+// }
+
+// console.log(solution("one4seveneight"))
+// console.log(solution("23four5six7"))
+// console.log(solution("2three45sixseven"))
+// console.log(solution("123"))
+
+// -------------------------------------------------------------------------------- 8. 크레인 인형뽑기 게임
 // ------------------------------------------- 내꺼
-// -------------------------------------------------------------------------------- 9. 
+// function solution(board, moves) {
+//   const n = board.length;
+//   const stack = [];
+//   let answer = 0;
+
+
+//   for(let i=0; i<moves.length; i++){
+//     const outIndex = moves[i]-1;
+//     for(let j=0; j<n; j++){
+//       if(board[j][outIndex] != 0){
+//         if (board[j][outIndex] === stack[stack.length-1]){
+//           stack.pop();
+//           answer += 2
+//         } else{
+//           stack.push(board[j][outIndex]);
+//         }
+//         board[j][outIndex] = 0
+//         break
+//       }
+//     }
+//   }
+//   return answer;
+// }
+
+// console.log(solution([[0,0,0,0,0],[0,0,1,0,3],[0,2,5,0,1],[4,2,4,4,2],[3,5,1,3,1]], [1,5,3,5,1,2,1,4]))
+
+// -------------------------------------------------------------------------------- 9. [1차] 다트 게임
 // ------------------------------------------- 내꺼
-// -------------------------------------------------------------------------------- 10. 
+// function solution(dartResult) {
+
+//   let afterConvert = dartResult;
+//   while(afterConvert.replace('10','A') !== afterConvert){
+//     afterConvert = afterConvert.replace('10','A');
+//   };
+
+//   const answerReck = [];
+//   const mutiple = ['S','D','T'];
+//   const bonus = ['*','#'];
+
+//   for(let i=0; i<afterConvert.length;i++){
+//     const now = afterConvert[i];
+//     if (!isNaN(now) || now === 'A'){
+//       if (now === 'A'){
+//         answerReck.push(10);
+//       } else{
+//         answerReck.push(parseInt(now));
+//       }
+//     } else if(mutiple.includes(now)){
+//       if (now === 'D'){
+//         answerReck[answerReck.length-1] **= 2
+//       } else if(now === 'T'){
+//         answerReck[answerReck.length-1] **= 3
+//       }
+//     } else if(bonus.includes(now)){
+//       if (now === '*'){
+//         if(answerReck.length >1){
+//           answerReck[answerReck.length-2] *= 2
+//           answerReck[answerReck.length-1] *= 2
+//         }else{
+//           answerReck[answerReck.length-1] *= 2
+//         }
+//       } else{
+//         answerReck[answerReck.length-1] = -answerReck[answerReck.length-1]
+//       }
+//     }
+//   }
+//   // console.log(answerReck);
+//   return answerReck.reduce((a,b) => a+b);
+// }
+
+// console.log(solution('1S2D*3T'));
+// console.log(solution('1D2S#10S'))
+// console.log(solution('1D2S0T'))
+// console.log(solution('1S*2T*3S'))
+// console.log(solution('1D#2S*3S'))
+// console.log(solution('1T2D3D#'))
+// console.log(solution('1D2S3T*'))
+// console.log(solution('2T#1S*1S'))
+// console.log(solution('10S10S10S'))
+
+// -------------------------------------------------------------------------------- 10. 신고 결과 받기
 // ------------------------------------------- 내꺼
+// function solution(id_list, report, k) {
+//   let reports = [...new Set(report)].map(a => {return a.split(' ')})
+//   let reportTo = new Map();
+//   for(const bad of reports){
+//     reportTo.set(bad[1], reportTo.get(bad[1])+1 || 1)
+//   }
+  
+//   let reportFrom = new Map();
+//   for(const bad of reports){
+//     if (reportTo.get(bad[1]) >= k){
+//       reportFrom.set(bad[0],reportFrom.get(bad[0])+1 || 1)
+//     }
+//   }
+
+//   let answer = id_list.map(a => reportFrom.get(a) || 0 );
+//   return answer;
+// }
+
+// console.log(solution(["muzi", "frodo", "apeach", "neo"],["muzi frodo","apeach frodo","frodo neo","muzi neo","apeach muzi"],2));
+// console.log(solution(["con", "ryan"],["ryan con", "ryan con", "ryan con", "ryan con"],3));
+
+// -------------------------------------------------------------------------------- 11. 신규 아이디 추천
+// ------------------------------------------- 내꺼
+// function solution(new_id) {
+//   const alpha = /[a-zA-Z0-9]/;
+//   const useChar = ['_','-','.'];
+//   //1
+//   const lowerId = new_id.toLowerCase();
+//   //2,3
+//   let answer = '';
+//   for(let i=0; i<lowerId.length; i++){
+//     const now = lowerId[i];
+//     if (alpha.test(now) || useChar.includes(now)){
+//       if (now === '.' && answer[answer.length-1] === '.'){
+//         continue
+//       }
+//       answer += now;
+//     }
+//   }
+//   //4
+//   if (answer[0] === '.'){
+//     answer = answer.slice(1);
+//   }
+//   // console.log(answer);
+//   if (answer[answer.length-1] === '.'){
+//     answer = answer.slice(0,answer.length-1);
+//   }
+//   //5
+//   if (answer === ''){
+//     answer += 'a';
+//   };
+//   // console.log(answer)
+//   //6
+//   if (answer.length >= 16){
+//     answer = answer.slice(0,15);
+//     if (answer[answer.length-1] === '.'){
+//       answer = answer.slice(0,answer.length-1);
+//     };
+//   };
+//   //7
+//   if(answer.length <=2){
+//     while(answer.length <=2){
+//       answer += answer[answer.length-1];
+//     }
+//   };
+//   return answer
+// }
+
+// ------------------------------------------- 커뮤 + 정규식 개쩐다....
+// function solution(new_id) {
+//   const answer = new_id
+//       .toLowerCase() // 1
+//       .replace(/[^\w-_.]/g, '') // 2
+//       .replace(/\.+/g, '.') // 3
+//       .replace(/^\.|\.$/g, '') // 4
+//       .replace(/^$/, 'a') // 5
+//       .slice(0, 15).replace(/\.$/, ''); // 6
+//   const len = answer.length;
+//   return len > 2 ? answer : answer + answer.charAt(len - 1).repeat(3 - len);
+// }
+
+// console.log(solution("...!@BaT#*..y.abcdefghijklm"))
+// console.log(solution("z-+.^."))
+// console.log(solution(	"=.="))
+// console.log(solution(	"123_.def"))
+// console.log(solution("abcdefghijklmn.p"))
+
+// -------------------------------------------------------------------------------- 12. 키패드 누르기
+// ------------------------------------------- 내꺼
+// function solution(numbers, hand) {
+//   const btnMap = {1: [0,0], 2:[0,1], 3:[0,2], 4:[1,0], 5:[1,1], 6:[1,2], 7:[2,0], 8:[2,1], 9:[2,2], '*':[3,0], 0:[3,1], '#':[3,2]}
+//   const leftPart = [1,4,7,'*'];
+//   const rightPart = [3,6,9,'#'];
+//   let leftNow = '*';
+//   let rightNow = '#';
+
+//   let answer = ''
+//   for(let i=0; i<numbers.length; i++){
+//     if (leftPart.includes(numbers[i])){
+//       leftNow = numbers[i];
+//       answer += 'L';
+//     } else if (rightPart.includes(numbers[i])){
+//       rightNow = numbers[i];
+//       answer += 'R';
+//     } else{
+//       const nowXY = btnMap[numbers[i]];
+//       const leftXY = btnMap[leftNow];
+//       const rightXY = btnMap[rightNow];
+
+//       const leftDist =  Math.abs(nowXY[0]-leftXY[0]) + Math.abs(nowXY[1]-leftXY[1]);
+//       const rightDist =  Math.abs(nowXY[0]-rightXY[0]) + Math.abs(nowXY[1]-rightXY[1]);
+
+      
+//       if (leftDist<rightDist){
+//         leftNow = numbers[i]
+//         answer += 'L';
+//       }else if(leftDist>rightDist){
+//         rightNow = numbers[i]
+//         answer += 'R';
+//       }else{
+//         if(hand === 'left'){
+//           leftNow = numbers[i]
+//           answer += 'L';
+//         } else{
+//           rightNow = numbers[i]
+//           answer += 'R';
+//         };
+//       };
+//     }
+//   };
+//   return answer;
+// }
+
+// console.log(solution([1, 3, 4, 5, 8, 2, 1, 4, 5, 9, 5], "right"))
+// console.log(solution([7, 0, 8, 2, 8, 3, 1, 5, 7, 6, 2], "left"))
+// console.log(solution([1, 2, 3, 4, 5, 6, 7, 8, 9, 0], "right"))
