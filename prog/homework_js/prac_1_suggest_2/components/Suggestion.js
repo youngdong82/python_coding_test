@@ -35,6 +35,7 @@ export default function Suggestion({
       this.element.innerHTML = ''
     }
   }
+  
   this.render();
 
   window.addEventListener('keyup', (e) => {
