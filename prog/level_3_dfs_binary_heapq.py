@@ -1,4 +1,4 @@
-# -------------------------------------------------------------------------------- 1. 네트워크
+# -------------------------------------------------------------------------------- 1. 네트워크 - dfs
 # 네트워크의 개수를 return 
 # ------------------------------------------- 내꺼
 # def dfs(graph,start,visited):
@@ -33,16 +33,7 @@
 # print(solution(3, [[1, 1, 0], [1, 1, 0], [0, 0, 1]]))
 # print(solution(3, [[1, 1, 0], [1, 1, 1], [0, 1, 1]]))
 
-# -------------------------------------------------------------------------------- 2. 단어변환
-# 누가봐도 dfs
-# 각 사이클마다,
-#   words에서 1개만 다른거 리스트업, 
-#   그 중 한개로 바뀐다.
-
-
-# 최소 몇 단계의 과정?
-# 변환할 수 없는 경우에는 0를 return
-
+# -------------------------------------------------------------------------------- 2. 단어변환 - dfs
 # ------------------------------------------- 내꺼
 # answer = []
 # def dfs(begin,target,words,visited):
@@ -84,7 +75,12 @@
 # print(solution("hit", "cog", ["hot", "dot", "dog", "lot", "log", "cog"]))
 # print(solution("hit", "cog", ["hot", "dot", "dog", "lot", "log"]))
 
-# -------------------------------------------------------------------------------- 4. 입국심사 복습
+# -------------------------------------------------------------------------------- 3. 여행경로 - dfs
+# ------------------------------------------- 내꺼
+
+
+
+# -------------------------------------------------------------------------------- 3. 입국심사 - 이분
 # 시간을 기준으로
 # 몇명 통과할 수 있는지,
 # 통과할 수 있는 숫자가 n이 될때까지 이분탐색
@@ -106,7 +102,7 @@
 
 # print(solution(6,[7, 10]))
 
-# -------------------------------------------------------------------------------- 9. 징검다리 건너기 복습
+# -------------------------------------------------------------------------------- 4. 징검다리 건너기 - 이분
 # 바위를 n개 제거한 뒤 각 지점 사이의 거리의 최솟값 중에 가장 큰 값을 return
 
 # 감사하게도 난 지금 이 문제가
@@ -145,7 +141,7 @@
 
 # print(solution(25,[2, 14, 11, 21, 17],2))
 
-# -------------------------------------------------------------------------------- 5. 더 맵게
+# -------------------------------------------------------------------------------- 5. 더 맵게 - 힙
 # ------------------------------------------- 내꺼
 # import heapq
 
@@ -171,7 +167,76 @@
 
 # print(solution([1, 2, 3, 9, 10, 12],7))
 
-# --------------------------------------------------------------------------------5. 베스트앨범
+# -------------------------------------------------------------------------------- 6. 이중우선순위 큐 - 힙
+# ------------------------------------------- 내꺼
+# import heapq
+
+
+# def solution(operations):
+#   h = []
+#   h_reverse = []
+#   heapq.heapify(h)
+#   heapq.heapify(h_reverse)
+#   for operation in operations:
+#     order,value = operation.split(' ')
+#     if order == 'I':
+#       heapq.heappush(h,int(value))
+#       heapq.heappush(h_reverse,-int(value))
+#     else:
+#       if len(h) >0:
+#         if len(value) == 1:
+#           # 최대값 삭제
+#           tmp = heapq.heappop(h_reverse)
+#           if -tmp in h:
+#             h.remove(-tmp)
+#         else:
+#           # 최소값 삭제
+#           heapq.heappop(h)
+  
+#   if len(h) == 0:
+#     return [0,0]
+#   return [max(h),min(h)]
+
+
+# print(solution(["I 16","D 1"]))
+# print(solution(["I 7","I 5","I -5","D -1"]))
+
+# -------------------------------------------------------------------------------- 7. 디스크 컨트톨러
+# ------------------------------------------- 내꺼
+# import heapq
+
+
+# def solution(jobs):
+#   heap = []
+#   i = 0
+#   start = -1
+#   now = 0
+#   total_time = 0
+
+#   while i < len(jobs):
+#     for job in jobs:
+#       if start < job[0] <= now:
+#         heapq.heappush(heap, (job[1],job[0]))
+#     # print(heap)
+#     if heap:
+#       take_time, wait = heapq.heappop(heap)
+#       # print(take_time,wait)
+#       start = now
+#       now += take_time
+#       total_time += (now-wait)
+#       # print('total_time',total_time)
+#       i+=1
+#     else:
+#       now += 1
+
+#   return total_time//len(jobs)
+
+
+# print(solution([[0, 3], [1, 9], [2, 6]]))
+
+
+
+# -------------------------------------------------------------------------------- 8. 베스트앨범 - 해시
 # 장르 별로 가장 많이 재생된 노래를 두 개씩 모아 베스트 앨범을 출시
 # 속한 노래가 많이 재생된 장르를 먼저 수록 => 장르별 총 재생횟수 알아야해
 # 장르 내에서 많이 재생된 노래를 먼저 수록 => 각 노래별 
@@ -204,50 +269,33 @@
 #   return answer
 
 
-
 # print(solution(["classic", "pop", "classic", "classic", "pop"],[500, 600, 150, 800, 2500]))
 
-# --------------------------------------------------------------------------------6. 보석 쇼핑
-# ------------------------------------------- 내꺼
-def solution(gems):
-  gem_reck = len(set(gems))
 
-  shortest = len(gems)+1
-  left = 0
-  right = 0
-  contained = {}
-  answer = []
-
-  while right < len(gems):
-    if gems[right] not in contained:
-      contained[gems[right]] = 1
-    else:
-      contained[gems[right]] += 1
-    right += 1
-    # 다 포함하고 있는 애들 중에서, 
-    if len(contained) == gem_reck:
-      while left < right:
-        if contained[gems[left]] > 1:
-          contained[gems[left]] -= 1
-          left +=1
-        elif shortest > right - left:
-          shortest = right - left
-          answer = [left+1, right]
-          break
-        else:
-          break
-  return answer
+from collections import deque
 
 
-print(solution(["DIA", "RUBY", "RUBY", "DIA", "DIA", "EMERALD", "SAPPHIRE", "DIA"]))
-print(solution(["AA", "AB", "AC", "AA", "AC"]))
-print(solution(["XYZ", "XYZ", "XYZ"]))
-print(solution(["ZZZ", "YYY", "NNNN", "YYY", "BBB"]))
+def solution(n, edge):
+  graph = [[] for _ in range(n)]
+  visited = [0 for _ in range(n)]
 
-print(solution(["A","A","A","B","B"]))
-print(solution(["A"]))
-print(solution(["A","B","B","B","B","B","B","C","B","A"] ))
-print(solution(["A", "B", "C", "B", "F", "D", "A", "F", "B", "D", "B"] ))
+  for a,b in edge:
+    graph[a-1].append(b-1)
+    graph[b-1].append(a-1)
+    
+  bfs(graph,0,visited)
 
-print(solution(["A", "B", "C", "B", "A"] ))
-print(solution(['A','B','B','C','B','A','B','B','B','C']))
+  return visited.count(max(visited))
+
+def bfs(graph,start,visited):
+  q = deque([start])
+  visited[start] = 1
+  while q:
+    now = q.popleft()
+    for i in graph[now]:
+      if visited[i] == 0:
+        visited[i] = visited[now] + 1
+        q.append(i)
+
+
+print(solution(6,[[3, 6], [4, 3], [3, 2], [1, 3], [1, 2], [2, 4], [5, 2]]))
